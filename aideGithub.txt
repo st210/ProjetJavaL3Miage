@@ -27,3 +27,7 @@ git show <numeroDuBlame> (voir le message/pourquoi cette modif a été faite)
 git stash (mettre en attente les modifs en cours)
 git stash pop (les récupérer) & git stash apply (si garder modifs dans stash tout en modifiant)
 
+-- Autres
+git ls-files (lister tous fichiers repo git)
+git reset <fichier> (récupérer fichier/annuler ajout de git add)
+git checkout -f (annuler suppression d'un fichier)
