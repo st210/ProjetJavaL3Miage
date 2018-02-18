@@ -7,7 +7,7 @@ import java.util.List;
 public class Mission {
     private int id;
     private String nom;
-    private List<Besoin> listeBesoins = new ArrayList<>();
+    private List<Competence> listeCompetences = new ArrayList<>();
     private int nbEmployes;
     private Date dateDebut;
     private long duree;
@@ -20,16 +20,16 @@ public class Mission {
         this.anomalie = false;
     }
 
-    public Mission(String nomC, List<Besoin> listeB, int nb) {
+    public Mission(String nomC, List<Competence> listeC, int nb) {
         this.id = 0;
         this.nom = nomC;
-        this.listeBesoins = listeB;
+        this.listeCompetences = listeC;
         this.nbEmployes = nb;
         this.anomalie = false;
     }
 
 
-    // TODO: get liste besoins requis pour la mission
+    // TODO: get liste competences requises pour la mission
     // TODO: actualiser statut de la mission
     // TODO: methode toString() à redéfinir
 }
