@@ -7,7 +7,7 @@ import java.util.List;
 public class Mission {
     private int id;
     private String nom;
-    private List<Competence> listeCompetences = new ArrayList<>();
+    private List<Competence> listeCompetences = new ArrayList();
     private int nbEmployes;
     private Date dateDebut;
     private long duree;
