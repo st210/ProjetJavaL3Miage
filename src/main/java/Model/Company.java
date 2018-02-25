@@ -6,18 +6,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Company implements CompanyDAO{
-    private int id;
-    private String nom;
+public class Company implements CompanyDAO {
     List<Employee> employees;
     List<Competence> competences;
     List<Mission> missions;
+    private static final AtomicInteger countID = new AtomicInteger(0);
+    private int id;
+    private String nom;
     // + liste_missions affectation,_employe_mission, besoin_competences
 
 
     public Company(String nom) {
-        this.id = 0;
         this.nom = nom;
         employees = new ArrayList<Employee>();
         try {
@@ -26,13 +27,15 @@ public class Company implements CompanyDAO{
 
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                Employee e = new Employee(nextLine[0], nextLine[1], nextLine[2]);
-                employees.add(e);
+                if (nextLine != null) {
+                    Employee e = new Employee(nextLine[0], nextLine[1], nextLine[2]);
+                    employees.add(e);
+                }
             }
-            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.id = countID.incrementAndGet();
     }
 
     public List<Employee> showAllEmployees() {
@@ -44,7 +47,7 @@ public class Company implements CompanyDAO{
 
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                System.out.println("[" + nextLine[3] + "] " + nextLine[0] + " " + nextLine[1] + ", employé depuis le " + nextLine[2]);
+                System.out.println("[" + nextLine[3] + "] " + nextLine[0] + " " + nextLine[1] + " is employed since " + nextLine[2]);
             }
             reader.close();
         } catch (IOException e) {
@@ -60,7 +63,7 @@ public class Company implements CompanyDAO{
     }
 
     @Override
-    public Employee findEmployeeById(int id){
+    public Employee findEmployeeById(int id) {
         return employees.get(id);
     }
 
@@ -69,9 +72,9 @@ public class Company implements CompanyDAO{
         employees.add(employee);
         System.out.println("Employee n°" + employee.getId() + " successfully added from database.");
     }
-    
+
     @Override
-    public void deleteEmployee(Employee employee){
+    public void deleteEmployee(Employee employee) {
         employees.remove(employee.getId());
         System.out.println("Employee n°" + employee.getId() + " successfully removed from database.");
     }

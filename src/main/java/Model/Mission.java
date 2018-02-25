@@ -3,8 +3,10 @@ package Model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Mission {
+    private static final AtomicInteger countID = new AtomicInteger(0);
     private int id;
     private String nom;
     private List<Competence> listeCompetences = new ArrayList();
@@ -15,9 +17,9 @@ public class Mission {
     private boolean anomalie;
 
     public Mission(String nomC) {
-        this.id = 0;
         this.nom = nomC;
         this.anomalie = false;
+        this.id = countID.incrementAndGet();
     }
 
     public Mission(String nomC, List<Competence> listeC, int nb) {

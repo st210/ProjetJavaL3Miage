@@ -4,8 +4,10 @@ import com.opencsv.bean.CsvBindByName;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee {
+    private static final AtomicInteger countID = new AtomicInteger(0);
     @CsvBindByName(column = "Identifiant", required = true)
     private int id;
     @CsvBindByName(column = "Nom", required = true)
@@ -17,11 +19,11 @@ public class Employee {
     private List<Competence> competences;
 
     public Employee(String nameE, String firstnameE, String entry) {
-        this.id = 0;
         this.name = nameE;
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
         this.competences = null;
+        this.id = countID.incrementAndGet();
     }
 
     // TODO: get/set liste competences d'un employe
@@ -58,6 +60,6 @@ public class Employee {
 
     @Override
     public String toString() {
-        return this.firstname + " " + this.name + " est employé depuis le " + this.entryIntoCompany;
+        return "[" + this.getId() + "] " + this.firstname + " " + this.name + " is employed since " + this.entryIntoCompany;
     }
 }
