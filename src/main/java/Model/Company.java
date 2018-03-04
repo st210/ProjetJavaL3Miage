@@ -18,11 +18,11 @@ public class Company implements CompanyDAO {
     // + liste_missions affectation,_employe_mission, besoin_competences
 
 
-    public Company(String nom) {
+    public Company(String nom, String path) {
         this.nom = nom;
         employees = new ArrayList<Employee>();
         try {
-            FileReader csvFile = new FileReader("resources/liste_personnel.csv");
+            FileReader csvFile = new FileReader(path);
             CSVReader reader = new CSVReader(csvFile, ';');
 
             String[] nextLine;
@@ -38,11 +38,9 @@ public class Company implements CompanyDAO {
         this.id = countID.incrementAndGet();
     }
 
-    public List<Employee> showAllEmployees() {
-        List<Employee> list = null;
-
+    public void showAllEmployees(String path) {
         try {
-            FileReader csvFile = new FileReader("resources/liste_personnel.csv");
+            FileReader csvFile = new FileReader(path);
             CSVReader reader = new CSVReader(csvFile, ';');
 
             String[] nextLine;
@@ -53,8 +51,6 @@ public class Company implements CompanyDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return list;
     }
 
     @Override
@@ -64,7 +60,7 @@ public class Company implements CompanyDAO {
 
     @Override
     public Employee findEmployeeById(int id) {
-        return employees.get(id);
+        return employees.get(id-1);
     }
 
     @Override
@@ -75,7 +71,7 @@ public class Company implements CompanyDAO {
 
     @Override
     public void deleteEmployee(Employee employee) {
-        employees.remove(employee.getId());
+        employees.remove(employee);
         System.out.println("Employee n°" + employee.getId() + " successfully removed from database.");
     }
 
@@ -87,7 +83,7 @@ public class Company implements CompanyDAO {
 
     @Override
     public void updateEmployeeFirstName(Employee employee, String firstname) {
-        employees.get(employee.getId()).setFirstName(firstname);
+        employee.setFirstName(firstname);
         System.out.println("Employee n°" + employee.getId() + " successfully updated in the database.");
     }
 
