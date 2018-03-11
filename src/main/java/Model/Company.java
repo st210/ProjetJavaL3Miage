@@ -22,7 +22,7 @@ public class Company implements CompanyDAO {
         this.nom = nom;
         employees = new ArrayList<Employee>();
         try {
-            FileReader csvFile = new FileReader("resources/liste_personnel.csv");
+            FileReader csvFile = new FileReader("../resources/liste_personnel.csv");
             CSVReader reader = new CSVReader(csvFile, ';');
 
             String[] nextLine;
@@ -42,7 +42,7 @@ public class Company implements CompanyDAO {
         List<Employee> list = null;
 
         try {
-            FileReader csvFile = new FileReader("resources/liste_personnel.csv");
+            FileReader csvFile = new FileReader("../resources/liste_personnel.csv");
             CSVReader reader = new CSVReader(csvFile, ';');
 
             String[] nextLine;
