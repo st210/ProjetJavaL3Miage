@@ -2,12 +2,11 @@ package Model;
 
 import com.opencsv.CSVReader;
 
-import java.io.*;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Company implements CompanyDAO {
 
@@ -15,8 +14,6 @@ public class Company implements CompanyDAO {
     List<Employee> employees = new ArrayList<>();
     List<Competence> competences = new ArrayList<>();
     List<Mission> missions = new ArrayList<>();
-//    private static final AtomicInteger countID = new AtomicInteger(0);
-//    private int id;
     // + liste_missions affectation,_employe_mission, besoin_competences
 
 
