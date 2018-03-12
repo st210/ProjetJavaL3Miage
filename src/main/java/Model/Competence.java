@@ -9,7 +9,7 @@ public class Competence {
     private String libelleEN;
 
     // à voir plus tard pour n'avoir qu'un seul libelle et gerer via l'interface la langue par un fichier de config (+thymeleaf?)
-    public Competence(String libF, String libE) {
+    public Competence(String libE, String libF) {
         this.libelleFR = libF;
         this.libelleEN = libE;
         this.id = countID.incrementAndGet();

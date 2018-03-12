@@ -15,19 +15,9 @@ public class Test extends Application {
 
     public static void main(String[] args) {
 
-        launch(args);
+//        launch(args);
 
-//        Company e = new Company("Super Mario");
-//        List<Employee> l = new ArrayList<>();
-//        e.showAllEmployees();
-//        Employee vador = new Employee("Vador", "Darth", "01/01/1990");
-//        e.insertEmployee(vador);
-//        System.out.println(e.findEmployeeById(51));
-//        e.updateEmployeeFirstName(vador, "Luke");
-//        System.out.println(e.findEmployeeById(51));
-//        e.deleteEmployee(vador);
-//        System.out.println(e.findEmployeeById(51));
-
+        Company company = new Company("Company Test");
     }
 
     @Override

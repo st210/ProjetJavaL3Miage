@@ -2,40 +2,79 @@ package Model;
 
 import com.opencsv.CSVReader;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Company implements CompanyDAO {
-    List<Employee> employees;
-    List<Competence> competences;
-    List<Mission> missions;
-    private static final AtomicInteger countID = new AtomicInteger(0);
-    private int id;
-    private String nom;
+
+    private String name;
+    List<Employee> employees = new ArrayList<>();
+    List<Competence> competences = new ArrayList<>();
+    List<Mission> missions = new ArrayList<>();
+//    private static final AtomicInteger countID = new AtomicInteger(0);
+//    private int id;
     // + liste_missions affectation,_employe_mission, besoin_competences
 
 
-    public Company(String nom) {
-        this.nom = nom;
-        employees = new ArrayList<Employee>();
+    public Company(String name) {
+        this.name = name;
         try {
-            FileReader csvFile = new FileReader("../resources/liste_personnel.csv");
-            CSVReader reader = new CSVReader(csvFile, ';');
-
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                if (nextLine != null) {
-                    Employee e = new Employee(nextLine[0], nextLine[1], nextLine[2]);
-                    employees.add(e);
-                }
-            }
+            importEmployeeFromCSV("liste_personnel.csv");
+            importCompetencesFromCSV("liste_competences.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.id = countID.incrementAndGet();
+    }
+
+
+    private void importEmployeeFromCSV(String fileName) throws IOException {
+
+        String separator = ";";
+        String employeeLine[];
+        String line;
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = classLoader.getResource(fileName).getFile();
+
+
+        FileReader csvFile = new FileReader(path);
+        BufferedReader br = new BufferedReader(csvFile);
+
+        while ((line = br.readLine()) != null) {
+            employeeLine = line.split(separator);
+            Employee newEmployee = new Employee(employeeLine[0], employeeLine[1], employeeLine[2]);
+
+            if (!this.employees.contains(newEmployee)) {
+                this.employees.add(newEmployee);
+            }
+        }
+    }
+
+    private void importCompetencesFromCSV(String fileName) throws IOException {
+
+        String separator = ";";
+        String comptetencesLine[];
+        String line;
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = classLoader.getResource(fileName).getFile();
+
+
+        FileReader csvFile = new FileReader(path);
+        BufferedReader br = new BufferedReader(csvFile);
+
+        while ((line = br.readLine()) != null) {
+            comptetencesLine = line.split(separator);
+            Competence newCompetence = new Competence(comptetencesLine[0], comptetencesLine[1]);
+
+            if (!this.competences.contains(newCompetence)) {
+                this.competences.add(newCompetence);
+            }
+        }
     }
 
     public List<Employee> showAllEmployees() {

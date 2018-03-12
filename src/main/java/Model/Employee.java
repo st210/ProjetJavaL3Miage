@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee {
+
     private static final AtomicInteger countID = new AtomicInteger(0);
     @CsvBindByName(column = "Identifiant", required = true)
     private int id;
@@ -18,7 +19,7 @@ public class Employee {
     private String entryIntoCompany;
     private List<Competence> competences;
 
-    public Employee(String nameE, String firstnameE, String entry) {
+    public Employee(String firstnameE, String nameE, String entry) {
         this.name = nameE;
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
