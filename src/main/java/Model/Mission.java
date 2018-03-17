@@ -13,7 +13,7 @@ public class Mission {
     private int nbEmployes;
     private Date dateDebut;
     private long duree;
-    private EtatMission statut;
+    private MissionState statut;
 
     public Mission(String nomC) {
         this.nom = nomC;
@@ -60,7 +60,7 @@ public class Mission {
         return duree;
     }
 
-    public EtatMission getStatut() {
+    public MissionState getStatut() {
         return statut;
     }
 
@@ -89,7 +89,7 @@ public class Mission {
         this.duree = duree;
     }
 
-    public void setStatut(EtatMission statut) {
+    public void setStatut(MissionState statut) {
         this.statut = statut;
     }
 

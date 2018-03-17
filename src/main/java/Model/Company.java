@@ -54,7 +54,7 @@ public class Company implements CompanyDAO {
     private void importCompetencesFromCSV(String fileName) throws IOException {
 
         String separator = ";";
-        String comptetencesLine[];
+        String competencesLine[];
         String line;
 
         ClassLoader classLoader = getClass().getClassLoader();
@@ -65,8 +65,8 @@ public class Company implements CompanyDAO {
         BufferedReader br = new BufferedReader(csvFile);
 
         while ((line = br.readLine()) != null) {
-            comptetencesLine = line.split(separator);
-            Competence newCompetence = new Competence(comptetencesLine[0], comptetencesLine[1]);
+            competencesLine = line.split(separator);
+            Competence newCompetence = new Competence(competencesLine[0], competencesLine[1]);
 
             if (!this.competences.contains(newCompetence)) {
                 this.competences.add(newCompetence);
@@ -74,11 +74,11 @@ public class Company implements CompanyDAO {
         }
     }
 
-    public List<Employee> showAllEmployees() {
+    public List<Employee> showAllEmployees(String fileName) {
         List<Employee> list = null;
 
         try {
-            FileReader csvFile = new FileReader("../resources/liste_personnel.csv");
+            FileReader csvFile = new FileReader(fileName);
             CSVReader reader = new CSVReader(csvFile, ';');
 
             String[] nextLine;

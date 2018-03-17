@@ -8,13 +8,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Employee {
 
     private static final AtomicInteger countID = new AtomicInteger(0);
-    @CsvBindByName(column = "Identifiant", required = true)
+    @CsvBindByName(column = "Id", required = true)
     private int id;
-    @CsvBindByName(column = "Nom", required = true)
+    @CsvBindByName(column = "Name", required = true)
     private String name;
-    @CsvBindByName(column = "Prenom", required = true)
+    @CsvBindByName(column = "First Name", required = true)
     private String firstname;
-    @CsvBindByName(column = "Date entrée entreprise", required = true)
+    @CsvBindByName(column = "Entry date", required = true)
     private String entryIntoCompany;
     private List<Competence> competencesEmployee;
 
