@@ -1,5 +1,6 @@
 import Controller.FabController;
 import Model.Company;
+import Model.Competence;
 import Model.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,10 @@ public class Test extends Application {
 //        launch(args);
 
         Company company = new Company("Company Test");
+        Employee employee = new Employee("Yann", "Godeau", "21/12/2013");
+        Competence competence = company.getCompetenceByID("A.1.");
+        employee.addCompetence(competence);
+        System.out.println(employee.toString());
     }
 
     @Override

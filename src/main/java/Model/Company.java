@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Company implements CompanyDAO {
 
@@ -27,6 +28,41 @@ public class Company implements CompanyDAO {
         }
     }
 
+    /***********
+     * GETTERS *
+     ***********/
+
+    public Competence getCompetenceByID(String id) {
+        for (Competence c : this.competences) {
+            if (Objects.equals(c.getId(), id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public Competence getCompetenceByLib(String lib) {
+        for (Competence c : this.competences) {
+            if (Objects.equals(c.getLibelleEN(), lib) ||
+                    Objects.equals(c.getLibelleFR(), lib)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+
+    /***********
+     * SETTERS *
+     ***********/
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public List<Competence> getCompetences() {
+        return competences;
+    }
 
     private void importEmployeeFromCSV(String fileName) throws IOException {
 
@@ -66,7 +102,7 @@ public class Company implements CompanyDAO {
 
         while ((line = br.readLine()) != null) {
             comptetencesLine = line.split(separator);
-            Competence newCompetence = new Competence(comptetencesLine[0], comptetencesLine[1]);
+            Competence newCompetence = new Competence(comptetencesLine[0], comptetencesLine[1], comptetencesLine[2]);
 
             if (!this.competences.contains(newCompetence)) {
                 this.competences.add(newCompetence);
@@ -74,24 +110,6 @@ public class Company implements CompanyDAO {
         }
     }
 
-    public List<Employee> showAllEmployees() {
-        List<Employee> list = null;
-
-        try {
-            FileReader csvFile = new FileReader("../resources/liste_personnel.csv");
-            CSVReader reader = new CSVReader(csvFile, ';');
-
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                System.out.println("[" + nextLine[3] + "] " + nextLine[0] + " " + nextLine[1] + " is employed since " + nextLine[2]);
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
 
     @Override
     public List<Employee> findAll() {

@@ -2,27 +2,23 @@ package Model;
 
 import com.opencsv.bean.CsvBindByName;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee {
 
     private static final AtomicInteger countID = new AtomicInteger(0);
-    @CsvBindByName(column = "Identifiant", required = true)
     private int id;
-    @CsvBindByName(column = "Nom", required = true)
     private String name;
-    @CsvBindByName(column = "Prenom", required = true)
     private String firstname;
-    @CsvBindByName(column = "Date entrée entreprise", required = true)
     private String entryIntoCompany;
-    private List<Competence> competencesEmployee;
+    private List<Competence> competencesEmployee = new ArrayList<>();
 
     public Employee(String firstnameE, String nameE, String entry) {
         this.name = nameE;
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
-        this.competencesEmployee = null;
         this.id = countID.incrementAndGet();
     }
 
@@ -70,6 +66,7 @@ public class Employee {
     public void setCompetencesEmployee(List<Competence> competencesEmployee) {
         this.competencesEmployee = competencesEmployee;
     }
+
 
     public void addCompetence(Competence c) {
         if (!this.competencesEmployee.contains(c)) {
