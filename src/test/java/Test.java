@@ -1,21 +1,15 @@
-import Controller.FabController;
 import Model.Company;
-import Model.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Test extends Application {
 
     public static void main(String[] args) {
 
-//        launch(args);
+        launch(args);
 
         Company company = new Company("Company Test");
     }
