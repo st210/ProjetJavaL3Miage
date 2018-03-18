@@ -11,7 +11,6 @@ public class Competence {
         this.libelleEN = libelleEN;
     }
 
-    // à voir plus tard pour n'avoir qu'un seul libelle et gerer via l'interface la langue par un fichier de config (+thymeleaf?)
     public Competence(String libF, String libE) {
         this.libelleEN = libE;
         this.libelleFR = libF;
@@ -37,6 +36,13 @@ public class Competence {
      * SETTERS *
      ***********/
 
-    // TODO: get/set une competence
-    // TODO: methode toString() à redéfinir
+    /***********
+     * METHODS *
+     ***********/
+
+    @Override
+    public String toString() {
+        return "[" + id + "] " + libelleFR;
+    }
+
 }

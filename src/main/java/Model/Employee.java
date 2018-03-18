@@ -1,7 +1,6 @@
 package Model;
 
-import com.opencsv.bean.CsvBindByName;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,17 +8,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Employee {
 
     private static final AtomicInteger countID = new AtomicInteger(0);
-    private int id;
+    private String id;
     private String name;
     private String firstname;
     private String entryIntoCompany;
-    private List<Competence> competencesEmployee = new ArrayList<>();
+    private ArrayList<Competence> competencesEmployee = new ArrayList<>();
 
     public Employee(String firstnameE, String nameE, String entry) {
+        CompetenceMgt cm = new CompetenceMgt();
+        this.id = String.valueOf(countID.incrementAndGet());
         this.name = nameE;
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
-        this.id = countID.incrementAndGet();
+        try {
+            competencesEmployee = cm.getCompetencesForEmp(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // TODO: get/set liste competencesEmployee d'un employe
@@ -30,7 +35,7 @@ public class Employee {
      * GETTERS *
      ***********/
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -63,10 +68,9 @@ public class Employee {
         this.entryIntoCompany = entryIntoCompany;
     }
 
-    public void setCompetencesEmployee(List<Competence> competencesEmployee) {
+    public void setCompetencesEmployee(ArrayList<Competence> competencesEmployee) {
         this.competencesEmployee = competencesEmployee;
     }
-
 
     public void addCompetence(Competence c) {
         if (!this.competencesEmployee.contains(c)) {
@@ -79,6 +83,7 @@ public class Employee {
             this.competencesEmployee.remove(c);
         }
     }
+
 
     @Override
     public String toString() {
