@@ -1,18 +1,10 @@
-import Controller.FabController;
 import Model.Company;
-import Model.Competence;
 import Model.CompetenceMgt;
-import Model.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Test extends Application {
 
