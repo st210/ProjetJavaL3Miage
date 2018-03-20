@@ -1,11 +1,14 @@
 package Model;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Employee {
+public class Employee extends ModifierCSV {
 
     private static final AtomicInteger countID = new AtomicInteger(0);
     private String id;
@@ -47,7 +50,12 @@ public class Employee {
         return firstname;
     }
 
-    public List<Competence> getCompetencesEmployee() {
+    /**
+     * Retourne la liste de compétences de l'employé
+     *
+     * @return List<Competence>
+     */
+    public ArrayList<Competence> getCompetencesEmployee() {
         return competencesEmployee;
     }
 
@@ -74,7 +82,12 @@ public class Employee {
 
     public void addCompetence(Competence c) {
         if (!this.competencesEmployee.contains(c)) {
-            this.competencesEmployee.add(c);
+            try {
+                appendCompToEmp(this.id, c);
+                this.competencesEmployee.add(c);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -82,6 +95,20 @@ public class Employee {
         if (this.competencesEmployee.contains(c)) {
             this.competencesEmployee.remove(c);
         }
+    }
+
+    /***********
+     * METHODS *
+     ***********/
+
+    /**
+     * Sauvegarder un nouvel employé dans le fichier LISTE_PERSONNEL
+     *
+     * @throws IOException
+     */
+    public void writeEmployeeCSV() throws IOException {
+        String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
+        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine);
     }
 
 

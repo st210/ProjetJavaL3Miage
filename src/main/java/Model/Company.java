@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Company {
+public class Company implements IModifierCSV {
 
     private String name;
-    ArrayList<Employee> employees = new ArrayList<>();
+    private ArrayList<Employee> employees = new ArrayList<>();
     ArrayList<Mission> missions = new ArrayList<>();
     // + liste_missions affectation,_employe_mission, besoin_competences
 
@@ -20,7 +20,7 @@ public class Company {
     public Company(String name) {
         this.name = name;
         try {
-            importEmployeeFromCSV("liste_personnel.csv");
+            importEmployeeFromCSV(FILE_LISTE_PERSONNEL);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -30,23 +30,37 @@ public class Company {
      * GETTERS *
      ***********/
 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public Employee getEmployee(String id) {
+        for (Employee e : this.employees) {
+            if (e.getId().equals(id)) {
+                return e;
+            }
+        }
+        System.err.println("Employee not found");
+        return null;
+    }
 
     /***********
      * SETTERS *
      ***********/
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
 
     /***********
      * METHODS *
      ***********/
 
+    public void addEmployee(Employee e) {
+        this.employees.add(e);
+    }
 
     /**
      * Importer tous les employés du fichier dans ArrayList<Employee> employees
-     * @param fileName
+     *
+     * @param fileName le nom du fichier
      * @throws IOException
      */
     private void importEmployeeFromCSV(String fileName) throws IOException {
@@ -56,7 +70,7 @@ public class Company {
         String line;
 
         ClassLoader classLoader = getClass().getClassLoader();
-        String path = classLoader.getResource(fileName).getFile();
+        String path = Objects.requireNonNull(classLoader.getResource(fileName)).getFile();
 
 
         FileReader csvFile = new FileReader(path);

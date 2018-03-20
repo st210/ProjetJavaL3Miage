@@ -1,19 +1,21 @@
 package Model;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 
-public class CompetenceMgt {
+public class CompetenceMgt implements IModifierCSV {
 
-    private static final String FILE_LISTE_COMPETENCES = "liste_competences.csv";
-    private static final String FILE_COMPETENCES_PERSONNEL = "competences_personnel.csv";
-
+    /**
+     * Retourne les compétence d'un employé dont l'ID est passé en paramètre
+     *
+     * @param idEmp l'id de l'employé
+     * @return ArrayList<Competence> Les compétences de l'employé
+     * @throws IOException
+     */
     public ArrayList<Competence> getCompetencesForEmp(String idEmp) throws IOException {
         ArrayList<Competence> competencesEmp = new ArrayList<>();
         ArrayList<Competence> allCompetences = new ArrayList<>();
@@ -24,7 +26,7 @@ public class CompetenceMgt {
         String line;
 
         ClassLoader classLoader = getClass().getClassLoader();
-        String path = classLoader.getResource(FILE_COMPETENCES_PERSONNEL).getFile();
+        String path = Objects.requireNonNull(classLoader.getResource(FILE_COMPETENCES_PERSONNEL)).getFile();
 
         FileReader csvFile = new FileReader(path);
         BufferedReader br = new BufferedReader(csvFile);
@@ -51,7 +53,9 @@ public class CompetenceMgt {
     }
 
     /**
-     * @param fileName the name of the file containing all the skills
+     * Retourne toutes les compétences contenues dans le fichier passé en paramètre
+     *
+     * @param fileName le nom du fichier contenant les compétences
      * @return List<Competence>
      * @throws IOException
      */
@@ -64,7 +68,7 @@ public class CompetenceMgt {
         String line;
 
         ClassLoader classLoader = getClass().getClassLoader();
-        String path = classLoader.getResource(fileName).getFile();
+        String path = Objects.requireNonNull(classLoader.getResource(fileName)).getFile();
 
         FileReader csvFile = new FileReader(path);
         BufferedReader br = new BufferedReader(csvFile);
@@ -77,7 +81,6 @@ public class CompetenceMgt {
                 competences.add(newCompetence);
             }
         }
-
         return competences;
     }
 
@@ -87,19 +90,19 @@ public class CompetenceMgt {
      * @param id Id de la compétence
      * @return Competence
      */
-//    public Competence getCompetenceByID(String id) {
-//        ArrayList<Competence> allComp = new ArrayList<>();
-//        try {
-//            allComp = importCompetencesFromCSV(FILE_LISTE_COMPETENCES);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        for (Competence c : allComp) {
-//            if (Objects.equals(c.getId(), id)) {
-//                return c;
-//            }
-//        }
-//        return null;
-//    }
+    public Competence getCompetenceByID(String id) {
+        ArrayList<Competence> allComp = new ArrayList<>();
+        try {
+            allComp = importCompetencesFromCSV(FILE_LISTE_COMPETENCES);
+            for (Competence c : allComp) {
+                if (Objects.equals(c.getId(), id)) {
+                    return c;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.err.println("La compétence n'existe pas"); // TODO Throw exception
+        return null;
+    }
 }

@@ -9,18 +9,18 @@ public class Mission {
     private static final AtomicInteger countID = new AtomicInteger(0);
     private int id;
     private String nom;
-    private List<Competence> competencesMission = new ArrayList();
+    private ArrayList<Competence> competencesMission = new ArrayList<>();
     private int nbEmployes;
     private Date dateDebut;
     private long duree;
-    private MissionState statut;
+    private MissionState status;
 
     public Mission(String nomC) {
         this.nom = nomC;
         this.id = countID.incrementAndGet();
     }
 
-    public Mission(String nomC, List<Competence> listeC, int nb) {
+    public Mission(String nomC, ArrayList<Competence> listeC, int nb) {
         this.id = 0;
         this.nom = nomC;
         this.competencesMission = listeC;
@@ -60,8 +60,8 @@ public class Mission {
         return duree;
     }
 
-    public MissionState getStatut() {
-        return statut;
+    public MissionState getStatus() {
+        return status;
     }
 
 
@@ -73,7 +73,7 @@ public class Mission {
         this.nom = nom;
     }
 
-    public void setCompetencesMission(List<Competence> competencesMission) {
+    public void setCompetencesMission(ArrayList<Competence> competencesMission) {
         this.competencesMission = competencesMission;
     }
 
@@ -89,11 +89,11 @@ public class Mission {
         this.duree = duree;
     }
 
-    public void setStatut(MissionState statut) {
-        this.statut = statut;
+    public void setStatus(MissionState status) {
+        this.status = status;
     }
 
     // TODO: get liste competences requises pour la mission
-    // TODO: actualiser statut de la mission
+    // TODO: actualiser status de la mission
     // TODO: methode toString() à redéfinir
 }
