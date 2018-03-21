@@ -6,6 +6,8 @@ import java.util.Objects;
 abstract class ModifierCSV implements IModifierCSV {
 
     /**
+     * Ecrit une nouvelle ligne dans le fichier passé en paramètre
+     *
      * @param file    Le nom du fichier à modifier
      * @param content La nouvelle ligne à ajouter au fichier
      * @throws IOException
@@ -29,6 +31,13 @@ abstract class ModifierCSV implements IModifierCSV {
         }
     }
 
+    /**
+     * Ajoute une compétence à l'employé dans le fichier CSV
+     *
+     * @param idEmp L'ID de l'employé
+     * @param c La compétence à ajouter à l'employé
+     * @throws IOException
+     */
     void appendCompToEmp(String idEmp, Competence c) throws IOException {
         boolean empFound = false;
         String separator = ";";
