@@ -6,7 +6,7 @@ import java.util.Objects;
 abstract class ModifierCSV implements IModifierCSV {
 
     /**
-     * Ecrit une nouvelle ligne dans le fichier passé en paramètre
+     * Permet d'écrire une nouvelle ligne dans le fichier passé en paramètre
      *
      * @param file    Le nom du fichier à modifier
      * @param content La nouvelle ligne à ajouter au fichier

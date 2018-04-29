@@ -9,7 +9,7 @@ public class Mission {
     private static final AtomicInteger countID = new AtomicInteger(0);
     private int id;
     private String nom;
-    private ArrayList<Competence> competencesMission = new ArrayList<>();
+    private Need need;
     private int nbEmployes;
     private Date dateDebut;
     private long duree;
@@ -20,11 +20,11 @@ public class Mission {
         this.id = countID.incrementAndGet();
     }
 
-    public Mission(String nomC, ArrayList<Competence> listeC, int nb) {
+    public Mission(String nomM, int nbEmployes) {
         this.id = 0;
-        this.nom = nomC;
-        this.competencesMission = listeC;
-        this.nbEmployes = nb;
+        this.nom = nomM;
+        this.need = new Need();
+        this.nbEmployes = nbEmployes;
     }
 
     public static AtomicInteger getCountID() {
@@ -44,8 +44,8 @@ public class Mission {
         return nom;
     }
 
-    public List<Competence> getCompetencesMission() {
-        return competencesMission;
+    public Need getNeed() {
+        return need;
     }
 
     public int getNbEmployes() {
@@ -73,10 +73,6 @@ public class Mission {
         this.nom = nom;
     }
 
-    public void setCompetencesMission(ArrayList<Competence> competencesMission) {
-        this.competencesMission = competencesMission;
-    }
-
     public void setNbEmployes(int nbEmployes) {
         this.nbEmployes = nbEmployes;
     }
@@ -92,6 +88,12 @@ public class Mission {
     public void setStatus(MissionState status) {
         this.status = status;
     }
+
+    public void addCompetence(Competence competence, int nbEmpNeeded) {
+        this.need.addCompetence(competence, nbEmpNeeded);
+    }
+
+
 
     // TODO: get liste competences requises pour la mission
     // TODO: actualiser status de la mission
