@@ -50,4 +50,8 @@ public class Need {
             throw new Exception("Le nombre maximal de ressources pour cette compétence est atteint");
         }
     }
+
+    public boolean contains(Competence c) {
+        return this.competenceInit.containsKey(c);
+    }
 }

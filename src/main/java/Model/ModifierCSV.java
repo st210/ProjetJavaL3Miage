@@ -13,7 +13,8 @@ abstract class ModifierCSV implements IModifierCSV {
      * @throws IOException
      */
     void appendNewLine(String file, String content) throws IOException {
-        // TODO l'écriture se fait dans le fichier du repertoire Target
+        // ATTENTION :
+        // TODO l'écriture se fait dans le fichier du repertoire ./Target
         BufferedWriter bw;
         FileWriter fw;
         ClassLoader classLoader = getClass().getClassLoader();
@@ -63,6 +64,47 @@ abstract class ModifierCSV implements IModifierCSV {
         if (!empFound) {
             String newLine = idEmp + ";" + c.getId();
             appendNewLine(FILE_COMPETENCES_PERSONNEL, newLine);
+        }
+
+        fw.close();
+        bw.close();
+
+        fr.close();
+        br.close();
+    }
+
+    /**
+     * Ajoute une compétence à la mission dans le fichier CSV
+     *
+     * @param idMission L'ID de la mission
+     * @param c La compétence à ajouter à la mission
+     * @throws IOException
+     */
+    void appendCompToMission(String idMission, Competence c) throws IOException {
+        boolean compFound = false;
+        String separator = ";";
+        String comptetencesLine[];
+        String line;
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = Objects.requireNonNull(classLoader.getResource(FILE_MISSION_COMPETENCES)).getFile();
+        FileReader fr = new FileReader(path);
+        BufferedReader br = new BufferedReader(fr);
+
+        FileWriter fw = new FileWriter(path, true);
+        BufferedWriter bw = new BufferedWriter(fw);
+
+        while ((line = br.readLine()) != null && !compFound) {
+            comptetencesLine = line.split(separator);
+
+            if (Objects.equals(comptetencesLine[0], idMission)) {
+                compFound = true;
+                bw.write(line + ";" + c.getId());
+            }
+        }
+
+        if (!compFound) {
+            String newLine = idMission + ";" + c.getId();
+            appendNewLine(FILE_MISSION_COMPETENCES, newLine);
         }
 
         fw.close();
