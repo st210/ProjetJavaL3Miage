@@ -1,42 +1,89 @@
-import Model.*;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Test extends Application {
 
-    public static void main(String[] args) {
+    private static final int SPACING = 8;
 
-//        launch(args);
-//        Company company = new Company("Company Test");
-//        CompetenceMgt cm = new CompetenceMgt();
-//        Employee e = new Employee("Yann", "Godeau", "12/12/2008");
-//        company.addEmployee(e);
-//        try {
-//            e.writeEmployeeCSV();
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        company.getEmployee("51").addCompetence(cm.getCompetenceByID("A.2."));
+    @Override
+    public void start (Stage primaryStage) throws Exception {
+        primaryStage.setTitle ("Missions Personnel");
 
-        Mission mission = new Mission("Ma mission", 10);
-        try {
-            mission.writeMissionCSV();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Button dashboardButton = new Button ("Tableau de bord");
+        Button missionsButton = new Button ("Missions");
+        Button staffButton = new Button ("Personnel");
+
+        VBox buttonBox = new VBox ();
+        buttonBox.setPadding (new Insets (SPACING));
+        buttonBox.setSpacing (SPACING);
+        buttonBox.getChildren ().addAll (dashboardButton, missionsButton, staffButton);
+        for (Node child : buttonBox.getChildren ()) {
+            VBox.setVgrow (child, Priority.ALWAYS);
+        }
+
+        Pane dashboardPane = new DashboardPane ();
+        Pane missionsPane = new MissionsPane ();
+        Pane staffPane = new StaffPane ();
+
+        BorderPane rootPane = new BorderPane ();
+        rootPane.setLeft (buttonBox);
+        rootPane.setCenter (dashboardPane);
+
+        // Actions
+
+        dashboardButton.setOnAction (event -> {
+            rootPane.setCenter (dashboardPane);
+        });
+        missionsButton.setOnAction (event -> {
+            rootPane.setCenter (missionsPane);
+        });
+        staffButton.setOnAction (event -> {
+            rootPane.setCenter (staffPane);
+        });
+
+        // Scene
+
+        Scene scene = new Scene (rootPane, 800, 600);
+        primaryStage.setScene (scene);
+        primaryStage.show ();
+    }
+
+    public static void main (String[] args) {
+        launch (args);
+    }
+
+    private static class DashboardPane extends BorderPane {
+        private DashboardPane () {
+            setCenter (new Label ("Tableau de bord"));
         }
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("view/home.fxml"));
-        primaryStage.setTitle("Home");
-        primaryStage.setScene(new Scene(root, 700, 500));
-        primaryStage.show();
+    private static class MissionsPane extends BorderPane {
+        private MissionsPane () {
+            TableView tableView = new TableView ();
+            setCenter (tableView);
+            tableView.getColumns ().addAll (
+                    new TableColumn ("Nom"),
+                    new TableColumn ("État"));
+        }
+    }
+
+    private static class StaffPane extends BorderPane {
+        private StaffPane () {
+            TableView tableView = new TableView ();
+            setCenter (tableView);
+            tableView.getColumns ().addAll (
+                    new TableColumn ("Nom"),
+                    new TableColumn ("Prénom"),
+                    new TableColumn ("Date d'entrée"));
+        }
     }
 }

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Classe dévrivant les besoins d'une mission :
+ *      - De quelles compétences la mission à besoin ?
+ *      - Qui répond à ce besoin ?
+ */
 public class Need {
 
     // Décrit chaque compétence d'une mission et le nombre de personnes requises possédant cette compétence

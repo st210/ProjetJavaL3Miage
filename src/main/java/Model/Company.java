@@ -1,19 +1,16 @@
 package Model;
 
-import com.opencsv.CSVReader;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Company implements IModifierCSV {
 
     private String name;
     private ArrayList<Employee> employees = new ArrayList<>();
-    ArrayList<Mission> missions = new ArrayList<>();
+    private ArrayList<Mission> missions = new ArrayList<>();
     // + liste_missions affectation,_employe_mission, besoin_competences
 
 
@@ -30,10 +27,21 @@ public class Company implements IModifierCSV {
      * GETTERS *
      ***********/
 
-    public List<Employee> getEmployees() {
+    /**
+     * Retourne tous les employés de l'entreprise
+     *
+     * @return ArrayList<Employee> La liste de tous les employés
+     */
+    public ArrayList<Employee> getEmployees() {
         return employees;
     }
 
+    /**
+     * Retourne l'employé correspondant à l'id passé en paramètre
+     *
+     * @param id L'id de l'employé
+     * @return
+     */
     public Employee getEmployee(String id) {
         for (Employee e : this.employees) {
             if (e.getId().equals(id)) {
@@ -53,7 +61,14 @@ public class Company implements IModifierCSV {
      * METHODS *
      ***********/
 
-    public void addEmployee(Employee e) {
+    /**
+     * Ajoute un nouvel employé à la liste d'employés de l'entreprise + écriture sur le fichier
+     *
+     * @param e L'employé à ajouter
+     * @throws IOException
+     */
+    public void addEmployee(Employee e) throws IOException {
+        e.writeEmployeeCSV();
         this.employees.add(e);
     }
 
