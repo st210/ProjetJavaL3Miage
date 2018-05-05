@@ -1,16 +1,12 @@
 package Model;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee extends ModifierCSV {
 
-    private static final AtomicInteger countID = new AtomicInteger(0);
+    private static final AtomicInteger nbEmployees = new AtomicInteger(0);
     private String id;
     private String name;
     private String firstname;
@@ -19,7 +15,7 @@ public class Employee extends ModifierCSV {
 
     public Employee(String firstnameE, String nameE, String entry) {
         CompetenceMgt cm = new CompetenceMgt();
-        this.id = String.valueOf(countID.incrementAndGet());
+        this.id = String.valueOf(nbEmployees.incrementAndGet());
         this.name = nameE;
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
@@ -37,6 +33,10 @@ public class Employee extends ModifierCSV {
     /***********
      * GETTERS *
      ***********/
+
+    public static AtomicInteger getNbEmployees(){
+        return nbEmployees;
+    }
 
     public String getId() {
         return id;
