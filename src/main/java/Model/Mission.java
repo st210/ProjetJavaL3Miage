@@ -1,30 +1,30 @@
 package Model;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Mission {
+public class Mission extends ModifierCSV {
     private static final AtomicInteger countID = new AtomicInteger(0);
-    private int id;
+    private String id;
     private String nom;
-    private List<Competence> competencesMission = new ArrayList();
+    private Need need;
     private int nbEmployes;
     private Date dateDebut;
     private long duree;
-    private MissionState statut;
+    private MissionState status;
 
-    public Mission(String nomC) {
-        this.nom = nomC;
-        this.id = countID.incrementAndGet();
+    public Mission(String nomM) {
+        this.nom = nomM;
+        this.id = String.valueOf(countID.incrementAndGet());
     }
 
-    public Mission(String nomC, List<Competence> listeC, int nb) {
-        this.id = 0;
-        this.nom = nomC;
-        this.competencesMission = listeC;
-        this.nbEmployes = nb;
+    public Mission(String nomM, int nbEmployes) {
+        this.id = String.valueOf(countID.incrementAndGet());
+        this.nom = nomM;
+        this.need = new Need();
+        this.nbEmployes = nbEmployes;
+        this.status = MissionState.PREPARATION;
     }
 
     public static AtomicInteger getCountID() {
@@ -36,7 +36,7 @@ public class Mission {
      * GETTERS *
      ***********/
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -44,8 +44,8 @@ public class Mission {
         return nom;
     }
 
-    public List<Competence> getCompetencesMission() {
-        return competencesMission;
+    public Need getNeed() {
+        return need;
     }
 
     public int getNbEmployes() {
@@ -60,8 +60,8 @@ public class Mission {
         return duree;
     }
 
-    public MissionState getStatut() {
-        return statut;
+    public MissionState getStatus() {
+        return status;
     }
 
 
@@ -71,10 +71,6 @@ public class Mission {
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public void setCompetencesMission(List<Competence> competencesMission) {
-        this.competencesMission = competencesMission;
     }
 
     public void setNbEmployes(int nbEmployes) {
@@ -89,11 +85,37 @@ public class Mission {
         this.duree = duree;
     }
 
-    public void setStatut(MissionState statut) {
-        this.statut = statut;
+    public void setStatus(MissionState status) {
+        this.status = status;
     }
 
+    public void addCompetence(Competence c, int nbEmployes) {
+        if (!this.need.contains(c)) {
+            try {
+                appendCompToMission(this.id, c);
+                this.need.addCompetence(c, nbEmployes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /***********
+     * METHODS *
+     ***********/
+
+    /**
+     * Sauvegarder une nouvelle mission dans le fichier LISTE_MISSION
+     *
+     * @throws IOException
+     */
+    public void writeMissionCSV() throws IOException {
+        String mission = id + ";" + nom + ";" + nbEmployes + ";" + dateDebut + ";" + duree + ";" + status;
+        appendNewLine(FILE_LISTE_MISSION, mission);
+    }
+
+
     // TODO: get liste competences requises pour la mission
-    // TODO: actualiser statut de la mission
+    // TODO: actualiser status de la mission
     // TODO: methode toString() à redéfinir
 }
