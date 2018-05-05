@@ -1,36 +1,44 @@
 package Model;
 
-import com.opencsv.bean.CsvBindByName;
-
-import java.util.Date;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Employee {
-    private static final AtomicInteger countID = new AtomicInteger(0);
-    @CsvBindByName(column = "Identifiant", required = true)
-    private int id;
-    @CsvBindByName(column = "Nom", required = true)
-    private String name;
-    @CsvBindByName(column = "Prenom", required = true)
-    private String firstname;
-    @CsvBindByName(column = "Date entrée entreprise", required = true)
-    private String entryIntoCompany;
-    private List<Competence> competences;
+public class Employee extends ModifierCSV {
 
-    public Employee(String nameE, String firstnameE, String entry) {
+    private static final AtomicInteger countID = new AtomicInteger(0);
+    private String id;
+    private String name;
+    private String firstname;
+    private String entryIntoCompany;
+    private ArrayList<Competence> competencesEmployee = new ArrayList<>();
+
+    public Employee(String firstnameE, String nameE, String entry) {
+        CompetenceMgt cm = new CompetenceMgt();
+        this.id = String.valueOf(countID.incrementAndGet());
         this.name = nameE;
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
-        this.competences = null;
-        this.id = countID.incrementAndGet();
+        try {
+            competencesEmployee = cm.getCompetencesForEmp(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    // TODO: get/set liste competences d'un employe
+    // TODO: get/set liste competencesEmployee d'un employe
     // TODO: gestion de la date d'entree dans l'entp d'un employe
 
 
-    public int getId() {
+    /***********
+     * GETTERS *
+     ***********/
+
+    public String getId() {
         return id;
     }
 
@@ -41,6 +49,20 @@ public class Employee {
     public String getFirstName() {
         return firstname;
     }
+
+    /**
+     * Retourne la liste de compétences de l'employé
+     *
+     * @return List<Competence>
+     */
+    public ArrayList<Competence> getCompetencesEmployee() {
+        return competencesEmployee;
+    }
+
+
+    /***********
+     * SETTERS *
+     ***********/
 
     public void setFirstName(String firstname) {
         this.firstname = firstname;
@@ -54,9 +76,41 @@ public class Employee {
         this.entryIntoCompany = entryIntoCompany;
     }
 
-    public void setCompetences(List<Competence> competences) {
-        this.competences = competences;
+    public void setCompetencesEmployee(ArrayList<Competence> competencesEmployee) {
+        this.competencesEmployee = competencesEmployee;
     }
+
+    public void addCompetence(Competence c) {
+        if (!this.competencesEmployee.contains(c)) {
+            try {
+                appendCompToEmp(this.id, c);
+                this.competencesEmployee.add(c);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void removeCompetence(Competence c) {
+        if (this.competencesEmployee.contains(c)) {
+            this.competencesEmployee.remove(c);
+        }
+    }
+
+    /***********
+     * METHODS *
+     ***********/
+
+    /**
+     * Sauvegarder un nouvel employé dans le fichier LISTE_PERSONNEL
+     *
+     * @throws IOException
+     */
+    public void writeEmployeeCSV() throws IOException {
+        String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
+        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine);
+    }
+
 
     @Override
     public String toString() {
