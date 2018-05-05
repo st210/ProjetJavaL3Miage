@@ -17,7 +17,7 @@ public class Test {
         e.updateEmployeeFirstName(vador, "Luke");
         System.out.println(e.findEmployeeById(51));
         e.deleteEmployee(vador);
-        System.out.println(e.findEmployeeById(51));
+        e.showAllEmployees(pathEmployees);
 
     }
 }
