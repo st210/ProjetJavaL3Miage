@@ -6,6 +6,7 @@ public interface CompanyDAO {
     List<Employee> findAll();
     Employee findEmployeeById(int id);
 
+    /*
     void insertEmployee(Employee employee);
 
     void updateEmployeeName(Employee employee, String name);
@@ -13,4 +14,5 @@ public interface CompanyDAO {
     void updateEmployeeEntry(Employee employee, String entry);
 
     void deleteEmployee(Employee employee);
+    */
 }

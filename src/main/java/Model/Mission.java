@@ -13,6 +13,7 @@ public class Mission extends ModifierCSV {
     private Date dateDebut;
     private long duree;
     private MissionState status;
+    private boolean anomalie;
 
     public Mission(String nomM) {
         this.nom = nomM;
@@ -25,6 +26,7 @@ public class Mission extends ModifierCSV {
         this.need = new Need();
         this.nbEmployes = nbEmployes;
         this.status = MissionState.PREPARATION;
+        this.anomalie = false;
     }
 
     public static AtomicInteger getCountID() {
@@ -64,6 +66,10 @@ public class Mission extends ModifierCSV {
         return status;
     }
 
+    public boolean getAnomalie() {
+        return anomalie;
+    }
+
 
     /***********
      * SETTERS *
@@ -87,6 +93,10 @@ public class Mission extends ModifierCSV {
 
     public void setStatus(MissionState status) {
         this.status = status;
+    }
+
+    public void setAnomalie(boolean anomalie){
+        this.anomalie = anomalie;
     }
 
     public void addCompetence(Competence c, int nbEmployes) {
