@@ -46,8 +46,12 @@ public class Employee extends ModifierCSV {
         return name;
     }
 
-    public String getFirstName() {
+    public String getFirstname() {
         return firstname;
+    }
+
+    public String getEntryIntoCompany() {
+        return entryIntoCompany;
     }
 
     /**
