@@ -3,7 +3,6 @@ package Model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -15,6 +14,15 @@ public class Company implements IModifierCSV {
     // + liste_missions affectation,_employe_mission, besoin_competences
 
 
+    public Company() {
+        try {
+            importEmployeeFromCSV(FILE_LISTE_PERSONNEL);
+            importMissionsFromCSV(FILE_LISTE_MISSION);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Company(String name) {
         this.name = name;
         try {
@@ -25,9 +33,9 @@ public class Company implements IModifierCSV {
         }
     }
 
-    /***********
-     * GETTERS *
-     ***********/
+    //***********//
+    //  GETTERS  //
+    //***********//
 
     /**
      * Retourne tous les employés de l'entreprise
@@ -46,7 +54,7 @@ public class Company implements IModifierCSV {
      * Retourne l'employé correspondant à l'id passé en paramètre
      *
      * @param id L'id de l'employé
-     * @return
+     * @return Employee
      */
     public Employee getEmployee(String id) {
         for (Employee e : this.employees) {
@@ -58,20 +66,20 @@ public class Company implements IModifierCSV {
         return null;
     }
 
-    /***********
-     * SETTERS *
-     ***********/
+    //***********//
+    //  SETTERS  //
+    //***********//
 
 
-    /***********
-     * METHODS *
-     ***********/
+    //***********//
+    //  METHODS  //
+    //***********//
 
     /**
      * Ajoute un nouvel employé à la liste d'employés de l'entreprise + écriture sur le fichier
      *
      * @param e L'employé à ajouter
-     * @throws IOException
+     * @throws IOException IOException
      */
     public void addEmployee(Employee e) throws IOException {
         e.writeEmployeeCSV();
@@ -82,7 +90,7 @@ public class Company implements IModifierCSV {
      * Importer tous les employés du fichier dans ArrayList<Employee> employees
      *
      * @param fileName le nom du fichier
-     * @throws IOException
+     * @throws IOException IOException
      */
     private void importEmployeeFromCSV(String fileName) throws IOException {
 
@@ -112,7 +120,7 @@ public class Company implements IModifierCSV {
      * Importer toutes les mission des fichiers CSV
      *
      * @param fileName le nom du fichier
-     * @throws IOException
+     * @throws IOException IOException
      */
     private void importMissionsFromCSV(String fileName) throws IOException {
 

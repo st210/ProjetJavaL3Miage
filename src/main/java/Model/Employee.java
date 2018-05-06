@@ -26,13 +26,9 @@ public class Employee extends ModifierCSV {
         }
     }
 
-    // TODO: get/set liste competencesEmployee d'un employe
-    // TODO: gestion de la date d'entree dans l'entp d'un employe
-
-
-    /***********
-     * GETTERS *
-     ***********/
+    //***********//
+    //  GETTERS  //
+    //***********//
 
     public String getId() {
         return id;
@@ -60,9 +56,9 @@ public class Employee extends ModifierCSV {
     }
 
 
-    /***********
-     * SETTERS *
-     ***********/
+    //***********//
+    //  SETTERS  //
+    //***********//
 
     public void setFirstName(String firstname) {
         this.firstname = firstname;
@@ -98,9 +94,9 @@ public class Employee extends ModifierCSV {
         }
     }
 
-    /***********
-     * METHODS *
-     ***********/
+    //***********//
+    //  METHODS  //
+    //***********//
 
     /**
      * Sauvegarder un nouvel employé dans le fichier LISTE_PERSONNEL

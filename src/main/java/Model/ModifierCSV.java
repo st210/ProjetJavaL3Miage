@@ -13,8 +13,8 @@ abstract class ModifierCSV implements IModifierCSV {
      * @throws IOException
      */
     void appendNewLine(String file, String content) throws IOException {
-        // ATTENTION :
-        // TODO l'écriture se fait dans le fichier du repertoire ./Target
+        // ATTENTION : l'écriture se fait dans le fichier du repertoire ./Target
+
         BufferedWriter bw;
         FileWriter fw;
         ClassLoader classLoader = getClass().getClassLoader();

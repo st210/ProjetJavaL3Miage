@@ -57,7 +57,7 @@ public class CompetenceMgt implements IModifierCSV {
      *
      * @param fileName le nom du fichier contenant les compétences
      * @return List<Competence>
-     * @throws IOException
+     * @throws IOException IOException
      */
     public ArrayList<Competence> importCompetencesFromCSV(String fileName) throws IOException {
 
@@ -102,7 +102,7 @@ public class CompetenceMgt implements IModifierCSV {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.err.println("La compétence n'existe pas"); // TODO Throw exception
+        System.err.println("La compétence n'existe pas");
         return null;
     }
 }

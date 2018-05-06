@@ -58,9 +58,10 @@ public class Mission extends ModifierCSV {
     }
 
 
-    /***********
-     * GETTERS *
-     ***********/
+    //***********//
+    //  GETTERS  //
+    //***********//
+
 
     public String getId() {
         return id;
@@ -95,9 +96,9 @@ public class Mission extends ModifierCSV {
     }
 
 
-    /***********
-     * SETTERS *
-     ***********/
+    //***********//
+    //  SETTERS  //
+    //***********//
 
     public void setName(String name) {
         this.name = name;
@@ -120,10 +121,9 @@ public class Mission extends ModifierCSV {
     }
 
 
-    /***********
-     * METHODS *
-     ***********/
-
+    //***********//
+    //  METHODS  //
+    //***********//
 
 
     public void addCompetence(Competence c, int nbEmployes) {
@@ -178,9 +178,4 @@ public class Mission extends ModifierCSV {
 
         mission += sb;
     }
-
-
-    // TODO: get liste competences requises pour la mission
-    // TODO: actualiser status de la mission
-    // TODO: methode toString() à redéfinir
 }

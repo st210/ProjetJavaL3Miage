@@ -16,9 +16,9 @@ public class Competence {
         this.libelleFR = libF;
     }
 
-    /***********
-     * GETTERS *
-     ***********/
+    //***********//
+    //  GETTERS  //
+    //***********//
 
     public String getId() {
         return id;
@@ -32,13 +32,13 @@ public class Competence {
         return libelleEN;
     }
 
-    /***********
-     * SETTERS *
-     ***********/
+    //***********//
+    //  SETTERS  //
+    //***********//
 
-    /***********
-     * METHODS *
-     ***********/
+    //***********//
+    //  METHODS  //
+    //***********//
 
     @Override
     public String toString() {

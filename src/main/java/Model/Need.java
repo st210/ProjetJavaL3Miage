@@ -67,6 +67,7 @@ public class Need implements IModifierCSV {
      * @throws Exception Le nombre d'employés affectés dépasse le besoin
      */
     public void addEmployee(Competence competence, Employee employee) throws Exception {
+        //TODO NullPointerException -> POURQUOI ?!
 //        int a = competenceCurrent.get(competence).size();
 //        int b = competenceInit.get(competence);
 
@@ -168,7 +169,6 @@ public class Need implements IModifierCSV {
                 }
             }
         }
-
 
         fr.close();
         br.close();
