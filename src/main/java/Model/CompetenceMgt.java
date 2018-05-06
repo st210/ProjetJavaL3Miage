@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class CompetenceMgt implements IModifierCSV {
+public class CompetenceMgt extends ModifierCSV {
 
     /**
      * Retourne les compétence d'un employé dont l'ID est passé en paramètre

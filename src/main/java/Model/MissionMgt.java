@@ -14,7 +14,7 @@ public class MissionMgt extends ModifierCSV {
      * @param nbPers    Le nombre de personnes demandé pour cette compétence
      * @throws IOException
      */
-    void appendCompToMission(String idMission, Competence c, int nbPers) throws IOException {
+    public void appendCompToMission(String idMission, Competence c, int nbPers) throws IOException {
         boolean missionFound = false;
         String separatorComp = ";"; // séparateur entre les compétences
         String separatorNbPers = "~"; // séparateur entre les compétences et le nombre de personnes demandé
@@ -58,7 +58,7 @@ public class MissionMgt extends ModifierCSV {
      * @param emp       L'employé à ajouter
      * @throws IOException
      */
-    void appendEmpToMission(String idMission, Competence comp, Employee emp) throws IOException {
+    public void appendEmpToMission(String idMission, Competence comp, Employee emp) throws IOException {
         boolean missionFound = false;
         String separatorEmp = ";"; // separateur entre les employés
         String separatorComp = "~"; // séparateur entre l'employé et la compétence associée
