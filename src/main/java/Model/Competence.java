@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Competence {
     private String id;
     private String libelleFR;
@@ -14,6 +16,16 @@ public class Competence {
     public Competence(String libF, String libE) {
         this.libelleEN = libE;
         this.libelleFR = libF;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Competence) && ((Competence) obj).id.equals(this.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
     //***********//

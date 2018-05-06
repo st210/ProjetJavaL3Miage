@@ -68,10 +68,8 @@ public class Need implements IModifierCSV {
      */
     public void addEmployee(Competence competence, Employee employee) throws Exception {
         //TODO NullPointerException -> POURQUOI ?!
-//        int a = competenceCurrent.get(competence).size();
-//        int b = competenceInit.get(competence);
 
-//        if (competenceCurrent.get(competence).size() <= competenceInit.get(competence)) {
+        if (competenceCurrent.get(competence).size() <= competenceInit.get(competence)) {
             ArrayList<Employee> listeEmp = competenceCurrent.get(competence);
             if (listeEmp == null) {
                 listeEmp = new ArrayList<>();
@@ -83,9 +81,9 @@ public class Need implements IModifierCSV {
                     competenceCurrent.put(competence, listeEmp);
                 }
             }
-//        } else {
-//            throw new Exception("Le nombre maximal de ressources pour cette compétence est atteint");
-//        }
+        } else {
+            throw new Exception("Le nombre maximal de ressources pour cette compétence est atteint");
+        }
     }
 
     /**

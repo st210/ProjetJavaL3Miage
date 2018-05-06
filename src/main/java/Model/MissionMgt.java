@@ -34,7 +34,7 @@ public class MissionMgt extends ModifierCSV {
             if (Objects.equals(missionLine[0], idMission)) {
                 missionFound = true;
 
-                bw.write(line + separatorComp + c.getId() + separatorNbPers + nbPers);
+                bw.write(separatorComp + c.getId() + separatorNbPers + nbPers);
             }
         }
 
@@ -78,7 +78,7 @@ public class MissionMgt extends ModifierCSV {
             if (Objects.equals(missionLine[0], idMission)) {
                 missionFound = true;
 
-                bw.write(line + separatorEmp + comp.getId() + separatorComp + emp.getId());
+                bw.write(separatorEmp + comp.getId() + separatorComp + emp.getId());
             }
         }
 
@@ -93,6 +93,4 @@ public class MissionMgt extends ModifierCSV {
         fr.close();
         br.close();
     }
-
-
 }
