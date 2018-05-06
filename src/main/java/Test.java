@@ -1,5 +1,4 @@
 import Model.Company;
-import Model.CompetenceMgt;
 import Model.Employee;
 import Model.Mission;
 import javafx.application.Application;
@@ -13,13 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Test extends Application {
 
@@ -55,6 +49,7 @@ public class Test extends Application {
         dashboardButton.setOnAction(event -> rootPane.setCenter(dashboardPane));
         missionsButton.setOnAction(event -> rootPane.setCenter(missionsPane));
         staffButton.setOnAction(event -> rootPane.setCenter(staffPane));
+//        staffButton.setOnAction(event -> rootPane.setCenter(staffPane));
 
         // Scene
 
@@ -64,16 +59,16 @@ public class Test extends Application {
     }
 
     public static void main(String[] args) {
-        Company c = new Company();
-        CompetenceMgt cmpMgt = new CompetenceMgt();
-        Mission m = new Mission("Bébé mission", c);
-        try {
-            m.writeMissionCSV();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        m.addCompetence(cmpMgt.getCompetenceByIDFromCSV("A.4."),3);
-        m.addEmployee(cmpMgt.getCompetenceByIDFromCSV("A.4."), c.getEmployee("15"));
+//        Company c = new Company();
+//        CompetenceMgt cmpMgt = new CompetenceMgt();
+//        Mission m = new Mission("Bébé mission", c);
+//        try {
+//            m.writeMissionCSV();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        m.addCompetence(cmpMgt.getCompetenceByIDFromCSV("A.4."),3);
+//        m.addEmployee(cmpMgt.getCompetenceByIDFromCSV("A.4."), c.getEmployee("15"));
         launch(args);
     }
 
@@ -135,7 +130,17 @@ public class Test extends Application {
             this.tableView.getColumns().addAll(lastName, firstName, entryDate);
 
         }
-
-
     }
+
+//    private static class StaffPane extends BorderPane {
+//
+//        private Company company;
+//        private StaffTablePane staffTablePane;
+//
+//        private StaffPane(Company company) {
+//            this.staffTablePane = new StaffTablePane(company);
+//            VBox vBox = new VBox();
+//            vBox.getChildren().add(staffTablePane);
+//        }
+//    }
 }
