@@ -1,4 +1,5 @@
 import Model.Company;
+import Model.CompetenceMgt;
 import Model.Employee;
 import Model.Mission;
 import javafx.application.Application;
@@ -17,6 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Test extends Application {
 
@@ -61,6 +64,16 @@ public class Test extends Application {
     }
 
     public static void main(String[] args) {
+        Company c = new Company();
+        CompetenceMgt cmpMgt = new CompetenceMgt();
+        Mission m = new Mission("Bébé mission", c);
+        try {
+            m.writeMissionCSV();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        m.addCompetence(cmpMgt.getCompetenceByIDFromCSV("A.4."),3);
+        m.addEmployee(cmpMgt.getCompetenceByIDFromCSV("A.4."), c.getEmployee("15"));
         launch(args);
     }
 

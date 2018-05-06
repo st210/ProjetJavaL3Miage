@@ -22,6 +22,11 @@ public class Mission extends ModifierCSV {
 
         this.id = String.valueOf(countID.incrementAndGet());
         this.name = nomM;
+        try {
+            this.need = new Need(id, company);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.status = MissionState.PREPARATION;
     }
 
@@ -29,6 +34,11 @@ public class Mission extends ModifierCSV {
         MissionMgt missionMgt = new MissionMgt();
         this.id = String.valueOf(countID.incrementAndGet());
         this.name = nomM;
+        try {
+            this.need = new Need(id, company);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.nbEmployes = nbEmployes;
         this.status = MissionState.PREPARATION;
     }
@@ -43,11 +53,13 @@ public class Mission extends ModifierCSV {
             e.printStackTrace();
         }
         this.nbEmployes = Integer.valueOf(nbEmployes);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            this.dateDebut = formatter.parse(dateDebut);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (!dateDebut.equals("null")) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                this.dateDebut = formatter.parse(dateDebut);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         this.duration = Integer.valueOf(duration);
         this.status = MissionState.valueOf(status);
@@ -141,7 +153,7 @@ public class Mission extends ModifierCSV {
 
     public void addEmployee(Competence c, Employee e) {
         MissionMgt missionMgt = new MissionMgt();
-        if (this.need.contains(c)) {
+        if (!this.need.contains(c)) {
             try {
                 missionMgt.appendEmpToMission(this.id, c, e);
                 this.need.addEmployee(c, e);
@@ -158,24 +170,8 @@ public class Mission extends ModifierCSV {
      * @throws IOException
      */
     public void writeMissionCSV() throws IOException {
-        String mission = id + ";" + name + ";" + nbEmployes + ";" + dateDebut + ";" + duration + ";" + status;
+        String mission = id + ";" + name + ";" + nbEmployes + ";" + dateDebut + ";" + duration + ";" + status.name();
         appendNewLine(FILE_LISTE_MISSION, mission);
     }
 
-    /**
-     * Sauvegarder l'équipe de la mission dans le fichier MISSION_PERSONNEL
-     *
-     * @throws IOException
-     */
-    public void writeTeamMissionCSV() throws IOException {
-        ArrayList<Employee> team = getTeam();
-        StringBuilder sb = new StringBuilder();
-        String mission = id;
-
-        for (Employee emp : team) {
-            sb.append(';').append(emp.getId());
-        }
-
-        mission += sb;
-    }
 }

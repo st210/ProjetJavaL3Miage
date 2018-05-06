@@ -43,8 +43,8 @@ public class MissionMgt extends ModifierCSV {
             appendNewLine(FILE_MISSION_COMPETENCES, newLine);
         }
 
-        fw.close();
-        bw.close();
+        fw.flush();
+        bw.flush();
 
         fr.close();
         br.close();
@@ -87,8 +87,8 @@ public class MissionMgt extends ModifierCSV {
             appendNewLine(FILE_MISSION_PERSONNEL, newLine);
         }
 
-        fw.close();
-        bw.close();
+        fw.flush();
+        bw.flush();
 
         fr.close();
         br.close();
