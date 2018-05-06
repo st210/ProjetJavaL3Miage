@@ -1,11 +1,7 @@
 package Model;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee extends ModifierCSV {
@@ -24,7 +20,7 @@ public class Employee extends ModifierCSV {
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
         try {
-            competencesEmployee = cm.getCompetencesForEmp(id);
+            competencesEmployee = cm.getCompetencesForEmpFromCSV(id);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,9 +81,10 @@ public class Employee extends ModifierCSV {
     }
 
     public void addCompetence(Competence c) {
+        EmployeeMgt employeeMgt = new EmployeeMgt();
         if (!this.competencesEmployee.contains(c)) {
             try {
-                appendCompToEmp(this.id, c);
+                employeeMgt.appendCompToEmp(this.id, c);
                 this.competencesEmployee.add(c);
             } catch (IOException e) {
                 e.printStackTrace();

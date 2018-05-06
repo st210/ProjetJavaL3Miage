@@ -1,5 +1,6 @@
 import Model.Company;
 import Model.Employee;
+import Model.Mission;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Test extends Application {
@@ -20,7 +24,7 @@ public class Test extends Application {
     private Company company = new Company("Company");
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Missions Personnel");
 
         Button dashboardButton = new Button("Tableau de bord");
@@ -36,7 +40,7 @@ public class Test extends Application {
         }
 
         Pane dashboardPane = new DashboardPane();
-        Pane missionsPane = new MissionsPane();
+        Pane missionsPane = new MissionsPane(company);
         Pane staffPane = new StaffPane(company);
 
         BorderPane rootPane = new BorderPane();
@@ -45,15 +49,9 @@ public class Test extends Application {
 
         // Actions
 
-        dashboardButton.setOnAction(event -> {
-            rootPane.setCenter(dashboardPane);
-        });
-        missionsButton.setOnAction(event -> {
-            rootPane.setCenter(missionsPane);
-        });
-        staffButton.setOnAction(event -> {
-            rootPane.setCenter(staffPane);
-        });
+        dashboardButton.setOnAction(event -> rootPane.setCenter(dashboardPane));
+        missionsButton.setOnAction(event -> rootPane.setCenter(missionsPane));
+        staffButton.setOnAction(event -> rootPane.setCenter(staffPane));
 
         // Scene
 
@@ -73,12 +71,27 @@ public class Test extends Application {
     }
 
     private static class MissionsPane extends BorderPane {
-        private MissionsPane() {
-            TableView tableView = new TableView();
+
+        private Company company;
+        private TableView tableView;
+        private ObservableList<Mission> missionList;
+
+        private MissionsPane(Company company) {
+            this.company = company;
+            this.tableView = new TableView();
+            this.missionList = FXCollections.observableArrayList(this.company.getMissions());
+
             setCenter(tableView);
-            tableView.getColumns().addAll(
-                    new TableColumn("Nom"),
-                    new TableColumn("État"));
+
+            TableColumn name = new TableColumn("Nom");
+            TableColumn status = new TableColumn("État");
+
+            name.setCellValueFactory(new PropertyValueFactory<Mission, String>("name"));
+            status.setCellValueFactory(new PropertyValueFactory<Mission, String>("status"));
+
+            this.tableView.setItems(missionList);
+
+            this.tableView.getColumns().addAll(name, status);
         }
     }
 

@@ -16,7 +16,7 @@ public class CompetenceMgt implements IModifierCSV {
      * @return ArrayList<Competence> Les compétences de l'employé
      * @throws IOException
      */
-    public ArrayList<Competence> getCompetencesForEmp(String idEmp) throws IOException {
+    public ArrayList<Competence> getCompetencesForEmpFromCSV(String idEmp) throws IOException {
         ArrayList<Competence> competencesEmp = new ArrayList<>();
         ArrayList<Competence> allCompetences = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class CompetenceMgt implements IModifierCSV {
      * @param id Id de la compétence
      * @return Competence
      */
-    public Competence getCompetenceByID(String id) {
+    public Competence getCompetenceByIDFromCSV(String id) {
         ArrayList<Competence> allComp = new ArrayList<>();
         try {
             allComp = importCompetencesFromCSV(FILE_LISTE_COMPETENCES);

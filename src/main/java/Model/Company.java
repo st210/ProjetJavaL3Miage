@@ -3,6 +3,7 @@ package Model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -18,6 +19,7 @@ public class Company implements IModifierCSV {
         this.name = name;
         try {
             importEmployeeFromCSV(FILE_LISTE_PERSONNEL);
+            importMissionsFromCSV(FILE_LISTE_MISSION);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,6 +36,10 @@ public class Company implements IModifierCSV {
      */
     public ArrayList<Employee> getEmployees() {
         return employees;
+    }
+
+    public ArrayList<Mission> getMissions() {
+        return missions;
     }
 
     /**
@@ -97,6 +103,36 @@ public class Company implements IModifierCSV {
 
             if (!this.employees.contains(newEmployee)) {
                 this.employees.add(newEmployee);
+            }
+        }
+    }
+
+
+    /**
+     * Importer toutes les mission des fichiers CSV
+     *
+     * @param fileName le nom du fichier
+     * @throws IOException
+     */
+    private void importMissionsFromCSV(String fileName) throws IOException {
+
+        String separator = ";";
+        String missionLine[];
+        String line;
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = Objects.requireNonNull(classLoader.getResource(fileName)).getFile();
+
+
+        FileReader csvFile = new FileReader(path);
+        BufferedReader br = new BufferedReader(csvFile);
+
+        while ((line = br.readLine()) != null) {
+            missionLine = line.split(separator);
+            Mission newMission = new Mission(missionLine[0], missionLine[1], missionLine[2], missionLine[3], missionLine[4], missionLine[5], this);
+
+            if (!this.missions.contains(newMission)) {
+                this.missions.add(newMission);
             }
         }
     }
