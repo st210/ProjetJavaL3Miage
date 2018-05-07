@@ -1,0 +1,34 @@
+# avancement
+  - ce qui a été réalisé
+    FONCTIONNALITES
+	OK - chargement/sauvegarde personnel
+	OK - chargement/sauvegarde compétences
+	OK - chargement/sauvegarde missions
+	OK - chargement/sauvegarde besoin
+    INTERFACE
+	OK - visualiser personnel
+	OK - visualiser missions
+
+  - ce qui doit être fait
+    FONCTIONNALITES
+	KO - système de recommandation
+    INTERFACE
+	KO - visualiser compétences
+	KO - modifier personnel/compétences/missions
+	KO - visualisation du cycle de vie des missions
+
+# UML 3.0
+
+# Démo
+  - créer employé -> affecter compétence -> créer mission -> add besoin -> affecter employé qui a compétence
+  - interface: à compléter
+
+# Questions
+  - Découpage projet (MVC)
+  - Demande UML -> syst recommandation personnel basé sur présence/congés
+
+
+# A modif
+ - chq personne colonne modif/supr/add
+ - colonne liste compétences ou nb compétences chq personne + afficher id personne
+ - syst gestion personnel: nbMissions affectées à une personne + 1 pers avec 1 seule comp + congés (plus tard détailler sans faire)

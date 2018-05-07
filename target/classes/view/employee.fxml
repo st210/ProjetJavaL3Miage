@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXButton?>
+
+<AnchorPane prefHeight="647.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.EmployeeCtrl">
+    <children>
+        <AnchorPane prefHeight="780.0" prefWidth="308.0" style="-fx-background-color: #74828F;">
+            <children>
+                <JFXButton layoutY="186.0" prefHeight="51.0" prefWidth="307.0" text="Dashboard" textFill="WHITE">
+                    <font>
+                        <Font name="Open Sans" size="24.0"/>
+                    </font>
+
+                </JFXButton>
+                <JFXButton layoutX="2.0" layoutY="261.0" prefHeight="51.0" prefWidth="305.0" text="Missions"
+                           textFill="WHITE">
+                    <font>
+                        <Font name="Open Sans" size="24.0"/>
+                    </font>
+
+                </JFXButton>
+                <JFXButton layoutX="-9.0" layoutY="336.0" prefHeight="51.0" prefWidth="318.0" text="Personnel"
+                           textFill="WHITE">
+                    <font>
+                        <Font name="Open Sans" size="24.0"/>
+                    </font>
+                </JFXButton>
+            </children>
+        </AnchorPane>
+        <TableView fx:id="empTable" layoutX="330.0" layoutY="197.0" prefHeight="454.0" prefWidth="716.0">
+            <columns>
+                <TableColumn fx:id="empId" prefWidth="44.631317138671875" text="ID"/>
+                <TableColumn fx:id="empLastName" prefWidth="295.8037109375" text="Nom"/>
+                <TableColumn fx:id="empFirstName" prefWidth="269.1962890625" text="Prénom"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
