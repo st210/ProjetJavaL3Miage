@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -10,38 +11,44 @@
 <?import javafx.scene.text.Font?>
 <?import com.jfoenix.controls.JFXButton?>
 
-<AnchorPane prefHeight="647.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controller.EmployeeCtrl">
-    <children>
-        <AnchorPane prefHeight="780.0" prefWidth="308.0" style="-fx-background-color: #74828F;">
-            <children>
-                <JFXButton layoutY="186.0" prefHeight="51.0" prefWidth="307.0" text="Dashboard" textFill="WHITE">
-                    <font>
-                        <Font name="Open Sans" size="24.0"/>
-                    </font>
-
-                </JFXButton>
-                <JFXButton layoutX="2.0" layoutY="261.0" prefHeight="51.0" prefWidth="305.0" text="Missions"
-                           textFill="WHITE">
-                    <font>
-                        <Font name="Open Sans" size="24.0"/>
-                    </font>
-
-                </JFXButton>
-                <JFXButton layoutX="-9.0" layoutY="336.0" prefHeight="51.0" prefWidth="318.0" text="Personnel"
-                           textFill="WHITE">
-                    <font>
-                        <Font name="Open Sans" size="24.0"/>
-                    </font>
-                </JFXButton>
-            </children>
-        </AnchorPane>
-        <TableView fx:id="empTable" layoutX="330.0" layoutY="197.0" prefHeight="454.0" prefWidth="716.0">
-            <columns>
-                <TableColumn fx:id="empId" prefWidth="44.631317138671875" text="ID"/>
-                <TableColumn fx:id="empLastName" prefWidth="295.8037109375" text="Nom"/>
-                <TableColumn fx:id="empFirstName" prefWidth="269.1962890625" text="Prénom"/>
-            </columns>
-        </TableView>
-    </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="721.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HomeCtrl">
+   <children>
+      <AnchorPane prefHeight="721.0" prefWidth="308.0" style="-fx-background-color: #74828F;">
+         <children>
+            <JFXButton fx:id="homeBtn" layoutY="194.0" prefHeight="75.0" prefWidth="315.0" text="Dashboard" textFill="WHITE">
+               <font>
+                  <Font name="Open Sans" size="35.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="missionBtn" layoutX="-34.0" layoutY="272.0" prefHeight="75.0" prefWidth="349.0" text="Missions" textFill="WHITE">
+               <font>
+                  <Font name="Open Sans" size="35.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="empBtn" layoutX="-9.0" layoutY="350.0" prefHeight="75.0" prefWidth="324.0" text="Personnel" textFill="WHITE">
+               <font>
+                  <Font name="Open Sans" size="35.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <JFXButton fx:id="homeBtn1" layoutX="282.0" layoutY="29.0" prefHeight="51.0" prefWidth="308.0" text="MISSIONS" textFill="#302f2fed">
+         <font>
+            <Font name="Open Sans Light" size="37.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="homeBtn11" layoutX="342.0" layoutY="98.0" prefHeight="42.0" prefWidth="207.0" text="32 missions en cours" textFill="#2e2d2d56">
+         <font>
+            <Font name="Open Sans Light" size="19.0" />
+         </font>
+      </JFXButton>
+      <JFXTreeTableView layoutX="335.0" layoutY="218.0" prefHeight="487.0" prefWidth="728.0" />
+      <JFXTextField layoutX="356.0" layoutY="153.0" prefHeight="42.0" prefWidth="389.0" text="Rechercher" />
+      <JFXComboBox layoutX="855.0" layoutY="164.0" prefHeight="30.0" prefWidth="199.0" />
+      <JFXButton layoutX="894.0" layoutY="51.0" prefHeight="37.0" prefWidth="129.0" text="Créer une mission">
+         <font>
+            <Font name="Open Sans" size="13.0" />
+         </font>
+      </JFXButton>
+   </children>
 </AnchorPane>

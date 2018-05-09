@@ -1,12 +1,11 @@
-import Model.Company;
-import Model.CompetenceMgt;
-import Model.Employee;
-import Model.Mission;
+import Model.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -61,9 +60,34 @@ public class Test extends Application {
         Scene scene = new Scene(rootPane, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        CompetenceMgt competenceMgt = new CompetenceMgt();
+
+        Company company = new Company();
+
+        // Création d'un employé
+        Employee newEmp = new Employee("Yann", "Godeau", "06/04/2018");
+        newEmp.writeEmployeeCSV();
+
+        System.out.println(newEmp.toString());
+
+        // Ajouter compétence
+        newEmp.addCompetence(competenceMgt.getCompetenceByIDFromCSV("A.1."));
+
+        // Création mission
+        Mission newMission = new Mission("New Mission", 10, company);
+        newMission.writeMissionCSV();
+        System.out.println(newMission.toString());
+
+        // Ajouter un besoin en compétence
+        newMission.addCompetence(competenceMgt.getCompetenceByIDFromCSV("A.1."), 2);
+
+        // Ajouter un employé à un mission
+        newMission.addEmployee(competenceMgt.getCompetenceByIDFromCSV("A.1."), newEmp);
+
         launch(args);
     }
 
@@ -125,7 +149,7 @@ public class Test extends Application {
             this.tableView.getColumns().addAll(lastName, firstName, entryDate);
 
         }
-
-
     }
+
+    //TODO Gestion modification date
 }
