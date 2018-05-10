@@ -1,6 +1,5 @@
 package Controller;
 
-import Main.Test;
 import Model.Competence;
 import Model.CompetenceMgt;
 import Model.Employee;
@@ -19,7 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
 
