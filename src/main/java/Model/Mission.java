@@ -15,7 +15,7 @@ public class Mission extends ModifierCSV {
     private int nbEmployes;
     private Date dateDebut;
     private int duration;
-    private MissionState status;
+    private MissionStatus status;
 
     public Mission(String nomM, Company company) {
         MissionMgt missionMgt = new MissionMgt();
@@ -27,7 +27,7 @@ public class Mission extends ModifierCSV {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.status = MissionState.PREPARATION;
+        this.status = MissionStatus.PREPARATION;
     }
 
     public Mission(String nomM, int nbEmployes, Company company) {
@@ -40,7 +40,7 @@ public class Mission extends ModifierCSV {
             e.printStackTrace();
         }
         this.nbEmployes = nbEmployes;
-        this.status = MissionState.PREPARATION;
+        this.status = MissionStatus.PREPARATION;
     }
 
     public Mission(String id, String name, String nbEmployes, String dateDebut, String duration, String status, Company company) {
@@ -62,7 +62,7 @@ public class Mission extends ModifierCSV {
             }
         }
         this.duration = Integer.valueOf(duration);
-        this.status = MissionState.valueOf(status);
+        this.status = MissionStatus.valueOf(status);
     }
 
     public static AtomicInteger getCountID() {
@@ -99,7 +99,7 @@ public class Mission extends ModifierCSV {
         return duration;
     }
 
-    public MissionState getStatus() {
+    public MissionStatus getStatus() {
         return status;
     }
 
@@ -128,7 +128,7 @@ public class Mission extends ModifierCSV {
         this.duration = duration;
     }
 
-    public void setStatus(MissionState status) {
+    public void setStatus(MissionStatus status) {
         this.status = status;
     }
 
@@ -174,4 +174,14 @@ public class Mission extends ModifierCSV {
         appendNewLine(FILE_LISTE_MISSION, mission);
     }
 
+
+    @Override
+    public String toString() {
+        return "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", nbEmployes=" + nbEmployes +
+                ", dateDebut=" + dateDebut +
+                ", duration=" + duration +
+                ", status=" + status;
+    }
 }

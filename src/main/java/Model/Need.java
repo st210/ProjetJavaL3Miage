@@ -19,7 +19,7 @@ public class Need implements IModifierCSV {
     private HashMap<Competence, Integer> competenceInit = new HashMap<>();
 
     // Décrit l'état actuel de la répartion des ressources soit le nombre d'employés manquant pour une compétence
-    private HashMap<Competence, ArrayList<Employee>> competenceCurrent = new HashMap<Competence, ArrayList<Employee>>();
+    private HashMap<Competence, ArrayList<Employee>> competenceCurrent = new HashMap<>();
 
     public Need(String idMission, Company company) throws Exception {
         this.idMission = idMission;
@@ -67,8 +67,6 @@ public class Need implements IModifierCSV {
      * @throws Exception Le nombre d'employés affectés dépasse le besoin
      */
     public void addEmployee(Competence competence, Employee employee) throws Exception {
-        //TODO NullPointerException -> POURQUOI ?!
-
         if (competenceCurrent.get(competence).size() <= competenceInit.get(competence)) {
             ArrayList<Employee> listeEmp = competenceCurrent.get(competence);
             if (listeEmp == null) {
@@ -137,7 +135,6 @@ public class Need implements IModifierCSV {
 
         fr.close();
         br.close();
-
     }
 
     private void loadCompetenceCurrent(String idMission, Company company) throws Exception {
@@ -153,7 +150,6 @@ public class Need implements IModifierCSV {
         String path = Objects.requireNonNull(classLoader.getResource(FILE_MISSION_PERSONNEL)).getFile();
         FileReader fr = new FileReader(path);
         BufferedReader br = new BufferedReader(fr);
-
 
         while ((line = br.readLine()) != null && !missionFound) {
             missionLine = line.split(separatorEmp);

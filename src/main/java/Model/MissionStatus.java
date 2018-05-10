@@ -1,6 +1,6 @@
 package Model;
 
-public enum MissionState {
+public enum MissionStatus {
     PREPARATION ("IN PREPARATION"),
     SCHEDULED ("SCHEDULED"),
     PROGRESS ("IN PROGRESS"),
@@ -8,7 +8,7 @@ public enum MissionState {
 
     private String stat;
 
-    MissionState(String s) {
+    MissionStatus(String s) {
         this.stat = s;
     }
 
