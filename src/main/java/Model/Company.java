@@ -50,6 +50,17 @@ public class Company implements IModifierCSV {
         return missions;
     }
 
+    public ArrayList<Mission> getMissionNotCompleted() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() != MissionStatus.COMPLETED) {
+                missions.add(m);
+            }
+        }
+
+        return missions;
+    }
+
     /**
      * Retourne l'employé correspondant à l'id passé en paramètre
      *

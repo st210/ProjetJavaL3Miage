@@ -52,9 +52,14 @@ public class Test extends Application {
     public static void showEmployeePage(Employee employee) throws IOException, ParseException {
         FXMLLoader loader = new FXMLLoader(Test.class.getResource("/view/empPage.fxml"));
         AnchorPane anchorPane = loader.load();
-        // Get the Controller from the FXMLLoader
         EmpPageCtrl controller = loader.getController();
-        controller.fillData(employee);
+        if (employee != null) {
+            controller.setCreationMode(false);
+            // Get the Controller from the FXMLLoader
+            controller.fillData(employee);
+        } else {
+            controller.setCreationMode(true);
+        }
         stage.setTitle("Personnel");
         stage.setScene(new Scene(anchorPane, 1080, 720));
         stage.show();

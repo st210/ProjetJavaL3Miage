@@ -1,6 +1,7 @@
 package Controller;
 
 import Main.Test;
+import Model.Company;
 import Model.Mission;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -27,12 +28,19 @@ public class MissionCtrl extends Route implements Initializable {
     public JFXTextField missSearch;
     @FXML
     public JFXComboBox<Label> comBoxStatus;
+    @FXML
+    public Label nbMissLabel;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initNbMissLabel();
         initCombobox();
         fillMissTable();
+    }
+
+    private void initNbMissLabel() {
+        this.nbMissLabel.setText(String.valueOf(Test.company.getMissionNotCompleted().size()) + " missions");
     }
 
     private void initCombobox() {

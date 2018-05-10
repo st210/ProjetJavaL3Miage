@@ -1,12 +1,15 @@
 package Controller;
 
+import Main.Test;
 import Model.Competence;
 import Model.CompetenceMgt;
 import Model.Employee;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -15,10 +18,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class EmpPageCtrl extends Route implements Initializable {
@@ -33,6 +38,10 @@ public class EmpPageCtrl extends Route implements Initializable {
     public JFXDatePicker date;
     @FXML
     public Label idLabel;
+    @FXML
+    public JFXButton saveEmpBtn;
+
+    private boolean creationMode;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,6 +50,10 @@ public class EmpPageCtrl extends Route implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setCreationMode(boolean creationMode) {
+        this.creationMode = creationMode;
     }
 
     /**
@@ -71,5 +84,15 @@ public class EmpPageCtrl extends Route implements Initializable {
         this.firstNameTF.setText(employee.getFirstname());
         this.date.setValue(employee.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         this.idLabel.setText(employee.getId());
+    }
+
+    public void saveEmp(ActionEvent actionEvent) throws IOException {
+        if (!nameTF.getText().equals("") && !firstNameTF.getText().equals("") && date.getValue() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            Employee employee = new Employee(firstNameTF.getText(), nameTF.getText(), date.getValue().format(formatter));
+            Test.company.addEmployee(employee);
+            goEmployees();
+        }
+        // TODO else : snackabar ?
     }
 }

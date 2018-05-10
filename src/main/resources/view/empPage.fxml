@@ -29,7 +29,7 @@
                 </JFXButton>
             </children>
         </AnchorPane>
-        <JFXButton layoutX="869.0" layoutY="51.0" prefHeight="37.0" prefWidth="154.0" text="Enregistrer">
+        <JFXButton fx:id="saveEmpBtn" layoutX="869.0" layoutY="51.0" onAction="#saveEmp" prefHeight="37.0" prefWidth="154.0" text="Enregistrer">
             <font>
                 <Font name="Open Sans" size="13.0" />
             </font>
@@ -49,8 +49,14 @@
                 <Font name="Open Sans Light" size="35.0" />
             </font>
         </Label>
-        <JFXTextField fx:id="nameTF" layoutX="372.0" layoutY="179.0" prefHeight="27.0" prefWidth="224.0" />
-        <JFXTextField fx:id="firstNameTF" layoutX="668.0" layoutY="179.0" prefHeight="27.0" prefWidth="224.0" />
+        <JFXTextField fx:id="nameTF" layoutX="372.0" layoutY="179.0" prefHeight="27.0" prefWidth="224.0">
+         <font>
+            <Font name="Open Sans" size="22.0" />
+         </font></JFXTextField>
+        <JFXTextField fx:id="firstNameTF" layoutX="668.0" layoutY="179.0" prefHeight="27.0" prefWidth="224.0">
+         <font>
+            <Font name="Open Sans" size="22.0" />
+         </font></JFXTextField>
         <JFXDatePicker fx:id="date" layoutX="372.0" layoutY="266.0" />
         <Label layoutX="372.0" layoutY="322.0" prefHeight="51.0" prefWidth="187.0" text="Compétences" textFill="#3c3c3c">
             <font>
@@ -60,6 +66,21 @@
         <TableView fx:id="compTable" layoutX="373.0" layoutY="420.0" prefHeight="274.0" prefWidth="619.0">
         </TableView>
         <JFXTextField layoutX="377.0" layoutY="373.0" prefHeight="27.0" prefWidth="330.0" />
+      <Label layoutX="377.0" layoutY="154.0" text="Nom :" textFill="#3b3b3be7">
+         <font>
+            <Font name="Open Sans" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="665.0" layoutY="154.0" text="Prénom :" textFill="#3b3b3be7">
+         <font>
+            <Font name="Open Sans" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="373.0" layoutY="241.0" text="Date d'entrée :" textFill="#3b3b3be7">
+         <font>
+            <Font name="Open Sans" size="18.0" />
+         </font>
+      </Label>
 
     </children>
 </AnchorPane>
