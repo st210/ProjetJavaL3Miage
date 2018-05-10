@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="721.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HomeCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="721.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HomeCtrl">
     <children>
         <AnchorPane prefHeight="721.0" prefWidth="308.0" style="-fx-background-color: #74828F;">
             <children>
-                <JFXButton fx:id="homeBtn" layoutY="194.0" prefHeight="75.0" prefWidth="315.0" text="Dashboard" textFill="WHITE">
+                <JFXButton fx:id="homeBtn" layoutY="194.0" onAction="#goDashboard" prefHeight="75.0" prefWidth="315.0" text="Dashboard" textFill="WHITE">
                     <font>
                         <Font name="Open Sans" size="35.0" />
                     </font>
                 </JFXButton>
-                <JFXButton fx:id="missionBtn" layoutX="-34.0" layoutY="272.0" prefHeight="75.0" prefWidth="349.0" text="Missions" textFill="WHITE">
+                <JFXButton fx:id="missionBtn" layoutX="-34.0" layoutY="272.0" onAction="#goMissions" prefHeight="75.0" prefWidth="349.0" text="Missions" textFill="WHITE">
                     <font>
                         <Font name="Open Sans" size="35.0" />
                     </font>
                 </JFXButton>
-                <JFXButton fx:id="empBtn" layoutX="-9.0" layoutY="350.0" prefHeight="75.0" prefWidth="324.0" text="Personnel" textFill="WHITE">
+                <JFXButton fx:id="persBtn" layoutX="-9.0" layoutY="350.0" onAction="#goEmployees" prefHeight="75.0" prefWidth="324.0" text="Personnel" textFill="WHITE">
                     <font>
                         <Font name="Open Sans" size="35.0" />
                     </font>
@@ -184,15 +181,20 @@
             <DropShadow color="#d7d2d2" height="50.0" radius="24.5" width="50.0" />
          </effect>
       </Pane>
-      <JFXButton fx:id="homeBtn1" layoutX="311.0" layoutY="31.0" prefHeight="51.0" prefWidth="308.0" text="DASHBOARD" textFill="#302f2fed">
+      <Label layoutX="362.0" layoutY="36.0" text="DASHBOARD" textFill="#3c3c3c">
          <font>
-            <Font name="Open Sans Light" size="37.0" />
+            <Font name="Open Sans Light" size="35.0" />
          </font>
-      </JFXButton>
-      <JFXButton fx:id="homeBtn11" layoutX="342.0" layoutY="98.0" prefHeight="32.0" prefWidth="153.0" text="134 employés" textFill="#2e2d2d56">
+      </Label>
+      <Label layoutX="367.0" layoutY="93.0" text="135" textFill="#3b3b3b58">
          <font>
-            <Font name="Open Sans Light" size="19.0" />
+            <Font name="Open Sans Light" size="18.0" />
          </font>
-      </JFXButton>
+      </Label>
+      <Label layoutX="408.0" layoutY="93.0" text="employés" textFill="#3b3b3b58">
+         <font>
+            <Font name="Open Sans Light" size="18.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

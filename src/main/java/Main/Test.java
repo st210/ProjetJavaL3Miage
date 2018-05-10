@@ -1,21 +1,17 @@
+package Main;
+
 import Model.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,72 +20,48 @@ public class Test extends Application {
 
     private static final int SPACING = 8;
     private Company company = new Company("Company");
+    public static Stage stage = new Stage();
 
     @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Missions Personnel");
-
-        Button dashboardButton = new Button("Tableau de bord");
-        Button missionsButton = new Button("Missions");
-        Button staffButton = new Button("Personnel");
-
-        VBox buttonBox = new VBox();
-        buttonBox.setPadding(new Insets(SPACING));
-        buttonBox.setSpacing(SPACING);
-        buttonBox.getChildren().addAll(dashboardButton, missionsButton, staffButton);
-        for (Node child : buttonBox.getChildren()) {
-            VBox.setVgrow(child, Priority.ALWAYS);
-        }
-
-        Pane dashboardPane = new DashboardPane();
-        Pane missionsPane = new MissionsPane(company);
-        Pane staffPane = new StaffPane(company);
-
-        BorderPane rootPane = new BorderPane();
-        rootPane.setLeft(buttonBox);
-        rootPane.setCenter(dashboardPane);
-
-        // Actions
-
-        dashboardButton.setOnAction(event -> rootPane.setCenter(dashboardPane));
-        missionsButton.setOnAction(event -> rootPane.setCenter(missionsPane));
-        staffButton.setOnAction(event -> rootPane.setCenter(staffPane));
-
-        // Scene
-
-        Scene scene = new Scene(rootPane, 800, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
+    public void start(Stage primaryStage) throws IOException {
+        showDashboardView();
+//        Parent root = FXMLLoader.load(getClass().getResource("/view/home.fxml"));
+//        stage.setTitle("Home");
+//        stage.setScene(new Scene(root, 1080, 720));
+//        stage.show();
     }
+
 
     public static void main(String[] args) throws IOException {
-        CompetenceMgt competenceMgt = new CompetenceMgt();
-
-        Company company = new Company();
-
-        // Création d'un employé
-        Employee newEmp = new Employee("Yann", "Godeau", "06/04/2018");
-        newEmp.writeEmployeeCSV();
-
-        System.out.println(newEmp.toString());
-
-        // Ajouter compétence
-        newEmp.addCompetence(competenceMgt.getCompetenceByIDFromCSV("A.1."));
-
-        // Création mission
-        Mission newMission = new Mission("New Mission", 10, company);
-        newMission.writeMissionCSV();
-        System.out.println(newMission.toString());
-
-        // Ajouter un besoin en compétence
-        newMission.addCompetence(competenceMgt.getCompetenceByIDFromCSV("A.1."), 2);
-
-        // Ajouter un employé à un mission
-        newMission.addEmployee(competenceMgt.getCompetenceByIDFromCSV("A.1."), newEmp);
-
         launch(args);
     }
+
+    public static void showDashboardView() throws IOException {
+        Parent root = FXMLLoader.load(Test.class.getResource("/view/home.fxml"));
+        stage.setTitle("Dashboard");
+        stage.setScene(new Scene(root, 1080, 720));
+        stage.show();
+    }
+
+    public static void showMissionsView() throws IOException {
+        Parent root = FXMLLoader.load(Test.class.getResource("/view/missions.fxml"));
+        stage.setTitle("Missions");
+        stage.setScene(new Scene(root, 1080, 720));
+        stage.show();
+    }
+
+    public static void showEmployeesView() throws IOException {
+        Parent root = FXMLLoader.load(Test.class.getResource("/view/employee.fxml"));
+        stage.setTitle("Personnel");
+        stage.setScene(new Scene(root, 1080, 720));
+        stage.show();
+    }
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////
+
 
     private static class DashboardPane extends BorderPane {
         private DashboardPane() {
