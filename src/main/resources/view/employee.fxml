@@ -28,7 +28,7 @@
                 </JFXButton>
             </children>
         </AnchorPane>
-        <JFXTextField layoutX="356.0" layoutY="153.0" prefHeight="42.0" prefWidth="389.0" text="Rechercher" />
+        <JFXTextField fx:id="empSearch" layoutX="356.0" layoutY="153.0" prefHeight="42.0" prefWidth="389.0" />
         <JFXButton layoutX="869.0" layoutY="51.0" onAction="#goEmpPage" prefHeight="37.0" prefWidth="154.0" text="Ajouter un employé">
             <font>
                 <Font name="Open Sans" size="13.0" />
