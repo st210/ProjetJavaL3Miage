@@ -34,8 +34,6 @@ public class EmpPageCtrl extends Route implements Initializable {
     @FXML
     public Label idLabel;
 
-//    private EmployeeCtrl employeeCtrl;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -44,11 +42,6 @@ public class EmpPageCtrl extends Route implements Initializable {
             e.printStackTrace();
         }
     }
-
-
-//    public void setParentController(EmployeeCtrl employeeCtrl) {
-//        this.employeeCtrl = employeeCtrl;
-//    }
 
     /**
      * Remplie le tableau de compétence avec toutes les compétences du fichier CSV
