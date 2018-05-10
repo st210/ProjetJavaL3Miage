@@ -1,17 +1,13 @@
 package Controller;
 
 import Main.Test;
-import Model.Employee;
 import Model.Mission;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -32,7 +28,6 @@ public class MissionCtrl extends Route implements Initializable {
     @FXML
     public JFXComboBox<Label> comBoxStatus;
 
-    private String comboboxVal = "";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,6 +56,9 @@ public class MissionCtrl extends Route implements Initializable {
 
     }
 
+    /**
+     * Initialise le tableau de mission et les filtres associés
+     */
     private void fillMissTable() {
         ObservableList<Mission> missionList = FXCollections.observableArrayList(Test.company.getMissions());
         FilteredList<Mission> filteredList = new FilteredList<>(missionList, mission -> true);

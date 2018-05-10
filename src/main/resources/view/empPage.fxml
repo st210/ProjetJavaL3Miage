@@ -4,69 +4,62 @@
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EmpPageCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EmpPageCtrl">
     <children>
         <AnchorPane prefHeight="721.0" prefWidth="308.0" style="-fx-background-color: #74828F;">
             <children>
-                <JFXButton fx:id="homeBtn" layoutY="194.0" onAction="#goDashboard" prefHeight="75.0" prefWidth="315.0"
-                           text="Dashboard" textFill="WHITE">
+                <JFXButton fx:id="homeBtn" layoutY="194.0" onAction="#goDashboard" prefHeight="75.0" prefWidth="315.0" text="Dashboard" textFill="WHITE">
                     <font>
-                        <Font name="Open Sans" size="35.0"/>
+                        <Font name="Open Sans" size="35.0" />
                     </font>
                 </JFXButton>
-                <JFXButton fx:id="missionBtn" layoutX="-34.0" layoutY="272.0" onAction="#goMissions" prefHeight="75.0"
-                           prefWidth="349.0" text="Missions" textFill="WHITE">
+                <JFXButton fx:id="missionBtn" layoutX="-34.0" layoutY="272.0" onAction="#goMissions" prefHeight="75.0" prefWidth="349.0" text="Missions" textFill="WHITE">
                     <font>
-                        <Font name="Open Sans" size="35.0"/>
+                        <Font name="Open Sans" size="35.0" />
                     </font>
                 </JFXButton>
-                <JFXButton fx:id="persBtn" layoutX="-9.0" layoutY="350.0" onAction="#goEmployees" prefHeight="75.0"
-                           prefWidth="324.0" text="Personnel" textFill="WHITE">
+                <JFXButton fx:id="persBtn" layoutX="-9.0" layoutY="350.0" onAction="#goEmployees" prefHeight="75.0" prefWidth="324.0" text="Personnel" textFill="WHITE">
                     <font>
-                        <Font name="Open Sans" size="35.0"/>
+                        <Font name="Open Sans" size="35.0" />
                     </font>
                 </JFXButton>
             </children>
         </AnchorPane>
         <JFXButton layoutX="869.0" layoutY="51.0" prefHeight="37.0" prefWidth="154.0" text="Enregistrer">
             <font>
-                <Font name="Open Sans" size="13.0"/>
+                <Font name="Open Sans" size="13.0" />
             </font>
         </JFXButton>
-        <Label layoutX="418.0" layoutY="103.0" text="50" textFill="#3b3b3b58">
+        <Label fx:id="idLabel" layoutX="418.0" layoutY="103.0" text="50" textFill="#3b3b3b58">
             <font>
-                <Font name="Open Sans Light" size="18.0"/>
+                <Font name="Open Sans Light" size="18.0" />
             </font>
         </Label>
         <Label layoutX="377.0" layoutY="103.0" text="ID :" textFill="#3b3b3b58">
             <font>
-                <Font name="Open Sans Light" size="18.0"/>
+                <Font name="Open Sans Light" size="18.0" />
             </font>
         </Label>
-        <Label layoutX="372.0" layoutY="46.0" prefHeight="51.0" prefWidth="285.0" text="FICHE EMPLOYÉ"
-               textFill="#3c3c3c">
+        <Label layoutX="372.0" layoutY="46.0" prefHeight="51.0" prefWidth="285.0" text="FICHE EMPLOYÉ" textFill="#3c3c3c">
             <font>
-                <Font name="Open Sans Light" size="35.0"/>
+                <Font name="Open Sans Light" size="35.0" />
             </font>
         </Label>
-        <JFXTextField layoutX="372.0" layoutY="179.0" prefHeight="27.0" prefWidth="224.0"/>
-        <JFXTextField layoutX="668.0" layoutY="179.0" prefHeight="27.0" prefWidth="224.0"/>
-        <JFXDatePicker layoutX="372.0" layoutY="266.0"/>
-        <Label layoutX="372.0" layoutY="322.0" prefHeight="51.0" prefWidth="187.0" text="Compétences"
-               textFill="#3c3c3c">
+        <JFXTextField fx:id="nameTF" layoutX="372.0" layoutY="179.0" prefHeight="27.0" prefWidth="224.0" />
+        <JFXTextField fx:id="firstNameTF" layoutX="668.0" layoutY="179.0" prefHeight="27.0" prefWidth="224.0" />
+        <JFXDatePicker fx:id="date" layoutX="372.0" layoutY="266.0" />
+        <Label layoutX="372.0" layoutY="322.0" prefHeight="51.0" prefWidth="187.0" text="Compétences" textFill="#3c3c3c">
             <font>
-                <Font name="Open Sans Light" size="22.0"/>
+                <Font name="Open Sans Light" size="22.0" />
             </font>
         </Label>
         <TableView fx:id="compTable" layoutX="373.0" layoutY="420.0" prefHeight="274.0" prefWidth="619.0">
         </TableView>
-        <JFXTextField layoutX="377.0" layoutY="373.0" prefHeight="27.0" prefWidth="330.0"/>
+        <JFXTextField layoutX="377.0" layoutY="373.0" prefHeight="27.0" prefWidth="330.0" />
 
     </children>
 </AnchorPane>
