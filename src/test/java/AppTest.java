@@ -27,7 +27,7 @@ public class AppTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Rigourous Main.Test :-)
      */
     public void testApp()
     {

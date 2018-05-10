@@ -5,12 +5,9 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomeCtrl extends Route implements Initializable {
-
+public class MissPageCtrl extends Route implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-
-
 }

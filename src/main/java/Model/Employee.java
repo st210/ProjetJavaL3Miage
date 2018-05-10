@@ -1,7 +1,10 @@
 package Model;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee extends ModifierCSV {
@@ -30,7 +33,7 @@ public class Employee extends ModifierCSV {
     //  GETTERS  //
     //***********//
 
-    public static AtomicInteger getNbEmployees(){
+    public static AtomicInteger getNbEmployees() {
         return nbEmployees;
     }
 
@@ -48,6 +51,11 @@ public class Employee extends ModifierCSV {
 
     public String getEntryIntoCompany() {
         return entryIntoCompany;
+    }
+
+    public Date getDate() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.parse(this.entryIntoCompany);
     }
 
     /**
