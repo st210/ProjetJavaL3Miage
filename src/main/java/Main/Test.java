@@ -19,7 +19,7 @@ import java.io.IOException;
 public class Test extends Application {
 
     private static final int SPACING = 8;
-    private Company company = new Company("Company");
+    public static Company company = new Company("Company");
     public static Stage stage = new Stage();
 
     @Override
@@ -57,7 +57,12 @@ public class Test extends Application {
         stage.show();
     }
 
-
+    public static void showEmployeePage() throws IOException {
+        Parent root = FXMLLoader.load(Test.class.getResource("/view/empPage.fxml"));
+        stage.setTitle("Personnel");
+        stage.setScene(new Scene(root, 1080, 720));
+        stage.show();
+    }
 
 
     //////////////////////////////////////////////////////////////////////////////

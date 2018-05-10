@@ -3,11 +3,11 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.TableView?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MissionCtrl">
     <children>
         <AnchorPane prefHeight="721.0" prefWidth="308.0" style="-fx-background-color: #74828F;">
@@ -29,7 +29,6 @@
                 </JFXButton>
             </children>
         </AnchorPane>
-        <JFXTreeTableView layoutX="335.0" layoutY="218.0" prefHeight="487.0" prefWidth="728.0" />
         <JFXTextField layoutX="356.0" layoutY="153.0" prefHeight="42.0" prefWidth="389.0" text="Rechercher" />
         <JFXButton layoutX="869.0" layoutY="51.0" prefHeight="37.0" prefWidth="154.0" text="Créer une mission">
             <font>
@@ -52,5 +51,7 @@
             </font>
         </Label>
       <JFXComboBox layoutX="804.0" layoutY="167.0" prefHeight="27.0" prefWidth="201.0" />
+        <TableView fx:id="missionTable" layoutX="355.0" layoutY="231.0" prefHeight="445.0" prefWidth="689.0">
+        </TableView>
     </children>
 </AnchorPane>

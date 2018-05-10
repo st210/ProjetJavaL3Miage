@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public abstract class Root {
+public abstract class Route {
     @FXML
     public JFXButton homeBtn;
     @FXML
@@ -19,31 +19,21 @@ public abstract class Root {
     @FXML
     public JFXButton persBtn;
 
-    public void goDashboard() {
-        try {
-            Test.showDashboardView();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void goDashboard() throws IOException {
+        Test.showDashboardView();
     }
 
-    public void goMissions() {
-        try {
-            Main.Test.showMissionsView();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void goMissions() throws IOException {
+        Main.Test.showMissionsView();
     }
 
-    public void goEmployees() {
-        try {
-            Main.Test.showEmployeesView();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void goEmployees() throws IOException {
+        Main.Test.showEmployeesView();
     }
 
-
+    public void goEmpPage() throws IOException {
+        Main.Test.showEmployeePage();
+    }
 
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
