@@ -52,6 +52,8 @@ public class EmpPageCtrl extends Route implements Initializable {
         bool.setCellFactory(CheckBoxTableCell.forTableColumn(bool));
 
 
+
+
         this.compTable.setItems(compList);
 
         this.compTable.getColumns().addAll(id, libelle);

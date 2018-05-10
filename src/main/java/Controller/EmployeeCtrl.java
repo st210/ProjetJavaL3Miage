@@ -32,10 +32,12 @@ public class EmployeeCtrl extends Route implements Initializable {
         ObservableList<Employee> empList = FXCollections.observableArrayList(Test.company.getEmployees());
         FilteredList<Employee> filteredList = new FilteredList<>(empList, employee -> true);
 
+        TableColumn id = new TableColumn("ID");
         TableColumn lastName = new TableColumn("Nom");
         TableColumn firstName = new TableColumn("Prénom");
         TableColumn entryDate = new TableColumn("Date d'entrée");
 
+        id.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
         lastName.setCellValueFactory(new PropertyValueFactory<Employee, String>("name"));
         firstName.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstname"));
         entryDate.setCellValueFactory(new PropertyValueFactory<Employee, String>("entryIntoCompany"));
@@ -51,7 +53,7 @@ public class EmployeeCtrl extends Route implements Initializable {
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 // Filter matches first name.
-                return employee.getFirstname().toLowerCase().contains(lowerCaseFilter) || employee.getName().toLowerCase().contains(lowerCaseFilter);
+                return employee.getFirstname().toLowerCase().contains(lowerCaseFilter) || employee.getName().toLowerCase().contains(lowerCaseFilter) || employee.getId().toLowerCase().contains(lowerCaseFilter);
             });
         });
 
@@ -59,6 +61,6 @@ public class EmployeeCtrl extends Route implements Initializable {
 
         this.empTable.setItems(sortedList);
 
-        this.empTable.getColumns().addAll(lastName, firstName, entryDate);
+        this.empTable.getColumns().addAll(id, lastName, firstName, entryDate);
     }
 }
