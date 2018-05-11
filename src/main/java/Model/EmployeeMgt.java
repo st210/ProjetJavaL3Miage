@@ -11,7 +11,7 @@ public class EmployeeMgt extends ModifierCSV {
      * @param c     La compétence à ajouter à l'employé
      * @throws IOException
      */
-    void appendCompToEmp(String idEmp, Competence c) throws IOException {
+    public void appendCompToEmp(String idEmp, Competence c) throws IOException {
         boolean empFound = false;
         String separator = ";";
         String comptetencesLine[];
