@@ -40,6 +40,8 @@ public class EmpPageCtrl extends Route implements Initializable {
     public Label idLabel;
     @FXML
     public JFXButton saveEmpBtn;
+    @FXML
+    public JFXButton deleteEmpBtn;
 
     private boolean creationMode;
 
@@ -94,5 +96,9 @@ public class EmpPageCtrl extends Route implements Initializable {
             goEmployees();
         }
         // TODO else : snackabar ?
+    }
+
+    public void deleteEmp(ActionEvent actionEvent) {
+
     }
 }

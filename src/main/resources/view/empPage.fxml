@@ -81,6 +81,11 @@
             <Font name="Open Sans" size="18.0" />
          </font>
       </Label>
+      <JFXButton fx:id="deleteEmpBtn" layoutX="869.0" layoutY="328.0" onAction="#deleteEmp" prefHeight="37.0" prefWidth="154.0" text="Supprimer l'employé" textFill="#f50a0a">
+         <font>
+            <Font name="Open Sans" size="13.0" />
+         </font>
+      </JFXButton>
 
     </children>
 </AnchorPane>

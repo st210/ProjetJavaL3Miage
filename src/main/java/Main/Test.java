@@ -18,6 +18,15 @@ public class Test extends Application {
     public static Company company = new Company();
     private static Stage stage = new Stage();
 
+    // TODO Suppression employé
+    // TODO Suppression mission
+    // TODO Modification employé
+    // TODO Modification mission
+    // TODO Filtre compétences page employé
+    // TODO Sélection compétence page employé
+    // TODO Proposition employé pour mission
+    // TODO Dashboard fonctionnel
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         showDashboardView();
