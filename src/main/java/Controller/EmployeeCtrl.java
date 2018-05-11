@@ -1,19 +1,21 @@
 package Controller;
 
 import Main.Test;
+import Model.Company;
 import Model.Employee;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,12 +29,25 @@ public class EmployeeCtrl extends Route implements Initializable {
     public TableView empTable;
     @FXML
     public JFXTextField empSearch;
+    @FXML
+    public Label nbEmpLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setNbEmpLabel();
         fillEmpTable();
     }
 
+    /**
+     * Initialise l'ID de l'employé affiché
+     */
+    private void setNbEmpLabel() {
+        this.nbEmpLabel.setText(String.valueOf(Test.company.getEmployees().size()) + " employés");
+    }
+
+    /**
+     * Initialisation du tableau d'employés
+     */
     private void fillEmpTable() {
         ObservableList<Employee> empList = FXCollections.observableArrayList(Test.company.getEmployees());
         FilteredList<Employee> filteredList = new FilteredList<>(empList, employee -> true);
@@ -62,10 +77,10 @@ public class EmployeeCtrl extends Route implements Initializable {
             });
         });
 
-        empTable.setRowFactory( tv -> {
+        empTable.setRowFactory(tv -> {
             TableRow<Employee> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     Employee rowData = row.getItem();
                     try {
                         Route.empToLoad = rowData;
@@ -75,7 +90,7 @@ public class EmployeeCtrl extends Route implements Initializable {
                     }
                 }
             });
-            return row ;
+            return row;
         });
 
         SortedList<Employee> sortedList = new SortedList<>(filteredList);
@@ -84,4 +99,5 @@ public class EmployeeCtrl extends Route implements Initializable {
 
         this.empTable.getColumns().addAll(id, lastName, firstName, entryDate);
     }
+
 }

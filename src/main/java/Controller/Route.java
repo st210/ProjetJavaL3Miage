@@ -3,6 +3,7 @@ package Controller;
 import Main.Test;
 import Model.Employee;
 import com.jfoenix.controls.JFXButton;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
@@ -33,4 +34,9 @@ public abstract class Route {
     public void goEmpPage() throws IOException, ParseException {
         Main.Test.showEmployeePage(empToLoad);
     }
+
+    public void goEmpPageEmpty(ActionEvent actionEvent) throws IOException, ParseException {
+        Main.Test.showEmployeePage(null);
+    }
+
 }

@@ -51,6 +51,22 @@ public class Company implements IModifierCSV {
     }
 
     /**
+     * Retourne les missions non terminées
+     *
+     * @return ArrayList<Mission> Liste des missions non terminnées
+     */
+    public ArrayList<Mission> getMissionNotCompleted() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() != MissionStatus.COMPLETED) {
+                missions.add(m);
+            }
+        }
+
+        return missions;
+    }
+
+    /**
      * Retourne l'employé correspondant à l'id passé en paramètre
      *
      * @param id L'id de l'employé
@@ -76,7 +92,9 @@ public class Company implements IModifierCSV {
     //***********//
 
     /**
-     * Ajoute un nouvel employé à la liste d'employés de l'entreprise + écriture sur le fichier
+     * Ajoute un nouvel employé à la liste d'employés de l'entreprise
+     *
+     * Écriture CSV
      *
      * @param e L'employé à ajouter
      * @throws IOException IOException

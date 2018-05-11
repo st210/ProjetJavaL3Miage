@@ -1,5 +1,7 @@
 package Model;
 
+import Main.Test;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,7 +15,7 @@ import java.util.*;
 public class Need implements IModifierCSV {
 
     private String idMission;
-    private Company company;
+
 
     // Décrit chaque compétence d'une mission et le nombre de personnes requises possédant cette compétence
     private HashMap<Competence, Integer> competenceInit = new HashMap<>();
@@ -21,13 +23,16 @@ public class Need implements IModifierCSV {
     // Décrit l'état actuel de la répartion des ressources soit le nombre d'employés manquant pour une compétence
     private HashMap<Competence, ArrayList<Employee>> competenceCurrent = new HashMap<>();
 
-    public Need(String idMission, Company company) throws Exception {
+    public Need(String idMission) throws Exception {
         this.idMission = idMission;
-        this.company = company;
 
         loadCompetenceInit(idMission);
-        loadCompetenceCurrent(idMission,company);
+        loadCompetenceCurrent(idMission);
     }
+
+    //***********//
+    //  GETTERS  //
+    //***********//
 
     public HashMap<Competence, Integer> getCompetenceInit() {
         return competenceInit;
@@ -37,6 +42,11 @@ public class Need implements IModifierCSV {
         return competenceCurrent;
     }
 
+
+    //***********//
+    //  SETTERS  //
+    //***********//
+
     public void setCompetenceInit(HashMap<Competence, Integer> competenceInit) {
         this.competenceInit = competenceInit;
     }
@@ -45,6 +55,10 @@ public class Need implements IModifierCSV {
         this.competenceCurrent = competenceCurrent;
     }
 
+
+    //***********//
+    //  METHODS  //
+    //***********//
 
     /**
      * Ajouter une nouvelle compétence aux besoins de la mission
@@ -107,6 +121,13 @@ public class Need implements IModifierCSV {
         return getTeam().contains(e);
     }
 
+
+    /**
+     * Charge à partir du fichier CSV les compétences (besoin) de la mission
+     *
+     * @param idMission La mission à charger
+     * @throws IOException
+     */
     private void loadCompetenceInit(String idMission) throws IOException {
         CompetenceMgt competenceMgt = new CompetenceMgt();
 
@@ -137,9 +158,16 @@ public class Need implements IModifierCSV {
         br.close();
     }
 
-    private void loadCompetenceCurrent(String idMission, Company company) throws Exception {
-        CompetenceMgt competenceMgt = new CompetenceMgt();
 
+    /**
+     * Charge les affectations des employés aux compétences (besoin)
+     *
+     * @param idMission La mission à charger
+     * @throws Exception
+     */
+    private void loadCompetenceCurrent(String idMission) throws Exception {
+        CompetenceMgt competenceMgt = new CompetenceMgt();
+        Company company = Test.company;
         boolean missionFound = false;
         String separatorEmp = ";"; // separateur entre les employés
         String separatorComp = "~"; // séparateur entre l'employé et la compétence associée

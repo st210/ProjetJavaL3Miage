@@ -23,7 +23,7 @@ public class Mission extends ModifierCSV {
         this.id = String.valueOf(countID.incrementAndGet());
         this.name = nomM;
         try {
-            this.need = new Need(id, company);
+            this.need = new Need(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,7 +35,7 @@ public class Mission extends ModifierCSV {
         this.id = String.valueOf(countID.incrementAndGet());
         this.name = nomM;
         try {
-            this.need = new Need(id, company);
+            this.need = new Need(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,7 +48,7 @@ public class Mission extends ModifierCSV {
         this.id = id;
         this.name = name;
         try {
-            this.need = new Need(id, company);
+            this.need = new Need(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,6 +138,12 @@ public class Mission extends ModifierCSV {
     //***********//
 
 
+    /**
+     * Ajouter une nouvelle compétence au besoin de la mission + Ecriture CSV
+     *
+     * @param c La nouvelle compétence à ajouter
+     * @param nbEmployes Le nombre d'employés demandé pour cette compétence
+     */
     public void addCompetence(Competence c, int nbEmployes) {
         MissionMgt missionMgt = new MissionMgt();
         if (!this.need.contains(c)) {
@@ -151,6 +157,12 @@ public class Mission extends ModifierCSV {
         }
     }
 
+    /**
+     * Ajouter un employé à une mission + Ecriture CSV
+     *
+     * @param c La compétene à laquelle sera affecté l'employé
+     * @param e L'employé à ajouter
+     */
     public void addEmployee(Competence c, Employee e) {
         MissionMgt missionMgt = new MissionMgt();
         if (!this.need.contains(c)) {

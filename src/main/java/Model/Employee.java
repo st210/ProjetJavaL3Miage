@@ -88,6 +88,11 @@ public class Employee extends ModifierCSV {
         this.competencesEmployee = competencesEmployee;
     }
 
+    /**
+     * Ajouter une nouvelle compétence à l'employé + écriture CSV
+     *
+     * @param c La compétence à ajouter
+     */
     public void addCompetence(Competence c) {
         EmployeeMgt employeeMgt = new EmployeeMgt();
         if (!this.competencesEmployee.contains(c)) {
@@ -102,6 +107,7 @@ public class Employee extends ModifierCSV {
 
     public void removeCompetence(Competence c) {
         if (this.competencesEmployee.contains(c)) {
+            // TODO Remove from file
             this.competencesEmployee.remove(c);
         }
     }
