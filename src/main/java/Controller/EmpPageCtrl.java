@@ -54,6 +54,10 @@ public class EmpPageCtrl extends Route implements Initializable {
         }
     }
 
+    /**
+     * Définit si scène est ouverte pour une création ou une modification
+     * @param creationMode True
+     */
     public void setCreationMode(boolean creationMode) {
         this.creationMode = creationMode;
     }
@@ -81,6 +85,11 @@ public class EmpPageCtrl extends Route implements Initializable {
         this.compTable.getColumns().addAll(id, libelle);
     }
 
+    /**
+     * Initialise les données affichées
+     * @param employee L'employé duquel sont extraites les données
+     * @throws ParseException
+     */
     public void fillData(Employee employee) throws ParseException {
         this.nameTF.setText(employee.getName());
         this.firstNameTF.setText(employee.getFirstname());
@@ -88,6 +97,14 @@ public class EmpPageCtrl extends Route implements Initializable {
         this.idLabel.setText(employee.getId());
     }
 
+    /**
+     * Sauvegarder (créer/modifier) l'employé
+     *
+     * Écriture CSV
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void saveEmp(ActionEvent actionEvent) throws IOException {
         if (!nameTF.getText().equals("") && !firstNameTF.getText().equals("") && date.getValue() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

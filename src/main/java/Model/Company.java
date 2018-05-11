@@ -50,6 +50,11 @@ public class Company implements IModifierCSV {
         return missions;
     }
 
+    /**
+     * Retourne les missions non terminées
+     *
+     * @return ArrayList<Mission> Liste des missions non terminnées
+     */
     public ArrayList<Mission> getMissionNotCompleted() {
         ArrayList<Mission> missions = new ArrayList<>();
         for (Mission m : this.missions) {
@@ -87,7 +92,9 @@ public class Company implements IModifierCSV {
     //***********//
 
     /**
-     * Ajoute un nouvel employé à la liste d'employés de l'entreprise + écriture sur le fichier
+     * Ajoute un nouvel employé à la liste d'employés de l'entreprise
+     *
+     * Écriture CSV
      *
      * @param e L'employé à ajouter
      * @throws IOException IOException

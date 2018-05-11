@@ -37,6 +37,11 @@ public class Test extends Application {
         launch(args);
     }
 
+    /**
+     * Charger la scène Dashboard
+     *
+     * @throws IOException
+     */
     public static void showDashboardView() throws IOException {
         Parent root = FXMLLoader.load(Test.class.getResource("/view/home.fxml"));
         stage.setTitle("Dashboard");
@@ -44,6 +49,11 @@ public class Test extends Application {
         stage.show();
     }
 
+    /**
+     * Charger la scène Missions
+     *
+     * @throws IOException
+     */
     public static void showMissionsView() throws IOException {
         Parent root = FXMLLoader.load(Test.class.getResource("/view/missions.fxml"));
         stage.setTitle("Missions");
@@ -51,6 +61,11 @@ public class Test extends Application {
         stage.show();
     }
 
+    /**
+     * Charger la scène Personnel
+     *
+     * @throws IOException
+     */
     public static void showEmployeesView() throws IOException {
         Parent root = FXMLLoader.load(Test.class.getResource("/view/employee.fxml"));
         stage.setTitle("Personnel");
@@ -58,6 +73,13 @@ public class Test extends Application {
         stage.show();
     }
 
+    /**
+     * Charger la scène Page Employé
+     *
+     * @param employee L'employé à charger dans la scène
+     * @throws IOException
+     * @throws ParseException
+     */
     public static void showEmployeePage(Employee employee) throws IOException, ParseException {
         FXMLLoader loader = new FXMLLoader(Test.class.getResource("/view/empPage.fxml"));
         AnchorPane anchorPane = loader.load();

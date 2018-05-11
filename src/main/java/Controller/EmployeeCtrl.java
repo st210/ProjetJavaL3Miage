@@ -38,10 +38,16 @@ public class EmployeeCtrl extends Route implements Initializable {
         fillEmpTable();
     }
 
+    /**
+     * Initialise l'ID de l'employé affiché
+     */
     private void setNbEmpLabel() {
         this.nbEmpLabel.setText(String.valueOf(Test.company.getEmployees().size()) + " employés");
     }
 
+    /**
+     * Initialisation du tableau d'employés
+     */
     private void fillEmpTable() {
         ObservableList<Employee> empList = FXCollections.observableArrayList(Test.company.getEmployees());
         FilteredList<Employee> filteredList = new FilteredList<>(empList, employee -> true);
