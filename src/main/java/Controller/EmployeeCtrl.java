@@ -63,19 +63,17 @@ public class EmployeeCtrl extends Route implements Initializable {
         entryDate.setCellValueFactory(new PropertyValueFactory<>("entryIntoCompany"));
 
 
-        empSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredList.setPredicate(employee -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
+        empSearch.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(employee -> {
+            // If filter text is empty, display all persons.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            // Compare first name and last name of every person with filter text.
+            String lowerCaseFilter = newValue.toLowerCase();
 
-                // Filter matches first name.
-                return employee.getFirstname().toLowerCase().contains(lowerCaseFilter) || employee.getName().toLowerCase().contains(lowerCaseFilter) || employee.getId().toLowerCase().contains(lowerCaseFilter);
-            });
-        });
+            // Filter matches first name.
+            return employee.getFirstname().toLowerCase().contains(lowerCaseFilter) || employee.getName().toLowerCase().contains(lowerCaseFilter) || employee.getId().toLowerCase().contains(lowerCaseFilter);
+        }));
 
         empTable.setRowFactory(tv -> {
             TableRow<Employee> row = new TableRow<>();

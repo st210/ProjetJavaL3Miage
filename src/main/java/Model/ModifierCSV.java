@@ -32,5 +32,22 @@ abstract class ModifierCSV implements IModifierCSV {
         }
     }
 
+    void rewriteFile(String file, String content) throws IOException {
+        BufferedWriter bw;
+        FileWriter fw;
+        ClassLoader classLoader = getClass().getClassLoader();
+        try {
+            String path = Objects.requireNonNull(classLoader.getResource(file)).getFile();
+            fw = new FileWriter(path, true);
+            bw = new BufferedWriter(fw);
+            bw.newLine();
 
+            bw.write(content);
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            System.err.println("Erreur à l'écriture du fichier - " + e.getMessage());
+            throw e;
+        }
+    }
 }

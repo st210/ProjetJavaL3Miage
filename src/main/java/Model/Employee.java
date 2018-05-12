@@ -1,5 +1,7 @@
 package Model;
 
+import Main.Test;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +24,19 @@ public class Employee extends ModifierCSV {
         this.name = nameE;
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
+        try {
+            competencesEmployee = cm.getCompetencesForEmpFromCSV(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Employee(String id, String name, String firstname, String entryIntoCompany) {
+        CompetenceMgt cm = new CompetenceMgt();
+        this.id = id;
+        this.name = name;
+        this.firstname = firstname;
+        this.entryIntoCompany = entryIntoCompany;
         try {
             competencesEmployee = cm.getCompetencesForEmpFromCSV(id);
         } catch (IOException e) {
@@ -125,7 +140,6 @@ public class Employee extends ModifierCSV {
         String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
         appendNewLine(FILE_LISTE_PERSONNEL, employeeLine);
     }
-
 
     @Override
     public String toString() {

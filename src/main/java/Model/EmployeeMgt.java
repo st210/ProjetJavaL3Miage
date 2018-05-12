@@ -1,9 +1,13 @@
 package Model;
 
+import Main.Test;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class EmployeeMgt extends ModifierCSV {
+
     /**
      * Ajoute une compétence à l'employé dans le fichier CSV
      *
@@ -43,5 +47,37 @@ public class EmployeeMgt extends ModifierCSV {
 
         fr.close();
         br.close();
+    }
+
+    public ArrayList<Employee> getAllEmployeesCSV() throws IOException {
+        ArrayList<Employee> employees = new ArrayList<>();
+        String separator = ";";
+        String employeeLine[];
+        String line;
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = Objects.requireNonNull(classLoader.getResource(FILE_LISTE_PERSONNEL)).getFile();
+
+
+        FileReader csvFile = new FileReader(path);
+        BufferedReader br = new BufferedReader(csvFile);
+
+        while ((line = br.readLine()) != null) {
+            employeeLine = line.split(separator);
+            Employee newEmployee = new Employee(employeeLine[3], employeeLine[0], employeeLine[1], employeeLine[2]);
+
+            if (!employees.contains(newEmployee)) {
+                employees.add(newEmployee);
+            }
+        }
+        return employees;
+    }
+
+    public void saveAllEmployee() throws IOException {
+        String line;
+        for (Employee e : Test.company.getEmployees()) {
+            line = e.getFirstname() + ";" + e.getName() + ";" + e.getEntryIntoCompany() + ";" + e.getId();
+            rewriteFile(FILE_LISTE_PERSONNEL, line);
+        }
     }
 }

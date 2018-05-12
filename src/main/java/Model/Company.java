@@ -93,7 +93,7 @@ public class Company implements IModifierCSV {
 
     /**
      * Ajoute un nouvel employé à la liste d'employés de l'entreprise
-     *
+     * <p>
      * Écriture CSV
      *
      * @param e L'employé à ajouter
@@ -102,6 +102,12 @@ public class Company implements IModifierCSV {
     public void addEmployee(Employee e) throws IOException {
         e.writeEmployeeCSV();
         this.employees.add(e);
+    }
+
+    public void deleteEmployee(Employee e) {
+        if (this.employees.contains(e)) {
+            this.employees.remove(e);
+        }
     }
 
     /**
@@ -162,5 +168,4 @@ public class Company implements IModifierCSV {
             }
         }
     }
-
 }

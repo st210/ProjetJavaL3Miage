@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,6 +44,8 @@ public class EmpPageCtrl extends Route implements Initializable {
     public JFXButton saveEmpBtn;
     @FXML
     public JFXButton deleteEmpBtn;
+    @FXML
+    public JFXTextField searchComp;
 
     private boolean creationMode;
 
@@ -56,6 +60,7 @@ public class EmpPageCtrl extends Route implements Initializable {
 
     /**
      * Définit si scène est ouverte pour une création ou une modification
+     *
      * @param creationMode True
      */
     public void setCreationMode(boolean creationMode) {
@@ -70,6 +75,7 @@ public class EmpPageCtrl extends Route implements Initializable {
     private void fillCompTable() throws IOException {
         CompetenceMgt cptMgt = new CompetenceMgt();
         ObservableList<Competence> compList = FXCollections.observableArrayList(cptMgt.importCompetencesFromCSV("liste_competences.csv"));
+        FilteredList<Competence> filteredList = new FilteredList<>(compList, competence -> true);
 
         TableColumn id = new TableColumn("ID");
         TableColumn libelle = new TableColumn("Libellé");
@@ -80,13 +86,30 @@ public class EmpPageCtrl extends Route implements Initializable {
         bool.setCellValueFactory(new PropertyValueFactory<Employee, Boolean>("competencesEmployee"));
         bool.setCellFactory(CheckBoxTableCell.forTableColumn(bool));
 
-        this.compTable.setItems(compList);
+        searchComp.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(competence -> {
+            // If filter text is empty, display all persons.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            // Compare first name and last name of every person with filter text.
+            String lowerCaseFilter = newValue.toLowerCase();
+
+            // Filter matches first name.
+            return competence.getId().toLowerCase().contains(lowerCaseFilter) || competence.getLibelleFR().toLowerCase().contains(lowerCaseFilter);
+
+        }));
+
+        SortedList<Competence> sortedList = new SortedList<>(filteredList);
+
+
+        this.compTable.setItems(sortedList);
 
         this.compTable.getColumns().addAll(id, libelle);
     }
 
     /**
      * Initialise les données affichées
+     *
      * @param employee L'employé duquel sont extraites les données
      * @throws ParseException
      */
@@ -99,7 +122,7 @@ public class EmpPageCtrl extends Route implements Initializable {
 
     /**
      * Sauvegarder (créer/modifier) l'employé
-     *
+     * <p>
      * Écriture CSV
      *
      * @param actionEvent
