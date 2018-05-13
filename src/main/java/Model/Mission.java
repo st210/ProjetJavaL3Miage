@@ -17,7 +17,7 @@ public class Mission extends ModifierCSV {
     private int duration;
     private MissionStatus status;
 
-    public Mission(String nomM, Company company) {
+    public Mission(String nomM) {
         MissionMgt missionMgt = new MissionMgt();
 
         this.id = String.valueOf(countID.incrementAndGet());
@@ -30,7 +30,7 @@ public class Mission extends ModifierCSV {
         this.status = MissionStatus.PREPARATION;
     }
 
-    public Mission(String nomM, int nbEmployes, Company company) {
+    public Mission(String nomM, int nbEmployes) {
         MissionMgt missionMgt = new MissionMgt();
         this.id = String.valueOf(countID.incrementAndGet());
         this.name = nomM;
@@ -40,6 +40,86 @@ public class Mission extends ModifierCSV {
             e.printStackTrace();
         }
         this.nbEmployes = nbEmployes;
+        this.status = MissionStatus.PREPARATION;
+    }
+
+    public Mission(String name, int nbEmployes, Date dateDebut) {
+        this.id = String.valueOf(countID.incrementAndGet());
+        this.name = name;
+        this.nbEmployes = nbEmployes;
+        this.dateDebut = dateDebut;
+        try {
+            this.need = new Need(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.status = MissionStatus.PREPARATION;
+
+    }
+
+    public Mission(String name, int nbEmployes, Date dateDebut, int duration) {
+        this.id = String.valueOf(countID.incrementAndGet());
+        this.name = name;
+        this.nbEmployes = nbEmployes;
+        this.dateDebut = dateDebut;
+        this.duration = duration;
+        try {
+            this.need = new Need(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.status = MissionStatus.PREPARATION;
+
+    }
+
+    public Mission(String id, String nomM) {
+        this.id = id != null ? id : String.valueOf(countID.incrementAndGet());
+        this.name = nomM;
+        try {
+            this.need = new Need(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.status = MissionStatus.PREPARATION;
+    }
+
+    public Mission(String id, String nomM, int nbEmployes) {
+        this.id = id != null ? id : String.valueOf(countID.incrementAndGet());
+        this.name = nomM;
+        try {
+            this.need = new Need(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.nbEmployes = nbEmployes;
+        this.status = MissionStatus.PREPARATION;
+    }
+
+    public Mission(String id, String name, int nbEmployes, Date dateDebut) {
+        this.id = id != null ? id : String.valueOf(countID.incrementAndGet());
+        this.name = name;
+        this.nbEmployes = nbEmployes;
+        this.dateDebut = dateDebut;
+        try {
+            this.need = new Need(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.status = MissionStatus.PREPARATION;
+
+    }
+
+    public Mission(String id, String name, int nbEmployes, Date dateDebut, int duration) {
+        this.id = id != null ? id : String.valueOf(countID.incrementAndGet());
+        this.name = name;
+        this.nbEmployes = nbEmployes;
+        this.dateDebut = dateDebut;
+        this.duration = duration;
+        try {
+            this.need = new Need(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.status = MissionStatus.PREPARATION;
     }
 
@@ -95,7 +175,7 @@ public class Mission extends ModifierCSV {
         return dateDebut;
     }
 
-    public long getDuration() {
+    public int getDuration() {
         return duration;
     }
 
@@ -141,7 +221,7 @@ public class Mission extends ModifierCSV {
     /**
      * Ajouter une nouvelle compétence au besoin de la mission + Ecriture CSV
      *
-     * @param c La nouvelle compétence à ajouter
+     * @param c          La nouvelle compétence à ajouter
      * @param nbEmployes Le nombre d'employés demandé pour cette compétence
      */
     public void addCompetence(Competence c, int nbEmployes) {

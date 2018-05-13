@@ -90,19 +90,19 @@
             <Label layoutX="522.0" layoutY="47.0" text="APR" textFill="#96c0ce" />
             <Label layoutX="522.0" layoutY="65.0" text="2018" textFill="#aeacac" />
             <Separator layoutX="572.0" layoutY="16.0" orientation="VERTICAL" prefHeight="64.0" prefWidth="0.0" />
-            <Label layoutX="584.0" layoutY="18.0" text="Desired Start" textFill="#96c0ce">
+            <Label layoutX="584.0" layoutY="18.0" text="Prochaine fin" textFill="#96c0ce">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="584.0" layoutY="38.0" text="25" textFill="#aeacac">
+            <Label fx:id="dayEndMiss" layoutX="584.0" layoutY="38.0" text="25" textFill="#aeacac">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label layoutX="633.0" layoutY="46.0" text="AUG" textFill="#96c0ce" />
-            <Label layoutX="633.0" layoutY="64.0" text="2018" textFill="#aeacac" />
-            <Label layoutX="23.0" layoutY="8.0" text="21" textFill="#74828f">
+            <Label fx:id="monthEndMiss" layoutX="633.0" layoutY="46.0" text="AUG" textFill="#96c0ce" />
+            <Label fx:id="yearEndMiss" layoutX="633.0" layoutY="64.0" text="2018" textFill="#aeacac" />
+            <Label fx:id="nbMissEnCours" layoutX="23.0" layoutY="8.0" text="21" textFill="#74828f">
                <font>
                   <Font name="Open Sans" size="47.0" />
                </font>
@@ -120,7 +120,7 @@
                   <Font name="Open Sans Light" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="16.0" layoutY="5.0" prefHeight="29.0" prefWidth="29.0" text="7" textFill="#74828f">
+            <Label fx:id="nbMissCompl" layoutX="16.0" layoutY="5.0" prefHeight="29.0" prefWidth="29.0" text="7" textFill="#74828f">
                <font>
                   <Font name="System Bold" size="34.0" />
                </font>
@@ -153,7 +153,7 @@
                   <Font name="Open Sans Light" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="16.0" layoutY="5.0" prefHeight="29.0" prefWidth="29.0" text="4" textFill="#74828f">
+            <Label fx:id="nbMissPlan" layoutX="16.0" layoutY="5.0" prefHeight="29.0" prefWidth="29.0" text="4" textFill="#74828f">
                <font>
                   <Font name="System Bold" size="34.0" />
                </font>
@@ -186,12 +186,7 @@
             <Font name="Open Sans Light" size="35.0" />
          </font>
       </Label>
-      <Label layoutX="367.0" layoutY="93.0" text="135" textFill="#3b3b3b58">
-         <font>
-            <Font name="Open Sans Light" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="408.0" layoutY="93.0" text="employés" textFill="#3b3b3b58">
+      <Label fx:id="nbEmpLabel" layoutX="367.0" layoutY="93.0" text="135" textFill="#3b3b3b58">
          <font>
             <Font name="Open Sans Light" size="18.0" />
          </font>

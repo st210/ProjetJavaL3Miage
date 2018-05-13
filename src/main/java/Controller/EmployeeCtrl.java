@@ -38,9 +38,7 @@ public class EmployeeCtrl extends Route implements Initializable {
         fillEmpTable();
     }
 
-    /**
-     * Initialise l'ID de l'employé affiché
-     */
+
     private void setNbEmpLabel() {
         this.nbEmpLabel.setText(String.valueOf(Test.company.getEmployees().size()) + " employés");
     }

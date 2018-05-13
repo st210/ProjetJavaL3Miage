@@ -1,9 +1,11 @@
 package Main;
 
 import Controller.EmpPageCtrl;
+import Controller.MissPageCtrl;
 import Model.Company;
 import Model.Employee;
 import Model.EmployeeMgt;
+import Model.Mission;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +25,6 @@ public class Test extends Application {
     // TODO Suppression mission
     // TODO Modification employé
     // TODO Modification mission
-    // TODO Filtre compétences page employé
     // TODO Sélection compétence page employé
     // TODO Proposition employé pour mission
     // TODO Dashboard fonctionnel
@@ -100,4 +101,21 @@ public class Test extends Application {
         stage.show();
     }
     //TODO Gestion modification date
+
+    public static void showMissionPage(Mission mission) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Test.class.getResource("/view/missPage.fxml"));
+        AnchorPane anchorPane = loader.load();
+        MissPageCtrl controller = loader.getController();
+        if (mission != null) {
+            controller.setCreationMode(false);
+            // Get the Controller from the FXMLLoader
+            controller.fillData(mission);
+            controller.fillCompTable(mission);
+        } else {
+            controller.setCreationMode(true);
+        }
+        stage.setTitle("Mission");
+        stage.setScene(new Scene(anchorPane, 1080, 720));
+        stage.show();
+    }
 }

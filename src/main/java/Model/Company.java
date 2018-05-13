@@ -3,7 +3,10 @@ package Model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class Company implements IModifierCSV {
@@ -67,6 +70,73 @@ public class Company implements IModifierCSV {
     }
 
     /**
+     * Retourne les missions en cours
+     *
+     * @return ArrayList<Mission> Liste des missions non terminnées
+     */
+    public ArrayList<Mission> getMissionInProgress() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() == MissionStatus.PROGRESS) {
+                missions.add(m);
+            }
+        }
+        return missions;
+    }
+
+    /**
+     * Retourne les missions en préparation
+     *
+     * @return ArrayList<Mission> Liste des missions non terminnées
+     */
+    public ArrayList<Mission> getMissionPreparation() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() == MissionStatus.PREPARATION) {
+                missions.add(m);
+            }
+        }
+
+        return missions;
+    }
+
+    /**
+     * Retourne les missions programmées
+     *
+     * @return ArrayList<Mission> Liste des missions non terminnées
+     */
+    public ArrayList<Mission> getMissionScheduled() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() == MissionStatus.SCHEDULED) {
+                missions.add(m);
+            }
+        }
+
+        return missions;
+    }
+
+    public Date getDateNextFinMiss() {
+        Date dateCurrent, dateMin = null;
+        Calendar c = Calendar.getInstance();
+        int cpt = 0;
+        for (Mission m : this.missions) {
+            c.setTime(m.getDateDebut());
+            c.add(Calendar.DATE, m.getDuration());
+            dateCurrent = c.getTime();
+            if (cpt == 0) {
+                dateMin = dateCurrent;
+                cpt++;
+            }
+            if (dateCurrent.before(dateMin)) {
+                dateMin = dateCurrent;
+                cpt++;
+            }
+        }
+        return dateMin;
+    }
+
+    /**
      * Retourne l'employé correspondant à l'id passé en paramètre
      *
      * @param id L'id de l'employé
@@ -81,6 +151,7 @@ public class Company implements IModifierCSV {
         System.err.println("Employee not found");
         return null;
     }
+
 
     //***********//
     //  SETTERS  //
@@ -104,9 +175,20 @@ public class Company implements IModifierCSV {
         this.employees.add(e);
     }
 
-    public void deleteEmployee(Employee e) {
+    public void removeEmployee(Employee e) {
         if (this.employees.contains(e)) {
             this.employees.remove(e);
+        }
+    }
+
+    public void addMission(Mission m) throws IOException {
+        //m.writeMissionCSV();
+        this.missions.add(m);
+    }
+
+    public void removeMission(Mission m) {
+        if (m != null && this.missions.contains(m)) {
+            this.missions.remove(m);
         }
     }
 
