@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 public abstract class Route {
+
     @FXML
     public JFXButton homeBtn;
     @FXML

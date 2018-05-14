@@ -74,7 +74,7 @@ public class EmpPageCtrl extends Route implements Initializable {
      */
     private void fillCompTable() throws IOException {
         CompetenceMgt cptMgt = new CompetenceMgt();
-        ObservableList<Competence> compList = FXCollections.observableArrayList(cptMgt.importCompetencesFromCSV("liste_competences.csv"));
+        ObservableList<Competence> compList = FXCollections.observableArrayList(cptMgt.importCompetencesFromCSV());
         FilteredList<Competence> filteredList = new FilteredList<>(compList, competence -> true);
 
         TableColumn id = new TableColumn("ID");

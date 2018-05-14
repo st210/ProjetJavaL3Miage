@@ -2,6 +2,7 @@ package Controller;
 
 import Main.Test;
 import Model.Competence;
+import Model.CompetenceMgt;
 import Model.Employee;
 import Model.Mission;
 import com.jfoenix.controls.JFXButton;
@@ -12,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -19,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -51,6 +55,7 @@ public class MissPageCtrl extends Route implements Initializable {
     @FXML
     public JFXTextField nbEmpTF;
 
+
     private boolean creationMode;
     private Mission mission;
 
@@ -76,9 +81,9 @@ public class MissPageCtrl extends Route implements Initializable {
         TableColumn libelle = new TableColumn("Libellé");
         TableColumn nbEmp = new TableColumn("Besoin");
 
-        id.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
-        libelle.setCellValueFactory(new PropertyValueFactory<Employee, String>("libelleFR"));
-        nbEmp.setCellValueFactory(new PropertyValueFactory<Employee, TextField>("nbEmp"));
+        id.setCellValueFactory(new PropertyValueFactory<CompTableData, String>("id"));
+        libelle.setCellValueFactory(new PropertyValueFactory<CompTableData, String>("libelleFR"));
+        nbEmp.setCellValueFactory(new PropertyValueFactory<CompTableData, Integer>("nbEmp"));
 
         searchComp.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(competence -> {
             // If filter text is empty, display all persons.
@@ -90,7 +95,6 @@ public class MissPageCtrl extends Route implements Initializable {
 
             // Filter matches first name.
             return competence.getId().toLowerCase().contains(lowerCaseFilter) || competence.getLibelleFR().toLowerCase().contains(lowerCaseFilter);
-
         }));
 
         SortedList<CompTableData> sortedList = new SortedList<>(filteredList);
@@ -151,7 +155,7 @@ public class MissPageCtrl extends Route implements Initializable {
         private String libelleEN;
         private int nbEmp;
 
-        public CompTableData(String id, String libelleFR, String libelleEN, int nbEmp) {
+        private CompTableData(String id, String libelleFR, String libelleEN, int nbEmp) {
             this.id = id;
             this.libelleFR = libelleFR;
             this.libelleEN = libelleEN;
@@ -172,6 +176,22 @@ public class MissPageCtrl extends Route implements Initializable {
 
         public int getNbEmp() {
             return nbEmp;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public void setLibelleFR(String libelleFR) {
+            this.libelleFR = libelleFR;
+        }
+
+        public void setLibelleEN(String libelleEN) {
+            this.libelleEN = libelleEN;
+        }
+
+        public void setNbEmp(int nbEmp) {
+            this.nbEmp = nbEmp;
         }
     }
 }

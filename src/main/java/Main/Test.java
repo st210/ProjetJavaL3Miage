@@ -25,7 +25,8 @@ public class Test extends Application {
     // TODO Suppression mission
     // TODO Modification employé
     // TODO Modification mission
-    // TODO Sélection compétence page employé
+            // TODO Sauvegarde à la fermeture de l'app (réécriture fichiers)
+    // TODO Sélection compétences page employé (checkbox)
     // TODO Proposition employé pour mission
     // TODO Dashboard fonctionnel
 
