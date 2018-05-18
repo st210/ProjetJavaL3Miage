@@ -73,7 +73,7 @@ public class EmpPageCtrl extends Route implements Initializable {
     }
 
     /**
-     * Retourne la liste mise à jours des compétences de l'employé
+     * Retourne la liste mise à jours des compétences de l'employé telle qu'elle apparait dans le tableau
      *
      * @return ArrayList de compétences mise à jour
      * @throws IOException
@@ -163,18 +163,38 @@ public class EmpPageCtrl extends Route implements Initializable {
     public void saveEmp(ActionEvent actionEvent) throws IOException {
         if (!nameTF.getText().equals("") && !firstNameTF.getText().equals("") && date.getValue() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            Employee employee = new Employee(firstNameTF.getText(), nameTF.getText(), date.getValue().format(formatter));
-            employee.setCompetencesEmployee(getNewComps());
-            Test.company.addEmployee(employee);
+            Employee employee;
+            if (Route.empToLoad == null) {
+                // Création
+                employee = new Employee(firstNameTF.getText(), nameTF.getText(), date.getValue().format(formatter));
+                employee.setCompetencesEmployee(getNewComps());
+                Test.company.addEmployee(employee);
+            } else {
+                // Modification
+                Test.company.getEmployee(Route.empToLoad.getId()).setCompetencesEmployee(getNewComps());
+
+            }
             goEmployees();
         }
         // TODO else : snackabar ?
     }
 
-    public void deleteEmp(ActionEvent actionEvent) {
+    /**
+     * Btn suppression d'un employé
+     *
+     * @param actionEvent
+     */
+    public void deleteEmp(ActionEvent actionEvent) throws IOException {
         Test.company.removeEmployee(Route.empToLoad);
+        goEmployees();
     }
 
+    /**
+     * Chargement de la liste de compétences selon le formalisme utilisé dans le tableau
+     *
+     * @return ObservableList<CompEmpData> La liste de compétences
+     * @throws IOException
+     */
     private ObservableList<CompEmpData> fillCompEmpData() throws IOException {
         CompetenceMgt competenceMgt = new CompetenceMgt();
         ArrayList<CompEmpData> compEmpData = new ArrayList<>();
@@ -187,7 +207,6 @@ public class EmpPageCtrl extends Route implements Initializable {
             compEmpData.add(new CompEmpData(c.getId(), c.getLibelleFR(), c.getLibelleEN(), bool));
         }
         return FXCollections.observableArrayList(compEmpData);
-
     }
 
     //////////////////////////////////////////////

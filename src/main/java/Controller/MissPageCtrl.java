@@ -2,6 +2,7 @@ package Controller;
 
 import Main.Test;
 import Model.Competence;
+import Model.CompetenceMgt;
 import Model.Mission;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -68,8 +69,8 @@ public class MissPageCtrl extends Route implements Initializable {
         this.nbEmpTF.setText(String.valueOf(mission.getNbEmployes()));
     }
 
-    public void fillCompTable(Mission mission) {
-        ObservableList<CompTableData> compList = getCompTableData(mission.getNeed().getCompetenceInit());
+    public void fillCompTable(Mission mission) throws IOException {
+        ObservableList<CompTableData> compList = fillCompMissData();
         FilteredList<CompTableData> filteredList = new FilteredList<>(compList, competence -> true);
 
         TableColumn<CompTableData, String> id = new TableColumn<>("ID");
@@ -102,6 +103,26 @@ public class MissPageCtrl extends Route implements Initializable {
 
         this.compTable.getColumns().addAll(id, libelle, nbEmp);
         this.compTable.setEditable(true);
+    }
+
+    /**
+     * Chargement de la liste de compétences selon le formalisme utilisé dans le tableau
+     *
+     * @return ObservableList<CompTableData> La liste de compétences
+     * @throws IOException
+     */
+    private ObservableList<CompTableData> fillCompMissData() throws IOException {
+        CompetenceMgt competenceMgt = new CompetenceMgt();
+        ArrayList<CompTableData> compEmpData = new ArrayList<>();
+        ArrayList<Competence> competences = competenceMgt.importCompetencesFromCSV();
+        int nbEmp = 0;
+        for (Competence c : competences) {
+            if (Route.missToLoad != null) {
+                nbEmp = Route.missToLoad.getNeed().getCompetenceInit().get(c) != null ? Route.missToLoad.getNeed().getCompetenceInit().get(c) : 0;
+            }
+            compEmpData.add(new CompTableData(c.getId(), c.getLibelleFR(), c.getLibelleEN(), nbEmp));
+        }
+        return FXCollections.observableArrayList(compEmpData);
     }
 
     /**
