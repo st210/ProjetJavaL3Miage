@@ -127,7 +127,6 @@ public class Test extends Application {
             controller.setCreationMode(false);
             // Get the Controller from the FXMLLoader
             controller.fillData(mission);
-            controller.fillCompTable(mission);
         } else {
             controller.setCreationMode(true);
         }

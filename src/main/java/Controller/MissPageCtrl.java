@@ -7,6 +7,10 @@ import Model.Mission;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -30,6 +34,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MissPageCtrl extends Route implements Initializable {
@@ -57,6 +62,11 @@ public class MissPageCtrl extends Route implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            fillCompTable();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void fillData(Mission mission) {
@@ -69,7 +79,7 @@ public class MissPageCtrl extends Route implements Initializable {
         this.nbEmpTF.setText(String.valueOf(mission.getNbEmployes()));
     }
 
-    public void fillCompTable(Mission mission) throws IOException {
+    public void fillCompTable() throws IOException {
         ObservableList<CompTableData> compList = fillCompMissData();
         FilteredList<CompTableData> filteredList = new FilteredList<>(compList, competence -> true);
 
@@ -118,7 +128,9 @@ public class MissPageCtrl extends Route implements Initializable {
         int nbEmp = 0;
         for (Competence c : competences) {
             if (Route.missToLoad != null) {
-                nbEmp = Route.missToLoad.getNeed().getCompetenceInit().get(c) != null ? Route.missToLoad.getNeed().getCompetenceInit().get(c) : 0;
+                if (Route.missToLoad.getNeed().getCompetenceInit().get(c) != null)
+                    nbEmp = Route.missToLoad.getNeed().getCompetenceInit().get(c);
+                else nbEmp = 0;
             }
             compEmpData.add(new CompTableData(c.getId(), c.getLibelleFR(), c.getLibelleEN(), nbEmp));
         }
@@ -134,34 +146,51 @@ public class MissPageCtrl extends Route implements Initializable {
         this.creationMode = creationMode;
     }
 
-    private ObservableList<CompTableData> getCompTableData(HashMap<Competence, Integer> comMap) {
-        ArrayList<CompTableData> compTableData = new ArrayList<>();
 
-        comMap.forEach((competence, integer) -> compTableData.add(new CompTableData(competence.getId(), competence.getLibelleFR(), competence.getLibelleEN(), integer)));
+    /**
+     * Retourne la hashmap mise à jours des besoins de la mission
+     *
+     * @return Hashmap de compétences/besoin mise à jour
+     * @throws IOException
+     */
+    private HashMap<Competence, Integer> getNewCompInit() throws IOException {
+        CompetenceMgt competenceMgt = new CompetenceMgt();
+        HashMap<Competence, Integer> missComp = new HashMap<>();
+        List<CompTableData> compTableData = compTable.getItems();
 
-        return FXCollections.observableList(compTableData);
+        for (CompTableData c : compTableData) {
+            if (c.getNbEmp() > 0) {
+                missComp.put(competenceMgt.getCompetenceByIDFromCSV(c.getId()), c.getNbEmp());
+            }
+        }
+        return missComp;
     }
+
 
     public void saveMiss(ActionEvent actionEvent) throws IOException {
         String id;
-        id = this.mission == null ? null : mission.getId();
+        id = creationMode ? String.valueOf(Test.company.getMissions().size() + 1) : mission.getId();
         if (!nameTF.getText().equals("") && nbEmpTF.getText().equals("") && date.getValue() == null && durationTF.getText().equals("")) {
             Mission mission = new Mission(id, nameTF.getText());
+            mission.getNeed().setCompetenceInit(getNewCompInit());
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
         } else if (!nameTF.getText().equals("") && !nbEmpTF.getText().equals("") && date.getValue() == null && durationTF.getText().equals("")) {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()));
+            mission.getNeed().setCompetenceInit(getNewCompInit());
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
         } else if (!nameTF.getText().equals("") && !nbEmpTF.getText().equals("") && date.getValue() != null && durationTF.getText().equals("")) {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()), Date.valueOf(date.getValue()));
+            mission.getNeed().setCompetenceInit(getNewCompInit());
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
         } else if (!nameTF.getText().equals("") && !nbEmpTF.getText().equals("") && date.getValue() != null && !durationTF.getText().equals("")) {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()), Date.valueOf(date.getValue()), Integer.parseInt(durationTF.getText()));
+            mission.getNeed().setCompetenceInit(getNewCompInit());
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
@@ -169,49 +198,73 @@ public class MissPageCtrl extends Route implements Initializable {
         // TODO else : snackabar ?
     }
 
+    public void deleteMission(ActionEvent actionEvent) throws IOException {
+        Test.company.removeMission(Route.missToLoad);
+        goMissions();
+    }
+
+    /////////////////////////////////////
+
     public class CompTableData {
-        private String id;
-        private String libelleFR;
-        private String libelleEN;
-        private int nbEmp;
+        private StringProperty id = new SimpleStringProperty();
+        private StringProperty libelleFR = new SimpleStringProperty();
+        private StringProperty libelleEN = new SimpleStringProperty();
+        private IntegerProperty nbEmp = new SimpleIntegerProperty();
+
 
         private CompTableData(String id, String libelleFR, String libelleEN, int nbEmp) {
-            this.id = id;
-            this.libelleFR = libelleFR;
-            this.libelleEN = libelleEN;
-            this.nbEmp = nbEmp;
+            this.id.setValue(id);
+            this.libelleFR.setValue(libelleFR);
+            this.libelleEN.setValue(libelleEN);
+            this.nbEmp.setValue(nbEmp);
         }
 
         public String getId() {
+            return id.get();
+        }
+
+        public StringProperty idProperty() {
             return id;
         }
 
         public String getLibelleFR() {
+            return libelleFR.get();
+        }
+
+        public StringProperty libelleFRProperty() {
             return libelleFR;
         }
 
         public String getLibelleEN() {
+            return libelleEN.get();
+        }
+
+        public StringProperty libelleENProperty() {
             return libelleEN;
         }
 
         public int getNbEmp() {
+            return nbEmp.get();
+        }
+
+        public IntegerProperty nbEmpProperty() {
             return nbEmp;
         }
 
         public void setId(String id) {
-            this.id = id;
+            this.id.set(id);
         }
 
         public void setLibelleFR(String libelleFR) {
-            this.libelleFR = libelleFR;
+            this.libelleFR.set(libelleFR);
         }
 
         public void setLibelleEN(String libelleEN) {
-            this.libelleEN = libelleEN;
+            this.libelleEN.set(libelleEN);
         }
 
         public void setNbEmp(int nbEmp) {
-            this.nbEmp = nbEmp;
+            this.nbEmp.set(nbEmp);
         }
     }
 }
