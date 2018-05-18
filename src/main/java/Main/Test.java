@@ -4,7 +4,6 @@ import Controller.EmpPageCtrl;
 import Controller.MissPageCtrl;
 import Model.Company;
 import Model.Employee;
-import Model.EmployeeMgt;
 import Model.Mission;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +24,8 @@ public class Test extends Application {
     // TODO Suppression mission
     // TODO Modification employé
     // TODO Modification mission
-            // TODO Sauvegarde à la fermeture de l'app (réécriture fichiers)
+    /////// TODO Sauvegarde à la fermeture de l'app (réécriture fichiers)
+
     // TODO Sélection compétences page employé (checkbox)
     // TODO Proposition employé pour mission
     // TODO Dashboard fonctionnel
@@ -103,6 +103,12 @@ public class Test extends Application {
     }
     //TODO Gestion modification date
 
+    /**
+     * Charger la scène Page Mission
+     *
+     * @param mission La mission à charger dans la scène
+     * @throws IOException
+     */
     public static void showMissionPage(Mission mission) throws IOException {
         FXMLLoader loader = new FXMLLoader(Test.class.getResource("/view/missPage.fxml"));
         AnchorPane anchorPane = loader.load();

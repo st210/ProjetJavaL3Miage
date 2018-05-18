@@ -2,8 +2,6 @@ package Controller;
 
 import Main.Test;
 import Model.Competence;
-import Model.CompetenceMgt;
-import Model.Employee;
 import Model.Mission;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -13,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -30,7 +27,6 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -55,7 +51,6 @@ public class MissPageCtrl extends Route implements Initializable {
     @FXML
     public JFXTextField nbEmpTF;
 
-
     private boolean creationMode;
     private Mission mission;
 
@@ -77,14 +72,17 @@ public class MissPageCtrl extends Route implements Initializable {
         ObservableList<CompTableData> compList = getCompTableData(mission.getNeed().getCompetenceInit());
         FilteredList<CompTableData> filteredList = new FilteredList<>(compList, competence -> true);
 
-        TableColumn id = new TableColumn("ID");
-        TableColumn libelle = new TableColumn("Libellé");
-        TableColumn nbEmp = new TableColumn("Besoin");
+        TableColumn<CompTableData, String> id = new TableColumn<>("ID");
+        TableColumn<CompTableData, String> libelle = new TableColumn<>("Libellé");
+        TableColumn<CompTableData, Integer> nbEmp = new TableColumn<>("Besoin");
 
-        id.setCellValueFactory(new PropertyValueFactory<CompTableData, String>("id"));
-        libelle.setCellValueFactory(new PropertyValueFactory<CompTableData, String>("libelleFR"));
-        nbEmp.setCellValueFactory(new PropertyValueFactory<CompTableData, Integer>("nbEmp"));
-
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        libelle.setCellValueFactory(new PropertyValueFactory<>("libelleFR"));
+        nbEmp.setCellValueFactory(new PropertyValueFactory<>("nbEmp"));
+        nbEmp.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+//        nbEmp.setOnEditCommit(event -> {
+//            event.
+//        });
         searchComp.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(competence -> {
             // If filter text is empty, display all persons.
             if (newValue == null || newValue.isEmpty()) {
@@ -103,6 +101,7 @@ public class MissPageCtrl extends Route implements Initializable {
         this.compTable.setItems(sortedList);
 
         this.compTable.getColumns().addAll(id, libelle, nbEmp);
+        this.compTable.setEditable(true);
     }
 
     /**

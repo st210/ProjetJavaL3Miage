@@ -68,7 +68,8 @@ public class EmpPageCtrl extends Route implements Initializable {
     }
 
     /**
-     * Remplie le tableau de compétence avec toutes les compétences du fichier CSV
+     * Remplie le tableau de compétences avec toutes les compétences du fichier CSV
+     * Lecture CSV
      *
      * @throws IOException
      */
@@ -77,15 +78,17 @@ public class EmpPageCtrl extends Route implements Initializable {
         ObservableList<Competence> compList = FXCollections.observableArrayList(cptMgt.importCompetencesFromCSV());
         FilteredList<Competence> filteredList = new FilteredList<>(compList, competence -> true);
 
-        TableColumn id = new TableColumn("ID");
-        TableColumn libelle = new TableColumn("Libellé");
-        TableColumn bool = new TableColumn("Pos");
+        TableColumn<Employee, String> id = new TableColumn<>("ID");
+        TableColumn<Employee, String> libelle = new TableColumn<>("Libellé");
+        TableColumn<Employee, Boolean> bool = new TableColumn<>("Possède");
 
-        id.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
-        libelle.setCellValueFactory(new PropertyValueFactory<Employee, String>("libelleFR"));
-        bool.setCellValueFactory(new PropertyValueFactory<Employee, Boolean>("competencesEmployee"));
-        bool.setCellFactory(CheckBoxTableCell.forTableColumn(bool));
-
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        libelle.setCellValueFactory(new PropertyValueFactory<>("libelleFR"));
+        bool.setCellValueFactory(new PropertyValueFactory<>("competencesEmployee"));
+        bool.setCellFactory(param -> new CheckBoxTableCell<>());
+//        bool.setOnEditCommit(event -> {
+//            event.getTableView().
+//        });
         searchComp.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(competence -> {
             // If filter text is empty, display all persons.
             if (newValue == null || newValue.isEmpty()) {
@@ -104,7 +107,8 @@ public class EmpPageCtrl extends Route implements Initializable {
 
         this.compTable.setItems(sortedList);
 
-        this.compTable.getColumns().addAll(id, libelle);
+        this.compTable.getColumns().addAll(id, libelle, bool);
+        this.compTable.setEditable(true);
     }
 
     /**
