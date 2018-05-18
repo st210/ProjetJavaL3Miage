@@ -129,17 +129,17 @@
                   <Font name="System Bold" size="34.0" />
                </font>
             </Label>
-            <Label layoutX="26.0" layoutY="70.0" text="Ma mission 1" textFill="#4d4c4c">
+            <Label fx:id="toCompl1" layoutX="26.0" layoutY="70.0" text="Ma mission 1" textFill="#4d4c4c">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label layoutX="24.0" layoutY="100.0" text="Ma mission 2" textFill="#4d4c4c">
+            <Label fx:id="toCompl2" layoutX="24.0" layoutY="100.0" text="Ma mission 2" textFill="#4d4c4c">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="128.0" text="Ma mission 3" textFill="#4d4c4c">
+            <Label fx:id="toCompl3" layoutX="25.0" layoutY="128.0" text="Ma mission 3" textFill="#4d4c4c">
                <font>
                   <Font size="13.0" />
                </font>
@@ -162,24 +162,24 @@
                   <Font name="System Bold" size="34.0" />
                </font>
             </Label>
-            <Label layoutX="26.0" layoutY="70.0" text="Ma mission 1" textFill="#4d4c4c">
+            <Label fx:id="scheduled1" layoutX="26.0" layoutY="70.0" text="Ma mission 1" textFill="#4d4c4c">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label layoutX="24.0" layoutY="100.0" text="Ma mission 2" textFill="#4d4c4c">
+            <Label fx:id="scheduled2" layoutX="24.0" layoutY="100.0" text="Ma mission 2" textFill="#4d4c4c">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="128.0" text="Ma mission 3" textFill="#4d4c4c">
+            <Label fx:id="scheduled3" layoutX="25.0" layoutY="128.0" text="Ma mission 3" textFill="#4d4c4c">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label layoutX="147.0" layoutY="70.0" text="J - 4" textFill="#aeacac" />
-            <Label layoutX="147.0" layoutY="100.0" text="J - 29" textFill="#aeacac" />
-            <Label layoutX="147.0" layoutY="128.0" text="J - 67" textFill="#aeacac" />
+            <Label fx:id="scheduledDay1" layoutX="147.0" layoutY="70.0" text="J - 4" textFill="#aeacac" />
+            <Label fx:id="scheduledDay2" layoutX="147.0" layoutY="100.0" text="J - 29" textFill="#aeacac" />
+            <Label fx:id="scheduledDay3" layoutX="147.0" layoutY="128.0" text="J - 67" textFill="#aeacac" />
          </children>
          <effect>
             <DropShadow color="#d7d2d2" height="50.0" radius="24.5" width="50.0" />
