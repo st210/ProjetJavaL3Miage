@@ -18,13 +18,6 @@ public class Test extends Application {
     public static Company company = new Company();
     private static Stage stage = new Stage();
 
-    // TODO Suppression employé
-    // TODO Suppression mission
-    // TODO Modification employé
-    // TODO Modification mission
-    /////// TODO Sauvegarde à la fermeture de l'app (réécriture fichiers)
-
-    // TODO Sélection compétences page employé (checkbox)
     // TODO Proposition employé pour mission
     // TODO Dashboard fonctionnel
 

@@ -17,7 +17,7 @@ public class Employee extends ModifierCSV {
     private String firstname;
     private String entryIntoCompany;
     private ArrayList<Competence> competencesEmployee = new ArrayList<>();
-    private boolean taken;
+    private boolean taken = false;
 
     public Employee(String firstnameE, String nameE, String entry) {
         CompetenceMgt cm = new CompetenceMgt();

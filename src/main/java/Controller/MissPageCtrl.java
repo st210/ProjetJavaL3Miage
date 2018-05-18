@@ -3,25 +3,27 @@ package Controller;
 import Main.Test;
 import Model.Competence;
 import Model.CompetenceMgt;
+import Model.EmployeeMgt;
 import Model.Mission;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.glass.ui.TouchInputSupport;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
@@ -85,12 +87,15 @@ public class MissPageCtrl extends Route implements Initializable {
         TableColumn<CompTableData, String> libelle = new TableColumn<>("Libellé");
         TableColumn<CompTableData, String> nbCurr = new TableColumn<>("Auj.");
         TableColumn<CompTableData, Integer> nbEmp = new TableColumn<>("Besoin");
+        TableColumn<CompTableData, CompTableData> actionBtn = new TableColumn<>("Action");
 
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         libelle.setCellValueFactory(new PropertyValueFactory<>("libelleFR"));
         nbCurr.setCellValueFactory(new PropertyValueFactory<>("nbCurrent"));
         nbEmp.setCellValueFactory(new PropertyValueFactory<>("nbEmp"));
         nbEmp.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        actionBtn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        actionBtn.setCellFactory(p -> new BtnAddEmp());
 
         searchComp.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(competence -> {
             // If filter text is empty, display all persons.
@@ -109,7 +114,7 @@ public class MissPageCtrl extends Route implements Initializable {
 
         this.compTable.setItems(sortedList);
 
-        this.compTable.getColumns().addAll(id, libelle, nbCurr, nbEmp);
+        this.compTable.getColumns().addAll(id, libelle, nbCurr, nbEmp, actionBtn);
 
         this.compTable.setEditable(true);
     }
@@ -283,6 +288,38 @@ public class MissPageCtrl extends Route implements Initializable {
 
         public void setNbCurrent(int nbCurrent) {
             this.nbCurrent.set(nbCurrent);
+        }
+
+        public Competence toCompetence() {
+            return new Competence(getId(),getLibelleEN(),getLibelleFR());
+        }
+    }
+
+    public class BtnAddEmp extends TableCell<CompTableData, CompTableData> {
+        private Button cellButton;
+
+        BtnAddEmp() {
+            EmployeeMgt employeeMgt = new EmployeeMgt();
+            cellButton = new Button();
+            cellButton.setOnAction(t -> {
+                // do something when button clicked
+                CompTableData compTableData = getItem();
+                // do something with record....
+                System.out.println(compTableData.toCompetence().toString());
+                System.out.println(employeeMgt.findEmpForComp(compTableData.toCompetence()));
+            });
+        }
+
+        //Display button if the row is not empty
+        @Override
+        protected void updateItem(CompTableData compTableData, boolean empty) {
+            super.updateItem(compTableData, empty);
+            if (!empty) {
+                cellButton.setText("ADD");
+                setGraphic(cellButton);
+            } else {
+                setGraphic(null);
+            }
         }
     }
 }
