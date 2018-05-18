@@ -2,10 +2,7 @@ package Main;
 
 import Controller.EmpPageCtrl;
 import Controller.MissPageCtrl;
-import Model.Company;
-import Model.Employee;
-import Model.EmployeeMgt;
-import Model.Mission;
+import Model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,7 +36,14 @@ public class Test extends Application {
     @Override
     public void stop() throws Exception {
         EmployeeMgt employeeMgt = new EmployeeMgt();
+        MissionMgt missionMgt = new MissionMgt();
+
         employeeMgt.saveAllEmployee();
+        employeeMgt.saveAllComp();
+
+        missionMgt.saveAllMissions();
+        missionMgt.saveMissionsComp();
+        missionMgt.saveMissionsEmp();
     }
 
     public static void main(String[] args) throws IOException {

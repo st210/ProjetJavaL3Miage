@@ -112,12 +112,8 @@ public class Employee extends ModifierCSV {
     public void addCompetence(Competence c) {
         EmployeeMgt employeeMgt = new EmployeeMgt();
         if (!this.competencesEmployee.contains(c)) {
-            try {
-                employeeMgt.appendCompToEmp(this.id, c);
-                this.competencesEmployee.add(c);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//                employeeMgt.appendCompToEmp(this.id, c);
+            this.competencesEmployee.add(c);
         }
     }
 
@@ -137,11 +133,10 @@ public class Employee extends ModifierCSV {
      *
      * @throws IOException
      */
-    public void writeEmployeeCSV() throws IOException {
-        String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
-        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine, false);
-    }
-
+//    public void writeEmployeeCSV() throws IOException {
+//        String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
+//        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine, false);
+//    }
     @Override
     public String toString() {
         return "[" + this.getId() + "] " + this.firstname + " " + this.name + " is employed since " + this.entryIntoCompany;

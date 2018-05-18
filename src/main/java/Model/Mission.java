@@ -227,13 +227,8 @@ public class Mission extends ModifierCSV {
     public void addCompetence(Competence c, int nbEmployes) {
         MissionMgt missionMgt = new MissionMgt();
         if (!this.need.contains(c)) {
-            try {
-                missionMgt.appendCompToMission(this.id, c, nbEmployes);
-                this.need.addCompetence(c, nbEmployes);
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
+            //                missionMgt.appendCompToMission(this.id, c, nbEmployes);
+            this.need.addCompetence(c, nbEmployes);
         }
     }
 
@@ -247,7 +242,7 @@ public class Mission extends ModifierCSV {
         MissionMgt missionMgt = new MissionMgt();
         if (!this.need.contains(c)) {
             try {
-                missionMgt.appendEmpToMission(this.id, c, e);
+//                missionMgt.appendEmpToMission(this.id, c, e);
                 this.need.addEmployee(c, e);
             } catch (Exception e1) {
                 System.err.println(e1.getMessage());
@@ -256,15 +251,15 @@ public class Mission extends ModifierCSV {
         }
     }
 
-    /**
-     * Sauvegarder une nouvelle mission dans le fichier LISTE_MISSION
-     *
-     * @throws IOException
-     */
-    public void writeMissionCSV() throws IOException {
-        String mission = id + ";" + name + ";" + nbEmployes + ";" + dateDebut + ";" + duration + ";" + status.name();
-        appendNewLine(FILE_LISTE_MISSION, mission, false);
-    }
+//    /**
+//     * Sauvegarder une nouvelle mission dans le fichier LISTE_MISSION
+//     *
+//     * @throws IOException
+//     */
+//    public void writeMissionCSV() throws IOException {
+//        String mission = id + ";" + name + ";" + nbEmployes + ";" + dateDebut + ";" + duration + ";" + status.name();
+//        appendNewLine(FILE_LISTE_MISSION, mission, false);
+//    }
 
 
     @Override

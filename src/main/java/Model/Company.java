@@ -214,11 +214,13 @@ public class Company implements IModifierCSV {
         BufferedReader br = new BufferedReader(csvFile);
 
         while ((line = br.readLine()) != null) {
-            employeeLine = line.split(separator);
-            Employee newEmployee = new Employee(employeeLine[0], employeeLine[1], employeeLine[2]);
+            if (!line.equals("")) {
+                employeeLine = line.split(separator);
+                Employee newEmployee = new Employee(employeeLine[0], employeeLine[1], employeeLine[2]);
 
-            if (!this.employees.contains(newEmployee)) {
-                this.employees.add(newEmployee);
+                if (!this.employees.contains(newEmployee)) {
+                    this.employees.add(newEmployee);
+                }
             }
         }
     }
@@ -244,11 +246,13 @@ public class Company implements IModifierCSV {
         BufferedReader br = new BufferedReader(csvFile);
 
         while ((line = br.readLine()) != null) {
-            missionLine = line.split(separator);
-            Mission newMission = new Mission(missionLine[0], missionLine[1], missionLine[2], missionLine[3], missionLine[4], missionLine[5], this);
+            if (!line.equals("")) {
+                missionLine = line.split(separator);
+                Mission newMission = new Mission(missionLine[0], missionLine[1], missionLine[2], missionLine[3], missionLine[4], missionLine[5], this);
 
-            if (!this.missions.contains(newMission)) {
-                this.missions.add(newMission);
+                if (!this.missions.contains(newMission)) {
+                    this.missions.add(newMission);
+                }
             }
         }
     }
