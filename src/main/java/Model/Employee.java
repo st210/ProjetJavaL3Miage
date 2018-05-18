@@ -104,7 +104,8 @@ public class Employee extends ModifierCSV {
     }
 
     /**
-     * Ajouter une nouvelle compétence à l'employé + écriture CSV
+     * Ajouter une nouvelle compétence à l'employé
+     * Écriture CSV
      *
      * @param c La compétence à ajouter
      */
@@ -138,7 +139,7 @@ public class Employee extends ModifierCSV {
      */
     public void writeEmployeeCSV() throws IOException {
         String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
-        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine);
+        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine, false);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class MissionMgt extends ModifierCSV {
 
         if (!missionFound) {
             String newLine = idMission + separatorComp + c.getId() + separatorNbPers + nbPers;
-            appendNewLine(FILE_MISSION_COMPETENCES, newLine);
+            appendNewLine(FILE_MISSION_COMPETENCES, newLine, false);
         }
 
         fw.flush();
@@ -84,7 +84,7 @@ public class MissionMgt extends ModifierCSV {
 
         if (!missionFound) {
             String newLine = idMission + separatorEmp + comp.getId() + separatorComp + emp.getId();
-            appendNewLine(FILE_MISSION_PERSONNEL, newLine);
+            appendNewLine(FILE_MISSION_PERSONNEL, newLine, false);
         }
 
         fw.flush();

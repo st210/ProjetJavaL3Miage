@@ -171,8 +171,10 @@ public class Company implements IModifierCSV {
      * @throws IOException IOException
      */
     public void addEmployee(Employee e) throws IOException {
-        e.writeEmployeeCSV();
-        this.employees.add(e);
+        //e.writeEmployeeCSV();
+        if (!this.employees.contains(e)) {
+            this.employees.add(e);
+        }
     }
 
     public void removeEmployee(Employee e) {

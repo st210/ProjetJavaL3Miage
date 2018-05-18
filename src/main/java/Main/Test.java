@@ -4,6 +4,7 @@ import Controller.EmpPageCtrl;
 import Controller.MissPageCtrl;
 import Model.Company;
 import Model.Employee;
+import Model.EmployeeMgt;
 import Model.Mission;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +36,11 @@ public class Test extends Application {
         showDashboardView();
     }
 
+    @Override
+    public void stop() throws Exception {
+        EmployeeMgt employeeMgt = new EmployeeMgt();
+        employeeMgt.saveAllEmployee();
+    }
 
     public static void main(String[] args) throws IOException {
 //        EmployeeMgt employeeMgt = new EmployeeMgt();

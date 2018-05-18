@@ -263,7 +263,7 @@ public class Mission extends ModifierCSV {
      */
     public void writeMissionCSV() throws IOException {
         String mission = id + ";" + name + ";" + nbEmployes + ";" + dateDebut + ";" + duration + ";" + status.name();
-        appendNewLine(FILE_LISTE_MISSION, mission);
+        appendNewLine(FILE_LISTE_MISSION, mission, false);
     }
 
 

@@ -39,7 +39,7 @@ public class EmployeeMgt extends ModifierCSV {
 
         if (!empFound) {
             String newLine = idEmp + ";" + c.getId();
-            appendNewLine(FILE_COMPETENCES_PERSONNEL, newLine);
+            appendNewLine(FILE_COMPETENCES_PERSONNEL, newLine, false);
         }
 
         fw.close();
@@ -75,9 +75,13 @@ public class EmployeeMgt extends ModifierCSV {
 
     public void saveAllEmployee() throws IOException {
         String line;
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = Objects.requireNonNull(classLoader.getResource(FILE_LISTE_PERSONNEL)).getFile();
+        File fold = new File(path);
+        fold.delete();
         for (Employee e : Test.company.getEmployees()) {
             line = e.getFirstname() + ";" + e.getName() + ";" + e.getEntryIntoCompany() + ";" + e.getId();
-            rewriteFile(FILE_LISTE_PERSONNEL, line);
+            appendNewLine(path, line, true);
         }
     }
 }
