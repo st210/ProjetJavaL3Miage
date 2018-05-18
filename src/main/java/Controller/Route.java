@@ -39,6 +39,7 @@ public abstract class Route {
     }
 
     public void goEmpPageEmpty(ActionEvent actionEvent) throws IOException, ParseException {
+        Route.empToLoad = null;
         Main.Test.showEmployeePage(null);
     }
 
@@ -47,6 +48,7 @@ public abstract class Route {
     }
 
     public void goMissPageEmpty() throws IOException {
+        Route.missToLoad = null;
         Main.Test.showMissionPage(null);
     }
 

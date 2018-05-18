@@ -7,6 +7,10 @@ import Model.Employee;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -20,12 +24,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class EmpPageCtrl extends Route implements Initializable {
@@ -68,27 +73,43 @@ public class EmpPageCtrl extends Route implements Initializable {
     }
 
     /**
+     * Retourne la liste mise à jours des compétences de l'employé
+     *
+     * @return ArrayList de compétences mise à jour
+     * @throws IOException
+     */
+    private ArrayList<Competence> getNewComps() throws IOException {
+        CompetenceMgt competenceMgt = new CompetenceMgt();
+        ArrayList<Competence> empComp = new ArrayList<>();
+        List<CompEmpData> compEmpData = compTable.getItems();
+
+        for (CompEmpData c : compEmpData) {
+            if (c.isKnown()) {
+                empComp.add(competenceMgt.getCompetenceByIDFromCSV(c.getId()));
+            }
+        }
+        return empComp;
+    }
+
+    /**
      * Remplie le tableau de compétences avec toutes les compétences du fichier CSV
      * Lecture CSV
      *
      * @throws IOException
      */
     private void fillCompTable() throws IOException {
-        CompetenceMgt cptMgt = new CompetenceMgt();
-        ObservableList<Competence> compList = FXCollections.observableArrayList(cptMgt.importCompetencesFromCSV());
-        FilteredList<Competence> filteredList = new FilteredList<>(compList, competence -> true);
+        ObservableList<CompEmpData> compList = fillCompEmpData();
+        FilteredList<CompEmpData> filteredList = new FilteredList<>(compList, competence -> true);
 
-        TableColumn<Employee, String> id = new TableColumn<>("ID");
-        TableColumn<Employee, String> libelle = new TableColumn<>("Libellé");
-        TableColumn<Employee, Boolean> bool = new TableColumn<>("Possède");
+        TableColumn<CompEmpData, String> id = new TableColumn<>("ID");
+        TableColumn<CompEmpData, String> libelle = new TableColumn<>("Libellé");
+        TableColumn<CompEmpData, Boolean> bool = new TableColumn<>("Possède");
 
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         libelle.setCellValueFactory(new PropertyValueFactory<>("libelleFR"));
-        bool.setCellValueFactory(new PropertyValueFactory<>("competencesEmployee"));
+        bool.setCellValueFactory(new PropertyValueFactory<>("known"));
         bool.setCellFactory(param -> new CheckBoxTableCell<>());
-//        bool.setOnEditCommit(event -> {
-//            event.getTableView().
-//        });
+
         searchComp.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(competence -> {
             // If filter text is empty, display all persons.
             if (newValue == null || newValue.isEmpty()) {
@@ -102,12 +123,19 @@ public class EmpPageCtrl extends Route implements Initializable {
 
         }));
 
-        SortedList<Competence> sortedList = new SortedList<>(filteredList);
+        SortedList<CompEmpData> sortedList = new SortedList<>(filteredList);
 
 
         this.compTable.setItems(sortedList);
 
         this.compTable.getColumns().addAll(id, libelle, bool);
+
+        compTable.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() >= 0) {
+                System.out.println(sortedList.get(newValue.intValue()));
+            }
+        });
+
         this.compTable.setEditable(true);
     }
 
@@ -136,6 +164,7 @@ public class EmpPageCtrl extends Route implements Initializable {
         if (!nameTF.getText().equals("") && !firstNameTF.getText().equals("") && date.getValue() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             Employee employee = new Employee(firstNameTF.getText(), nameTF.getText(), date.getValue().format(formatter));
+            employee.setCompetencesEmployee(getNewComps());
             Test.company.addEmployee(employee);
             goEmployees();
         }
@@ -143,6 +172,85 @@ public class EmpPageCtrl extends Route implements Initializable {
     }
 
     public void deleteEmp(ActionEvent actionEvent) {
+        Test.company.removeEmployee(Route.empToLoad);
+    }
 
+    private ObservableList<CompEmpData> fillCompEmpData() throws IOException {
+        CompetenceMgt competenceMgt = new CompetenceMgt();
+        ArrayList<CompEmpData> compEmpData = new ArrayList<>();
+        ArrayList<Competence> competences = competenceMgt.importCompetencesFromCSV();
+        Boolean bool = false;
+        for (Competence c : competences) {
+            if (Route.empToLoad != null) {
+                bool = Route.empToLoad.getCompetencesEmployee().contains(c);
+            }
+            compEmpData.add(new CompEmpData(c.getId(), c.getLibelleFR(), c.getLibelleEN(), bool));
+        }
+        return FXCollections.observableArrayList(compEmpData);
+
+    }
+
+    //////////////////////////////////////////////
+
+    public class CompEmpData {
+        private StringProperty id = new SimpleStringProperty();
+        private StringProperty libelleFR = new SimpleStringProperty();
+        private StringProperty libelleEN = new SimpleStringProperty();
+        private BooleanProperty known = new SimpleBooleanProperty();
+
+        private CompEmpData(String id, String libelleFR, String libelleEN, boolean known) {
+            this.id.setValue(id);
+            this.libelleFR.setValue(libelleFR);
+            this.libelleEN.setValue(libelleEN);
+            this.known.setValue(known);
+        }
+
+        public String getId() {
+            return id.get();
+        }
+
+        public StringProperty idProperty() {
+            return id;
+        }
+
+        public String getLibelleFR() {
+            return libelleFR.get();
+        }
+
+        public StringProperty libelleFRProperty() {
+            return libelleFR;
+        }
+
+        public String getLibelleEN() {
+            return libelleEN.get();
+        }
+
+        public StringProperty libelleENProperty() {
+            return libelleEN;
+        }
+
+        public boolean isKnown() {
+            return known.get();
+        }
+
+        public BooleanProperty knownProperty() {
+            return known;
+        }
+
+        public void setId(String id) {
+            this.id.set(id);
+        }
+
+        public void setLibelleFR(String libelleFR) {
+            this.libelleFR.set(libelleFR);
+        }
+
+        public void setLibelleEN(String libelleEN) {
+            this.libelleEN.set(libelleEN);
+        }
+
+        public void setKnown(boolean known) {
+            this.known.set(known);
+        }
     }
 }
