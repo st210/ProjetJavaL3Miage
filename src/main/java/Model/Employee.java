@@ -17,6 +17,7 @@ public class Employee extends ModifierCSV {
     private String firstname;
     private String entryIntoCompany;
     private ArrayList<Competence> competencesEmployee = new ArrayList<>();
+    private boolean taken;
 
     public Employee(String firstnameE, String nameE, String entry) {
         CompetenceMgt cm = new CompetenceMgt();
@@ -73,6 +74,10 @@ public class Employee extends ModifierCSV {
         return formatter.parse(this.entryIntoCompany);
     }
 
+    public boolean isTaken() {
+        return taken;
+    }
+
     /**
      * Retourne la liste de compétences de l'employé
      *
@@ -101,6 +106,10 @@ public class Employee extends ModifierCSV {
 
     public void setCompetencesEmployee(ArrayList<Competence> competencesEmployee) {
         this.competencesEmployee = competencesEmployee;
+    }
+
+    public void setTaken(boolean taken) {
+        this.taken = taken;
     }
 
     /**

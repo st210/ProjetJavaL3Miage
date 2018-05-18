@@ -7,6 +7,7 @@ import Model.Mission;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.glass.ui.TouchInputSupport;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,10 +19,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
@@ -85,15 +83,15 @@ public class MissPageCtrl extends Route implements Initializable {
 
         TableColumn<CompTableData, String> id = new TableColumn<>("ID");
         TableColumn<CompTableData, String> libelle = new TableColumn<>("Libellé");
+        TableColumn<CompTableData, String> nbCurr = new TableColumn<>("Auj.");
         TableColumn<CompTableData, Integer> nbEmp = new TableColumn<>("Besoin");
 
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         libelle.setCellValueFactory(new PropertyValueFactory<>("libelleFR"));
+        nbCurr.setCellValueFactory(new PropertyValueFactory<>("nbCurrent"));
         nbEmp.setCellValueFactory(new PropertyValueFactory<>("nbEmp"));
         nbEmp.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-//        nbEmp.setOnEditCommit(event -> {
-//            event.
-//        });
+
         searchComp.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(competence -> {
             // If filter text is empty, display all persons.
             if (newValue == null || newValue.isEmpty()) {
@@ -111,7 +109,8 @@ public class MissPageCtrl extends Route implements Initializable {
 
         this.compTable.setItems(sortedList);
 
-        this.compTable.getColumns().addAll(id, libelle, nbEmp);
+        this.compTable.getColumns().addAll(id, libelle, nbCurr, nbEmp);
+
         this.compTable.setEditable(true);
     }
 
@@ -126,13 +125,19 @@ public class MissPageCtrl extends Route implements Initializable {
         ArrayList<CompTableData> compEmpData = new ArrayList<>();
         ArrayList<Competence> competences = competenceMgt.importCompetencesFromCSV();
         int nbEmp = 0;
+        int nbCurrent = 0;
         for (Competence c : competences) {
             if (Route.missToLoad != null) {
                 if (Route.missToLoad.getNeed().getCompetenceInit().get(c) != null)
                     nbEmp = Route.missToLoad.getNeed().getCompetenceInit().get(c);
-                else nbEmp = 0;
+                else
+                    nbEmp = 0;
+                if (Route.missToLoad.getNeed().getCompetenceCurrent().get(c) != null)
+                    nbCurrent = Route.missToLoad.getNeed().getCompetenceCurrent().get(c).size();
+                else
+                    nbCurrent = 0;
             }
-            compEmpData.add(new CompTableData(c.getId(), c.getLibelleFR(), c.getLibelleEN(), nbEmp));
+            compEmpData.add(new CompTableData(c.getId(), c.getLibelleFR(), c.getLibelleEN(), nbEmp, nbCurrent));
         }
         return FXCollections.observableArrayList(compEmpData);
     }
@@ -210,13 +215,14 @@ public class MissPageCtrl extends Route implements Initializable {
         private StringProperty libelleFR = new SimpleStringProperty();
         private StringProperty libelleEN = new SimpleStringProperty();
         private IntegerProperty nbEmp = new SimpleIntegerProperty();
+        private IntegerProperty nbCurrent = new SimpleIntegerProperty();
 
-
-        private CompTableData(String id, String libelleFR, String libelleEN, int nbEmp) {
+        private CompTableData(String id, String libelleFR, String libelleEN, int nbEmp, int nbCurrent) {
             this.id.setValue(id);
             this.libelleFR.setValue(libelleFR);
             this.libelleEN.setValue(libelleEN);
             this.nbEmp.setValue(nbEmp);
+            this.nbCurrent.setValue(nbCurrent);
         }
 
         public String getId() {
@@ -251,6 +257,14 @@ public class MissPageCtrl extends Route implements Initializable {
             return nbEmp;
         }
 
+        public int getNbCurrent() {
+            return nbCurrent.get();
+        }
+
+        public IntegerProperty nbCurrentProperty() {
+            return nbCurrent;
+        }
+
         public void setId(String id) {
             this.id.set(id);
         }
@@ -265,6 +279,10 @@ public class MissPageCtrl extends Route implements Initializable {
 
         public void setNbEmp(int nbEmp) {
             this.nbEmp.set(nbEmp);
+        }
+
+        public void setNbCurrent(int nbCurrent) {
+            this.nbCurrent.set(nbCurrent);
         }
     }
 }
