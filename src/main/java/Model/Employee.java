@@ -1,5 +1,7 @@
 package Model;
 
+import Main.Test;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +17,7 @@ public class Employee extends ModifierCSV {
     private String firstname;
     private String entryIntoCompany;
     private ArrayList<Competence> competencesEmployee = new ArrayList<>();
+    private boolean taken = false;
 
     public Employee(String firstnameE, String nameE, String entry) {
         CompetenceMgt cm = new CompetenceMgt();
@@ -22,6 +25,19 @@ public class Employee extends ModifierCSV {
         this.name = nameE;
         this.firstname = firstnameE;
         this.entryIntoCompany = entry;
+        try {
+            competencesEmployee = cm.getCompetencesForEmpFromCSV(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Employee(String id, String name, String firstname, String entryIntoCompany) {
+        CompetenceMgt cm = new CompetenceMgt();
+        this.id = id;
+        this.name = name;
+        this.firstname = firstname;
+        this.entryIntoCompany = entryIntoCompany;
         try {
             competencesEmployee = cm.getCompetencesForEmpFromCSV(id);
         } catch (IOException e) {
@@ -58,6 +74,10 @@ public class Employee extends ModifierCSV {
         return formatter.parse(this.entryIntoCompany);
     }
 
+    public boolean isTaken() {
+        return taken;
+    }
+
     /**
      * Retourne la liste de compétences de l'employé
      *
@@ -88,20 +108,21 @@ public class Employee extends ModifierCSV {
         this.competencesEmployee = competencesEmployee;
     }
 
+    public void setTaken(boolean taken) {
+        this.taken = taken;
+    }
+
     /**
-     * Ajouter une nouvelle compétence à l'employé + écriture CSV
+     * Ajouter une nouvelle compétence à l'employé
+     * Écriture CSV
      *
      * @param c La compétence à ajouter
      */
     public void addCompetence(Competence c) {
         EmployeeMgt employeeMgt = new EmployeeMgt();
         if (!this.competencesEmployee.contains(c)) {
-            try {
-                employeeMgt.appendCompToEmp(this.id, c);
-                this.competencesEmployee.add(c);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//                employeeMgt.appendCompToEmp(this.id, c);
+            this.competencesEmployee.add(c);
         }
     }
 
@@ -121,12 +142,10 @@ public class Employee extends ModifierCSV {
      *
      * @throws IOException
      */
-    public void writeEmployeeCSV() throws IOException {
-        String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
-        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine);
-    }
-
-
+//    public void writeEmployeeCSV() throws IOException {
+//        String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
+//        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine, false);
+//    }
     @Override
     public String toString() {
         return "[" + this.getId() + "] " + this.firstname + " " + this.name + " is employed since " + this.entryIntoCompany;

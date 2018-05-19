@@ -1,8 +1,8 @@
 package Main;
 
 import Controller.EmpPageCtrl;
-import Model.Company;
-import Model.Employee;
+import Controller.MissPageCtrl;
+import Model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,12 +18,6 @@ public class Test extends Application {
     public static Company company = new Company();
     private static Stage stage = new Stage();
 
-    // TODO Suppression employé
-    // TODO Suppression mission
-    // TODO Modification employé
-    // TODO Modification mission
-    // TODO Filtre compétences page employé
-    // TODO Sélection compétence page employé
     // TODO Proposition employé pour mission
     // TODO Dashboard fonctionnel
 
@@ -32,8 +26,23 @@ public class Test extends Application {
         showDashboardView();
     }
 
+    @Override
+    public void stop() throws Exception {
+        EmployeeMgt employeeMgt = new EmployeeMgt();
+        MissionMgt missionMgt = new MissionMgt();
 
-    public static void main(String[] args) {
+        employeeMgt.saveAllEmployee();
+        employeeMgt.saveAllComp();
+
+        missionMgt.saveAllMissions();
+        missionMgt.saveMissionsComp();
+        missionMgt.saveMissionsEmp();
+    }
+
+    public static void main(String[] args) throws IOException {
+//        EmployeeMgt employeeMgt = new EmployeeMgt();
+//        Test.company.deleteEmployee(Test.company.getEmployee("50"));
+//        employeeMgt.saveAllEmployee();
         launch(args);
     }
 
@@ -96,4 +105,26 @@ public class Test extends Application {
         stage.show();
     }
     //TODO Gestion modification date
+
+    /**
+     * Charger la scène Page Mission
+     *
+     * @param mission La mission à charger dans la scène
+     * @throws IOException
+     */
+    public static void showMissionPage(Mission mission) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Test.class.getResource("/view/missPage.fxml"));
+        AnchorPane anchorPane = loader.load();
+        MissPageCtrl controller = loader.getController();
+        if (mission != null) {
+            controller.setCreationMode(false);
+            // Get the Controller from the FXMLLoader
+            controller.fillData(mission);
+        } else {
+            controller.setCreationMode(true);
+        }
+        stage.setTitle("Mission");
+        stage.setScene(new Scene(anchorPane, 1080, 720));
+        stage.show();
+    }
 }

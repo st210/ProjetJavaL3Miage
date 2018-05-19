@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+import static Main.Test.company;
+
 /**
  * Classe dévrivant les besoins d'une mission :
  * - De quelles compétences la mission à t-elle besoin ?
@@ -87,6 +89,7 @@ public class Need implements IModifierCSV {
                 listeEmp = new ArrayList<>();
                 listeEmp.add(employee);
                 competenceCurrent.put(competence, listeEmp);
+                employee.setTaken(true);
             } else {
                 if (!listeEmp.contains(employee)) {
                     listeEmp.add(employee);
@@ -167,7 +170,7 @@ public class Need implements IModifierCSV {
      */
     private void loadCompetenceCurrent(String idMission) throws Exception {
         CompetenceMgt competenceMgt = new CompetenceMgt();
-        Company company = Test.company;
+        EmployeeMgt employeeMgt = new EmployeeMgt();
         boolean missionFound = false;
         String separatorEmp = ";"; // separateur entre les employés
         String separatorComp = "~"; // séparateur entre l'employé et la compétence associée
@@ -187,12 +190,23 @@ public class Need implements IModifierCSV {
 
                 for (int i = 1; i < missionLine.length; i++) {
                     empTab = missionLine[i].split(separatorComp);
-                    addEmployee(competenceMgt.getCompetenceByIDFromCSV(empTab[0]), company.getEmployee(empTab[1]));
+                    ArrayList<Employee> employees = employeeMgt.getAllEmployeesCSV();
+                    addEmployee(competenceMgt.getCompetenceByIDFromCSV(empTab[0]), getEmployee(employees, empTab[1]));
                 }
             }
         }
 
         fr.close();
         br.close();
+    }
+
+    private Employee getEmployee(ArrayList<Employee> employees, String id) {
+        for (Employee e : employees) {
+            if (e.getId().equals(id)) {
+                return e;
+            }
+        }
+        System.err.println("Employee not found");
+        return null;
     }
 }

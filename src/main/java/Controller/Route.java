@@ -2,6 +2,7 @@ package Controller;
 
 import Main.Test;
 import Model.Employee;
+import Model.Mission;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 public abstract class Route {
+
     @FXML
     public JFXButton homeBtn;
     @FXML
@@ -18,6 +20,7 @@ public abstract class Route {
     public JFXButton persBtn;
 
     public static Employee empToLoad = null; //  ¯\_(ツ)_/¯
+    public static Mission missToLoad = null; //  ¯\_(ツ)_/¯
 
     public void goDashboard() throws IOException {
         Test.showDashboardView();
@@ -36,7 +39,17 @@ public abstract class Route {
     }
 
     public void goEmpPageEmpty(ActionEvent actionEvent) throws IOException, ParseException {
+        Route.empToLoad = null;
         Main.Test.showEmployeePage(null);
+    }
+
+    public void goMissPage() throws IOException {
+        Main.Test.showMissionPage(missToLoad);
+    }
+
+    public void goMissPageEmpty() throws IOException {
+        Route.missToLoad = null;
+        Main.Test.showMissionPage(null);
     }
 
 }

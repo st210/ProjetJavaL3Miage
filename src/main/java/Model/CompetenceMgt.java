@@ -20,7 +20,7 @@ public class CompetenceMgt extends ModifierCSV {
         ArrayList<Competence> competencesEmp = new ArrayList<>();
         ArrayList<Competence> allCompetences = new ArrayList<>();
 
-        allCompetences = importCompetencesFromCSV(FILE_LISTE_COMPETENCES);
+        allCompetences = importCompetencesFromCSV();
         String separator = ";";
         String comptetencesLine[];
         String line;
@@ -55,11 +55,10 @@ public class CompetenceMgt extends ModifierCSV {
     /**
      * Retourne toutes les compétences contenues dans le fichier passé en paramètre
      *
-     * @param fileName le nom du fichier contenant les compétences
      * @return List<Competence>
      * @throws IOException IOException
      */
-    public ArrayList<Competence> importCompetencesFromCSV(String fileName) throws IOException {
+    public ArrayList<Competence> importCompetencesFromCSV() throws IOException {
 
         ArrayList<Competence> competences = new ArrayList<>();
 
@@ -68,7 +67,7 @@ public class CompetenceMgt extends ModifierCSV {
         String line;
 
         ClassLoader classLoader = getClass().getClassLoader();
-        String path = Objects.requireNonNull(classLoader.getResource(fileName)).getFile();
+        String path = Objects.requireNonNull(classLoader.getResource(FILE_LISTE_COMPETENCES)).getFile();
 
         FileReader csvFile = new FileReader(path);
         BufferedReader br = new BufferedReader(csvFile);
@@ -91,9 +90,9 @@ public class CompetenceMgt extends ModifierCSV {
      * @return Competence
      */
     public Competence getCompetenceByIDFromCSV(String id) {
-        ArrayList<Competence> allComp = new ArrayList<>();
+        ArrayList<Competence> allComp;
         try {
-            allComp = importCompetencesFromCSV(FILE_LISTE_COMPETENCES);
+            allComp = importCompetencesFromCSV();
             for (Competence c : allComp) {
                 if (Objects.equals(c.getId(), id)) {
                     return c;

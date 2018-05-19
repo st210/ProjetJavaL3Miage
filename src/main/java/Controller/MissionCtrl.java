@@ -2,6 +2,7 @@ package Controller;
 
 import Main.Test;
 import Model.Company;
+import Model.Employee;
 import Model.Mission;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -13,11 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
+import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 
 public class MissionCtrl extends Route implements Initializable {
@@ -94,6 +98,22 @@ public class MissionCtrl extends Route implements Initializable {
                 return (mission.getName().toLowerCase().contains(lowerCaseFilter)
                         || mission.getId().toLowerCase().contains(lowerCaseFilter));
             });
+        });
+
+        missionTable.setRowFactory(tv -> {
+            TableRow<Mission> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Mission rowData = row.getItem();
+                    try {
+                        Route.missToLoad = rowData;
+                        goMissPage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return row;
         });
 
         comBoxStatus.valueProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate((mission -> {

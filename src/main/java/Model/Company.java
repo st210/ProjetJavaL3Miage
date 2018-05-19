@@ -3,7 +3,10 @@ package Model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class Company implements IModifierCSV {
@@ -67,6 +70,73 @@ public class Company implements IModifierCSV {
     }
 
     /**
+     * Retourne les missions en cours
+     *
+     * @return ArrayList<Mission> Liste des missions non terminnées
+     */
+    public ArrayList<Mission> getMissionInProgress() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() == MissionStatus.PROGRESS) {
+                missions.add(m);
+            }
+        }
+        return missions;
+    }
+
+    /**
+     * Retourne les missions en préparation
+     *
+     * @return ArrayList<Mission> Liste des missions non terminnées
+     */
+    public ArrayList<Mission> getMissionPreparation() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() == MissionStatus.PREPARATION) {
+                missions.add(m);
+            }
+        }
+
+        return missions;
+    }
+
+    /**
+     * Retourne les missions programmées
+     *
+     * @return ArrayList<Mission> Liste des missions non terminnées
+     */
+    public ArrayList<Mission> getMissionScheduled() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() == MissionStatus.SCHEDULED) {
+                missions.add(m);
+            }
+        }
+
+        return missions;
+    }
+
+    public Date getDateNextFinMiss() {
+        Date dateCurrent, dateMin = null;
+        Calendar c = Calendar.getInstance();
+        int cpt = 0;
+        for (Mission m : this.missions) {
+            c.setTime(m.getDateDebut());
+            c.add(Calendar.DATE, m.getDuration());
+            dateCurrent = c.getTime();
+            if (cpt == 0) {
+                dateMin = dateCurrent;
+                cpt++;
+            }
+            if (dateCurrent.before(dateMin)) {
+                dateMin = dateCurrent;
+                cpt++;
+            }
+        }
+        return dateMin;
+    }
+
+    /**
      * Retourne l'employé correspondant à l'id passé en paramètre
      *
      * @param id L'id de l'employé
@@ -82,6 +152,7 @@ public class Company implements IModifierCSV {
         return null;
     }
 
+
     //***********//
     //  SETTERS  //
     //***********//
@@ -93,15 +164,34 @@ public class Company implements IModifierCSV {
 
     /**
      * Ajoute un nouvel employé à la liste d'employés de l'entreprise
-     *
+     * <p>
      * Écriture CSV
      *
      * @param e L'employé à ajouter
      * @throws IOException IOException
      */
     public void addEmployee(Employee e) throws IOException {
-        e.writeEmployeeCSV();
-        this.employees.add(e);
+        //e.writeEmployeeCSV();
+        if (!this.employees.contains(e)) {
+            this.employees.add(e);
+        }
+    }
+
+    public void removeEmployee(Employee e) {
+        if (this.employees.contains(e)) {
+            this.employees.remove(e);
+        }
+    }
+
+    public void addMission(Mission m) throws IOException {
+        //m.writeMissionCSV();
+        this.missions.add(m);
+    }
+
+    public void removeMission(Mission m) {
+        if (m != null && this.missions.contains(m)) {
+            this.missions.remove(m);
+        }
     }
 
     /**
@@ -124,11 +214,13 @@ public class Company implements IModifierCSV {
         BufferedReader br = new BufferedReader(csvFile);
 
         while ((line = br.readLine()) != null) {
-            employeeLine = line.split(separator);
-            Employee newEmployee = new Employee(employeeLine[0], employeeLine[1], employeeLine[2]);
+            if (!line.equals("")) {
+                employeeLine = line.split(separator);
+                Employee newEmployee = new Employee(employeeLine[0], employeeLine[1], employeeLine[2]);
 
-            if (!this.employees.contains(newEmployee)) {
-                this.employees.add(newEmployee);
+                if (!this.employees.contains(newEmployee)) {
+                    this.employees.add(newEmployee);
+                }
             }
         }
     }
@@ -154,13 +246,14 @@ public class Company implements IModifierCSV {
         BufferedReader br = new BufferedReader(csvFile);
 
         while ((line = br.readLine()) != null) {
-            missionLine = line.split(separator);
-            Mission newMission = new Mission(missionLine[0], missionLine[1], missionLine[2], missionLine[3], missionLine[4], missionLine[5], this);
+            if (!line.equals("")) {
+                missionLine = line.split(separator);
+                Mission newMission = new Mission(missionLine[0], missionLine[1], missionLine[2], missionLine[3], missionLine[4], missionLine[5], this);
 
-            if (!this.missions.contains(newMission)) {
-                this.missions.add(newMission);
+                if (!this.missions.contains(newMission)) {
+                    this.missions.add(newMission);
+                }
             }
         }
     }
-
 }
