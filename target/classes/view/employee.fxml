@@ -40,6 +40,11 @@
                   <Image url="@../icons/icons8-account-50-w.png" />
                </image>
             </ImageView>
+            <Label layoutX="119.0" layoutY="59.0" prefHeight="37.0" prefWidth="128.0" text="My Manager" textFill="WHITE">
+               <font>
+                  <Font name="Open Sans" size="20.0" />
+               </font>
+            </Label>
             </children>
          <effect>
             <InnerShadow color="#00000040" height="0.0" offsetX="-5.0" offsetY="-10.0" radius="7.0" width="30.0" />
@@ -71,6 +76,11 @@
       <ImageView fitHeight="91.0" fitWidth="31.0" layoutX="27.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-speed-50-w.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="716.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/icons8-search-32.png" />
          </image>
       </ImageView>
     </children>

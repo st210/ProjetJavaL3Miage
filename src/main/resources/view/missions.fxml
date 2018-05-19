@@ -79,5 +79,10 @@
             <Image url="@../icons/icons8-search-32.png" />
          </image>
       </ImageView>
+      <Label layoutX="123.0" layoutY="57.0" prefHeight="37.0" prefWidth="128.0" text="My Manager" textFill="WHITE">
+         <font>
+            <Font name="Open Sans" size="20.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
