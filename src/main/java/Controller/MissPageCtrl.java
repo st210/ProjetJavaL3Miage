@@ -354,11 +354,8 @@ public class MissPageCtrl extends Route implements Initializable {
             if (result.isPresent()) {
                 ArrayList<Employee> addEmployees = new ArrayList<>();
                 result.get().forEach(selectEmployee -> addEmployees.add(selectEmployee.toEmployee()));
-                if (missPageCtrl.affectations.containsKey(competence)) {
-                    addEmployees.forEach(missPageCtrl.affectations.get(competence)::add);
-                } else {
-                    missPageCtrl.affectations.put(competence, addEmployees);
-                }
+                missPageCtrl.affectations.put(competence, addEmployees);
+
             }
         }
 
@@ -371,7 +368,7 @@ public class MissPageCtrl extends Route implements Initializable {
             ArrayList<Employee> list = employeeMgt.findEmpForComp(competence);
             ArrayList<SelectEmployee> list1 = new ArrayList<>();
             for (Employee e : list) {
-                list1.add(new SelectEmployee(e));
+                list1.add(new SelectEmployee(e, Route.missToLoad));
             }
             ObservableList<SelectEmployee> empList = FXCollections.observableArrayList(list1);
 
@@ -401,7 +398,7 @@ public class MissPageCtrl extends Route implements Initializable {
         protected void updateItem(CompTableData compTableData, boolean empty) {
             super.updateItem(compTableData, empty);
             if (!empty) {
-                cellButton.setText("ADD");
+                cellButton.setText("Voir");
                 setGraphic(cellButton);
             } else {
                 setGraphic(null);
@@ -416,12 +413,12 @@ public class MissPageCtrl extends Route implements Initializable {
         private StringProperty entryIntoCompany = new SimpleStringProperty();
         private BooleanProperty selected = new SimpleBooleanProperty();
 
-        private SelectEmployee(Employee employee) {
+        private SelectEmployee(Employee employee, Mission mission) {
             this.id.setValue(employee.getId());
             this.name.setValue(employee.getName());
             this.firstname.setValue(employee.getFirstname());
             this.entryIntoCompany.setValue(employee.getEntryIntoCompany());
-            this.selected.setValue(false);
+            this.selected.setValue(Route.missToLoad != null && employee.workingForMission(mission));
         }
 
         public String getId() {

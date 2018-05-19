@@ -261,6 +261,15 @@ public class Mission extends ModifierCSV {
 //        appendNewLine(FILE_LISTE_MISSION, mission, false);
 //    }
 
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Mission) && ((Mission) obj).id.equals(this.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 
     @Override
     public String toString() {

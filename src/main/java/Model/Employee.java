@@ -146,8 +146,23 @@ public class Employee extends ModifierCSV {
 //        String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
 //        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine, false);
 //    }
+
+    public boolean workingForMission(Mission m) {
+        return m.getTeam().contains(this);
+    }
+
     @Override
     public String toString() {
         return "[" + this.getId() + "] " + this.firstname + " " + this.name + " is employed since " + this.entryIntoCompany;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Employee) && ((Employee) obj).id.equals(this.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

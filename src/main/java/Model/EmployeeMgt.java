@@ -105,7 +105,7 @@ public class EmployeeMgt extends ModifierCSV {
     public ArrayList<Employee> findEmpForComp(Competence competence) {
         ArrayList<Employee> employees = new ArrayList<>();
         for (Employee e : Test.company.getEmployees()) {
-            if (!e.isTaken() && e.getCompetencesEmployee().contains(competence)) {
+            if (e.getCompetencesEmployee().contains(competence)) {
                 employees.add(e);
             }
         }
