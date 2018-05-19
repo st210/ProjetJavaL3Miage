@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.glass.ui.TouchInputSupport;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,10 +18,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -54,6 +57,7 @@ public class MissPageCtrl extends Route implements Initializable {
 
     private boolean creationMode;
     private Mission mission;
+    private HashMap<Competence, ArrayList<Employee>> affectations = Route.missToLoad == null ? new HashMap<>() : Route.missToLoad.getNeed().getCompetenceCurrent();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -90,7 +94,7 @@ public class MissPageCtrl extends Route implements Initializable {
         nbEmp.setCellValueFactory(new PropertyValueFactory<>("nbEmp"));
         nbEmp.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         actionBtn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-        actionBtn.setCellFactory(p -> new BtnAddEmp());
+        actionBtn.setCellFactory(p -> new BtnAddEmp(this));
 
         searchComp.textProperty().addListener((observable, oldValue, newValue) -> filteredList.setPredicate(competence -> {
             // If filter text is empty, display all persons.
@@ -158,7 +162,7 @@ public class MissPageCtrl extends Route implements Initializable {
      * @return Hashmap de compétences/besoin mise à jour
      * @throws IOException
      */
-    private HashMap<Competence, Integer> getNewCompInit() throws IOException {
+    private HashMap<Competence, Integer> getNewCompInit() {
         CompetenceMgt competenceMgt = new CompetenceMgt();
         HashMap<Competence, Integer> missComp = new HashMap<>();
         List<CompTableData> compTableData = compTable.getItems();
@@ -178,24 +182,28 @@ public class MissPageCtrl extends Route implements Initializable {
         if (!nameTF.getText().equals("") && nbEmpTF.getText().equals("") && date.getValue() == null && durationTF.getText().equals("")) {
             Mission mission = new Mission(id, nameTF.getText());
             mission.getNeed().setCompetenceInit(getNewCompInit());
+            mission.getNeed().setCompetenceCurrent(affectations);
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
         } else if (!nameTF.getText().equals("") && !nbEmpTF.getText().equals("") && date.getValue() == null && durationTF.getText().equals("")) {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()));
             mission.getNeed().setCompetenceInit(getNewCompInit());
+            mission.getNeed().setCompetenceCurrent(affectations);
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
         } else if (!nameTF.getText().equals("") && !nbEmpTF.getText().equals("") && date.getValue() != null && durationTF.getText().equals("")) {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()), Date.valueOf(date.getValue()));
             mission.getNeed().setCompetenceInit(getNewCompInit());
+            mission.getNeed().setCompetenceCurrent(affectations);
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
         } else if (!nameTF.getText().equals("") && !nbEmpTF.getText().equals("") && date.getValue() != null && !durationTF.getText().equals("")) {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()), Date.valueOf(date.getValue()), Integer.parseInt(durationTF.getText()));
             mission.getNeed().setCompetenceInit(getNewCompInit());
+            mission.getNeed().setCompetenceCurrent(affectations);
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
@@ -306,30 +314,86 @@ public class MissPageCtrl extends Route implements Initializable {
     private class BtnAddEmp extends TableCell<CompTableData, CompTableData> {
         private Button cellButton;
 
-        BtnAddEmp() {
+        BtnAddEmp(MissPageCtrl missPageCtrl) {
             EmployeeMgt employeeMgt = new EmployeeMgt();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            DialogPane dialogPane = new DialogPane();
             cellButton = new Button();
 
             cellButton.setOnAction(t -> {
 
                 CompTableData compTableData = getItem();
 
-                alert.setDialogPane(new DialogAddEmp(compTableData.toCompetence()));
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    // ... user chose OK
-                    alert.close();
-                } else {
-                    // ... user chose CANCEL or closed the dialog
-                    alert.close();
-                }
-
-                System.out.println(compTableData.toCompetence().toString());
-                System.out.println(employeeMgt.findEmpForComp(compTableData.toCompetence()));
-
+                // OUVERTURE DIALOG
+                openDialog(compTableData.toCompetence(), missPageCtrl);
             });
+        }
+
+        private void openDialog(Competence competence, MissPageCtrl missPageCtrl) {
+            Dialog<ArrayList<SelectEmployee>> dialog = new ChoiceDialog<>();
+            dialog.setResultConverter((ButtonType type) -> {
+                ButtonBar.ButtonData data = type == null ? null : type.getButtonData();
+                if (data == ButtonBar.ButtonData.OK_DONE) {
+                    TableView tableView;
+                    ArrayList<SelectEmployee> result = new ArrayList<>();
+                    tableView = (TableView) dialog.getDialogPane().getContent();
+
+                    tableView.getItems().forEach(o -> {
+                        SelectEmployee selectEmployee = (SelectEmployee) o;
+                        if (selectEmployee.isSelected()) {
+                            result.add((SelectEmployee) o);
+                        }
+                    });
+                    return result;
+                } else {
+                    return null;
+                }
+            });
+            dialog.setTitle("Affectation");
+            dialog.getDialogPane().setContent(createTable(competence));
+            Optional<ArrayList<SelectEmployee>> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                ArrayList<Employee> addEmployees = new ArrayList<>();
+                result.get().forEach(selectEmployee -> addEmployees.add(selectEmployee.toEmployee()));
+                if (missPageCtrl.affectations.containsKey(competence)) {
+                    addEmployees.forEach(missPageCtrl.affectations.get(competence)::add);
+                } else {
+                    missPageCtrl.affectations.put(competence, addEmployees);
+                }
+            }
+        }
+
+
+        private TableView createTable(Competence competence) {
+            EmployeeMgt employeeMgt = new EmployeeMgt();
+            TableView empTable = new TableView();
+            setCenterShape(true);
+
+            ArrayList<Employee> list = employeeMgt.findEmpForComp(competence);
+            ArrayList<SelectEmployee> list1 = new ArrayList<>();
+            for (Employee e : list) {
+                list1.add(new SelectEmployee(e));
+            }
+            ObservableList<SelectEmployee> empList = FXCollections.observableArrayList(list1);
+
+
+            TableColumn<SelectEmployee, String> id = new TableColumn<>("ID");
+            TableColumn<SelectEmployee, String> lastName = new TableColumn<>("Nom");
+            TableColumn<SelectEmployee, String> firstName = new TableColumn<>("Prénom");
+            TableColumn<SelectEmployee, String> entryDate = new TableColumn<>("Date d'entrée");
+            TableColumn<SelectEmployee, Boolean> select = new TableColumn<>("Choix");
+
+            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            lastName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            firstName.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+            entryDate.setCellValueFactory(new PropertyValueFactory<>("entryIntoCompany"));
+            select.setCellValueFactory(new PropertyValueFactory<>("selected"));
+            select.setCellFactory(param -> new CheckBoxTableCell<>());
+
+            empTable.setItems(empList);
+            empTable.getColumns().addAll(id, lastName, firstName, entryDate, select);
+            empTable.setEditable(true);
+
+            return empTable;
         }
 
         //Display button if the row is not empty
@@ -345,26 +409,83 @@ public class MissPageCtrl extends Route implements Initializable {
         }
     }
 
-    private class DialogAddEmp extends DialogPane {
-        private DialogAddEmp(Competence competence) {
-            EmployeeMgt employeeMgt = new EmployeeMgt();
-            TableView empTable = new TableView();
-            setCenterShape(true);
-            ObservableList<Employee> empList = FXCollections.observableArrayList(employeeMgt.findEmpForComp(competence));
+    public class SelectEmployee {
+        private StringProperty id = new SimpleStringProperty();
+        private StringProperty name = new SimpleStringProperty();
+        private StringProperty firstname = new SimpleStringProperty();
+        private StringProperty entryIntoCompany = new SimpleStringProperty();
+        private BooleanProperty selected = new SimpleBooleanProperty();
 
-            TableColumn id = new TableColumn("ID");
-            TableColumn<Employee, String> lastName = new TableColumn<>("Nom");
-            TableColumn<Employee, String> firstName = new TableColumn<>("Prénom");
-            TableColumn<Employee, String> entryDate = new TableColumn<>("Date d'entrée");
+        private SelectEmployee(Employee employee) {
+            this.id.setValue(employee.getId());
+            this.name.setValue(employee.getName());
+            this.firstname.setValue(employee.getFirstname());
+            this.entryIntoCompany.setValue(employee.getEntryIntoCompany());
+            this.selected.setValue(false);
+        }
 
-            id.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
-            lastName.setCellValueFactory(new PropertyValueFactory<>("name"));
-            firstName.setCellValueFactory(new PropertyValueFactory<>("firstname"));
-            entryDate.setCellValueFactory(new PropertyValueFactory<>("entryIntoCompany"));
+        public String getId() {
+            return id.get();
+        }
 
-            empTable.setItems(empList);
+        public StringProperty idProperty() {
+            return id;
+        }
 
-            empTable.getColumns().addAll(id, lastName, firstName, entryDate);
+        public String getName() {
+            return name.get();
+        }
+
+        public StringProperty nameProperty() {
+            return name;
+        }
+
+        public String getFirstname() {
+            return firstname.get();
+        }
+
+        public StringProperty firstnameProperty() {
+            return firstname;
+        }
+
+        public String getEntryIntoCompany() {
+            return entryIntoCompany.get();
+        }
+
+        public StringProperty entryIntoCompanyProperty() {
+            return entryIntoCompany;
+        }
+
+        public boolean isSelected() {
+            return selected.get();
+        }
+
+        public BooleanProperty selectedProperty() {
+            return selected;
+        }
+
+        public void setId(String id) {
+            this.id.set(id);
+        }
+
+        public void setName(String name) {
+            this.name.set(name);
+        }
+
+        public void setFirstname(String firstname) {
+            this.firstname.set(firstname);
+        }
+
+        public void setEntryIntoCompany(String entryIntoCompany) {
+            this.entryIntoCompany.set(entryIntoCompany);
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected.set(selected);
+        }
+
+        public Employee toEmployee() {
+            return new Employee(getId(), getName(), getFirstname(), getEntryIntoCompany());
         }
     }
 }

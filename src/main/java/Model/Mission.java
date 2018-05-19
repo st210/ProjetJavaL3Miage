@@ -240,7 +240,7 @@ public class Mission extends ModifierCSV {
      */
     public void addEmployee(Competence c, Employee e) {
         MissionMgt missionMgt = new MissionMgt();
-        if (!this.need.contains(c)) {
+        if (this.need.contains(c)) {
             try {
 //                missionMgt.appendEmpToMission(this.id, c, e);
                 this.need.addEmployee(c, e);
