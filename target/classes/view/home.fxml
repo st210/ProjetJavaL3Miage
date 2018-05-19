@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -28,6 +30,26 @@
                         <Font name="Open Sans" size="35.0" />
                     </font>
                 </JFXButton>
+            <ImageView fitHeight="101.0" fitWidth="167.0" layoutX="17.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../logo_mymanager/m_logo_hex_blancgris.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="91.0" fitWidth="31.0" layoutX="27.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/icons8-speed-50-w.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="91.0" fitWidth="31.0" layoutX="26.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/icons8-account-50-w.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="91.0" fitWidth="31.0" layoutX="27.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/icons8-rocket-50-w.png" />
+               </image>
+            </ImageView>
             </children>
          <effect>
             <InnerShadow color="#0000003f" height="0.0" offsetX="-5.0" offsetY="-10.0" radius="7.0" width="30.0" />
