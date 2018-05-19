@@ -19,9 +19,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Paint;
@@ -33,6 +31,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EmpPageCtrl extends Route implements Initializable {
@@ -187,8 +186,22 @@ public class EmpPageCtrl extends Route implements Initializable {
      * @param actionEvent
      */
     public void deleteEmp(ActionEvent actionEvent) throws IOException {
-        Test.company.removeEmployee(Route.empToLoad);
-        goEmployees();
+        if (Route.missToLoad != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmer la suppression");
+            alert.setHeaderText("Voulez-vous vraiment supprimer cet employé ?");
+            alert.setContentText(Route.empToLoad.toString());
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                // ... user chose OK
+                Test.company.removeEmployee(Route.empToLoad);
+                goEmployees();
+            } else {
+                // ... user chose CANCEL or closed the dialog
+                alert.close();
+            }
+        }
     }
 
     /**

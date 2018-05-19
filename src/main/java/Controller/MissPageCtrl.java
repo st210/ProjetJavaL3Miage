@@ -1,10 +1,7 @@
 package Controller;
 
 import Main.Test;
-import Model.Competence;
-import Model.CompetenceMgt;
-import Model.EmployeeMgt;
-import Model.Mission;
+import Model.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -17,6 +14,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,10 +30,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MissPageCtrl extends Route implements Initializable {
     @FXML
@@ -209,8 +204,21 @@ public class MissPageCtrl extends Route implements Initializable {
     }
 
     public void deleteMission(ActionEvent actionEvent) throws IOException {
-        Test.company.removeMission(Route.missToLoad);
-        goMissions();
+        if (Route.missToLoad != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmer la suppression");
+            alert.setHeaderText("Voulez-vous vraiment supprimer cette mission ?");
+            alert.setContentText(Route.missToLoad.getName());
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                // ... user chose OK
+                Test.company.removeMission(Route.missToLoad);
+                goMissions();
+            } else {
+                // ... user chose CANCEL or closed the dialog
+                alert.close();
+            }
+        }
     }
 
     /////////////////////////////////////
@@ -291,22 +299,36 @@ public class MissPageCtrl extends Route implements Initializable {
         }
 
         public Competence toCompetence() {
-            return new Competence(getId(),getLibelleEN(),getLibelleFR());
+            return new Competence(getId(), getLibelleEN(), getLibelleFR());
         }
     }
 
-    public class BtnAddEmp extends TableCell<CompTableData, CompTableData> {
+    private class BtnAddEmp extends TableCell<CompTableData, CompTableData> {
         private Button cellButton;
 
         BtnAddEmp() {
             EmployeeMgt employeeMgt = new EmployeeMgt();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             cellButton = new Button();
+
             cellButton.setOnAction(t -> {
-                // do something when button clicked
+
                 CompTableData compTableData = getItem();
-                // do something with record....
+
+                alert.setDialogPane(new DialogAddEmp(compTableData.toCompetence()));
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    // ... user chose OK
+                    alert.close();
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                    alert.close();
+                }
+
                 System.out.println(compTableData.toCompetence().toString());
                 System.out.println(employeeMgt.findEmpForComp(compTableData.toCompetence()));
+
             });
         }
 
@@ -320,6 +342,29 @@ public class MissPageCtrl extends Route implements Initializable {
             } else {
                 setGraphic(null);
             }
+        }
+    }
+
+    private class DialogAddEmp extends DialogPane {
+        private DialogAddEmp(Competence competence) {
+            EmployeeMgt employeeMgt = new EmployeeMgt();
+            TableView empTable = new TableView();
+            setCenterShape(true);
+            ObservableList<Employee> empList = FXCollections.observableArrayList(employeeMgt.findEmpForComp(competence));
+
+            TableColumn id = new TableColumn("ID");
+            TableColumn<Employee, String> lastName = new TableColumn<>("Nom");
+            TableColumn<Employee, String> firstName = new TableColumn<>("Prénom");
+            TableColumn<Employee, String> entryDate = new TableColumn<>("Date d'entrée");
+
+            id.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
+            lastName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            firstName.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+            entryDate.setCellValueFactory(new PropertyValueFactory<>("entryIntoCompany"));
+
+            empTable.setItems(empList);
+
+            empTable.getColumns().addAll(id, lastName, firstName, entryDate);
         }
     }
 }
