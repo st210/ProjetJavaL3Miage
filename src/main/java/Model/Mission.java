@@ -1,10 +1,11 @@
 package Model;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Mission extends ModifierCSV {
@@ -217,6 +218,47 @@ public class Mission extends ModifierCSV {
     //  METHODS  //
     //***********//
 
+    public void adjustStatus() {
+        if (this.isScheduled()) {
+            this.status = MissionStatus.SCHEDULED;
+        } else if (isInProgress()) {
+            this.status = MissionStatus.PROGRESS;
+        } else if (isCompleted()) {
+            this.status = MissionStatus.COMPLETED;
+        }
+    }
+
+    private boolean isInProgress() {
+        Date today = new Date();
+        Calendar endDate = Calendar.getInstance();
+        Calendar todayC = Calendar.getInstance();
+        todayC.setTime(today);
+        endDate.setTime(dateDebut);
+        endDate.add(Calendar.DATE, duration);
+        return getDateDebut().before(today) && endDate.after(todayC);
+
+    }
+
+    private boolean isScheduled() {
+        AtomicBoolean isScheduled = new AtomicBoolean(true);
+        Date today = new Date();
+        this.getNeed().getCompetenceCurrent().forEach((competence, employees) -> {
+            if (isScheduled.get() && (!this.getNeed().getCompetenceInit().containsKey(competence) || (this.getNeed().getCompetenceInit().get(competence) != employees.size()))) {
+                isScheduled.set(false);
+            }
+        });
+        return isScheduled.get() && getDateDebut().after(today) && getTeam().size() >= nbEmployes;
+    }
+
+    private boolean isCompleted() {
+        Date today = new Date();
+        Calendar endDate = Calendar.getInstance();
+        Calendar todayC = Calendar.getInstance();
+        todayC.setTime(today);
+        endDate.setTime(dateDebut);
+        endDate.add(Calendar.DATE, duration);
+        return endDate.before(todayC);
+    }
 
     /**
      * Ajouter une nouvelle compétence au besoin de la mission + Ecriture CSV

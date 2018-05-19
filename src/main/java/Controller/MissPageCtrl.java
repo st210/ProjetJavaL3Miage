@@ -78,7 +78,7 @@ public class MissPageCtrl extends Route implements Initializable {
         this.nbEmpTF.setText(String.valueOf(mission.getNbEmployes()));
     }
 
-    public void fillCompTable() throws IOException {
+    private void fillCompTable() throws IOException {
         ObservableList<CompTableData> compList = fillCompMissData();
         FilteredList<CompTableData> filteredList = new FilteredList<>(compList, competence -> true);
 
@@ -114,7 +114,7 @@ public class MissPageCtrl extends Route implements Initializable {
         this.compTable.setItems(sortedList);
 
         this.compTable.getColumns().addAll(id, libelle, nbCurr, nbEmp, actionBtn);
-
+        this.compTable.getSortOrder().add(id);
         this.compTable.setEditable(true);
     }
 
@@ -183,6 +183,7 @@ public class MissPageCtrl extends Route implements Initializable {
             Mission mission = new Mission(id, nameTF.getText());
             mission.getNeed().setCompetenceInit(getNewCompInit());
             mission.getNeed().setCompetenceCurrent(affectations);
+            mission.adjustStatus();
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
@@ -190,6 +191,7 @@ public class MissPageCtrl extends Route implements Initializable {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()));
             mission.getNeed().setCompetenceInit(getNewCompInit());
             mission.getNeed().setCompetenceCurrent(affectations);
+            mission.adjustStatus();
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
@@ -197,6 +199,7 @@ public class MissPageCtrl extends Route implements Initializable {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()), Date.valueOf(date.getValue()));
             mission.getNeed().setCompetenceInit(getNewCompInit());
             mission.getNeed().setCompetenceCurrent(affectations);
+            mission.adjustStatus();
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
@@ -204,6 +207,7 @@ public class MissPageCtrl extends Route implements Initializable {
             Mission mission = new Mission(id, nameTF.getText(), Integer.parseInt(nbEmpTF.getText()), Date.valueOf(date.getValue()), Integer.parseInt(durationTF.getText()));
             mission.getNeed().setCompetenceInit(getNewCompInit());
             mission.getNeed().setCompetenceCurrent(affectations);
+            mission.adjustStatus();
             Test.company.removeMission(this.mission);
             Test.company.addMission(mission);
             goMissions();
