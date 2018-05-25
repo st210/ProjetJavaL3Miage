@@ -218,6 +218,9 @@ public class Mission extends ModifierCSV {
     //  METHODS  //
     //***********//
 
+    /**
+     * Determine le status de la mission
+     */
     public void adjustStatus() {
         if (this.isScheduled()) {
             this.status = MissionStatus.SCHEDULED;
@@ -228,6 +231,11 @@ public class Mission extends ModifierCSV {
         }
     }
 
+    /**
+     * Determine si la mission est en cours ou non
+     *
+     * @return True si en cours, False sinon
+     */
     private boolean isInProgress() {
         Date today = new Date();
         Calendar endDate = Calendar.getInstance();
@@ -239,6 +247,11 @@ public class Mission extends ModifierCSV {
 
     }
 
+    /**
+     * Determine si la mission est programmée ou non
+     *
+     * @return True si programmée, False sinon
+     */
     private boolean isScheduled() {
         AtomicBoolean isScheduled = new AtomicBoolean(true);
         Date today = new Date();
@@ -250,6 +263,11 @@ public class Mission extends ModifierCSV {
         return isScheduled.get() && getDateDebut().after(today) && getTeam().size() >= nbEmployes;
     }
 
+    /**
+     * Determine si la mission est terminée
+     *
+     * @return True si terminée, False sinon
+     */
     private boolean isCompleted() {
         Date today = new Date();
         Calendar endDate = Calendar.getInstance();
@@ -292,16 +310,6 @@ public class Mission extends ModifierCSV {
             }
         }
     }
-
-//    /**
-//     * Sauvegarder une nouvelle mission dans le fichier LISTE_MISSION
-//     *
-//     * @throws IOException
-//     */
-//    public void writeMissionCSV() throws IOException {
-//        String mission = id + ";" + name + ";" + nbEmployes + ";" + dateDebut + ";" + duration + ";" + status.name();
-//        appendNewLine(FILE_LISTE_MISSION, mission, false);
-//    }
 
     @Override
     public boolean equals(Object obj) {

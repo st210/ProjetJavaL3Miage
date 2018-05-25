@@ -155,11 +155,9 @@ public class EmpPageCtrl extends Route implements Initializable {
 
     /**
      * Sauvegarder (créer/modifier) l'employé
-     * <p>
      * Écriture CSV
      *
-     * @param actionEvent
-     * @throws IOException
+     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
      */
     public void saveEmp(ActionEvent actionEvent) throws IOException {
         if (!nameTF.getText().equals("") && !firstNameTF.getText().equals("") && date.getValue() != null) {
@@ -183,7 +181,6 @@ public class EmpPageCtrl extends Route implements Initializable {
     /**
      * Btn suppression d'un employé
      *
-     * @param actionEvent
      */
     public void deleteEmp(ActionEvent actionEvent) throws IOException {
         if (Route.missToLoad != null) {

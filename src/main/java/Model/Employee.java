@@ -78,6 +78,7 @@ public class Employee extends ModifierCSV {
         return taken;
     }
 
+
     /**
      * Retourne la liste de compétences de l'employé
      *
@@ -119,16 +120,18 @@ public class Employee extends ModifierCSV {
      * @param c La compétence à ajouter
      */
     public void addCompetence(Competence c) {
-        EmployeeMgt employeeMgt = new EmployeeMgt();
         if (!this.competencesEmployee.contains(c)) {
-//                employeeMgt.appendCompToEmp(this.id, c);
             this.competencesEmployee.add(c);
         }
     }
 
+    /**
+     * Enlever une compétence de l'empoyé
+     *
+     * @param c La compétence à enlever à l'employé
+     */
     public void removeCompetence(Competence c) {
         if (this.competencesEmployee.contains(c)) {
-            // TODO Remove from file
             this.competencesEmployee.remove(c);
         }
     }
@@ -138,15 +141,11 @@ public class Employee extends ModifierCSV {
     //***********//
 
     /**
-     * Sauvegarder un nouvel employé dans le fichier LISTE_PERSONNEL
+     * Retourne vrai si l'employé travaille sur la mission passsée en paramètre
      *
-     * @throws IOException
+     * @param m La mission dans laquelle on cherche l'employé
+     * @return Boolean
      */
-//    public void writeEmployeeCSV() throws IOException {
-//        String employeeLine = firstname + ";" + name + ";" + entryIntoCompany + ";" + id;
-//        appendNewLine(FILE_LISTE_PERSONNEL, employeeLine, false);
-//    }
-
     public boolean workingForMission(Mission m) {
         return m.getTeam().contains(this);
     }

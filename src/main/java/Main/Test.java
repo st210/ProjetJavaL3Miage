@@ -18,7 +18,6 @@ public class Test extends Application {
     public static Company company = new Company();
     private static Stage stage = new Stage();
 
-    // TODO Proposition employé pour mission
     // TODO Dashboard fonctionnel
 
     @Override
@@ -40,16 +39,13 @@ public class Test extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-//        EmployeeMgt employeeMgt = new EmployeeMgt();
-//        Test.company.deleteEmployee(Test.company.getEmployee("50"));
-//        employeeMgt.saveAllEmployee();
         launch(args);
     }
 
     /**
      * Charger la scène Dashboard
      *
-     * @throws IOException
+     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
      */
     public static void showDashboardView() throws IOException {
         Parent root = FXMLLoader.load(Test.class.getResource("/view/home.fxml"));
@@ -61,7 +57,7 @@ public class Test extends Application {
     /**
      * Charger la scène Missions
      *
-     * @throws IOException
+     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
      */
     public static void showMissionsView() throws IOException {
         Parent root = FXMLLoader.load(Test.class.getResource("/view/missions.fxml"));
@@ -73,7 +69,7 @@ public class Test extends Application {
     /**
      * Charger la scène Personnel
      *
-     * @throws IOException
+     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
      */
     public static void showEmployeesView() throws IOException {
         Parent root = FXMLLoader.load(Test.class.getResource("/view/employee.fxml"));
@@ -86,7 +82,7 @@ public class Test extends Application {
      * Charger la scène Page Employé
      *
      * @param employee L'employé à charger dans la scène
-     * @throws IOException
+     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
      * @throws ParseException
      */
     public static void showEmployeePage(Employee employee) throws IOException, ParseException {
@@ -104,13 +100,12 @@ public class Test extends Application {
         stage.setScene(new Scene(anchorPane, 1080, 720));
         stage.show();
     }
-    //TODO Gestion modification date
 
     /**
      * Charger la scène Page Mission
      *
      * @param mission La mission à charger dans la scène
-     * @throws IOException
+     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
      */
     public static void showMissionPage(Mission mission) throws IOException {
         FXMLLoader loader = new FXMLLoader(Test.class.getResource("/view/missPage.fxml"));

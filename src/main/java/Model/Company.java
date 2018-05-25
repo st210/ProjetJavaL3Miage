@@ -116,6 +116,11 @@ public class Company implements IModifierCSV {
         return missions;
     }
 
+    /**
+     * Retourne la date de la prochaine mission à se terminer
+     *
+     * @return Date
+     */
     public Date getDateNextFinMiss() {
         Date dateCurrent, dateMin = null;
         Calendar c = Calendar.getInstance();
@@ -135,13 +140,7 @@ public class Company implements IModifierCSV {
         }
         return dateMin;
     }
-
-    /**
-     * Retourne l'employé correspondant à l'id passé en paramètre
-     *
-     * @param id L'id de l'employé
-     * @return Employee
-     */
+    
     public Employee getEmployee(String id) {
         for (Employee e : this.employees) {
             if (e.getId().equals(id)) {
@@ -164,34 +163,62 @@ public class Company implements IModifierCSV {
 
     /**
      * Ajoute un nouvel employé à la liste d'employés de l'entreprise
-     * <p>
-     * Écriture CSV
      *
      * @param e L'employé à ajouter
      * @throws IOException IOException
      */
     public void addEmployee(Employee e) throws IOException {
-        //e.writeEmployeeCSV();
         if (!this.employees.contains(e)) {
             this.employees.add(e);
         }
     }
 
+    /**
+     * Supprime un employé de l'entreprise
+     *
+     *
+     * @param e l'employé à supprimer
+     */
     public void removeEmployee(Employee e) {
         if (this.employees.contains(e)) {
             this.employees.remove(e);
         }
     }
 
+    /**
+     * Ajouter une mission à l'entreprise
+     *
+     * @param m La mission à ajouter
+     * @throws IOException
+     */
     public void addMission(Mission m) throws IOException {
-        //m.writeMissionCSV();
         this.missions.add(m);
     }
 
+    /**
+     * Supprimer une mission de l'entreprise
+     *
+     * @param m
+     */
     public void removeMission(Mission m) {
         if (m != null && this.missions.contains(m)) {
             this.missions.remove(m);
         }
+    }
+
+    /**
+     * Retoune tous les employés non occupés
+     *
+     * @return ArrayList<Employee> contenant tous les employés non occupés
+     */
+    public ArrayList<Employee> freeEmployee() {
+        ArrayList<Employee> list = new ArrayList<>();
+        this.employees.forEach(employee -> {
+            if (employee.isTaken()) {
+                list.add(employee);
+            }
+        });
+        return list;
     }
 
     /**

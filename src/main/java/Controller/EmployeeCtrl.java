@@ -50,7 +50,7 @@ public class EmployeeCtrl extends Route implements Initializable {
         ObservableList<Employee> empList = FXCollections.observableArrayList(Test.company.getEmployees());
         FilteredList<Employee> filteredList = new FilteredList<>(empList, employee -> true);
 
-        TableColumn id = new TableColumn("ID");
+        TableColumn<Employee, String> id = new TableColumn<>("ID");
         TableColumn<Employee, String> lastName = new TableColumn<>("Nom");
         TableColumn<Employee, String> firstName = new TableColumn<>("Prénom");
         TableColumn<Employee, String> entryDate = new TableColumn<>("Date d'entrée");

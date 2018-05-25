@@ -97,6 +97,11 @@ public class MissionMgt extends ModifierCSV {
 //        br.close();
 //    }
 
+    /**
+     * Sauvegarder toutes les missions dans le fichier CSV
+     *
+     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
+     */
     public void saveAllMissions() throws IOException {
         String line;
         ClassLoader classLoader = getClass().getClassLoader();
@@ -111,6 +116,11 @@ public class MissionMgt extends ModifierCSV {
         }
     }
 
+    /**
+     * Sauvegarder les besoins en compétences des missions
+     *
+     * @throws IOException Erreur de lecture/ecriture du fichier CSV
+     */
     public void saveMissionsComp() throws IOException {
         StringBuilder line;
 
@@ -130,6 +140,11 @@ public class MissionMgt extends ModifierCSV {
         }
     }
 
+    /**
+     * Sauvegarder les équipes mission
+     *
+     * @throws IOException Erreur de lecture/ecriture du fichier CSV
+     */
     public void saveMissionsEmp() throws IOException {
         StringBuilder line;
         ClassLoader classLoader = getClass().getClassLoader();

@@ -1,13 +1,12 @@
 package Model;
 
-import Main.Test;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
-
-import static Main.Test.company;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Classe dévrivant les besoins d'une mission :
@@ -129,7 +128,7 @@ public class Need implements IModifierCSV {
      * Charge à partir du fichier CSV les compétences (besoin) de la mission
      *
      * @param idMission La mission à charger
-     * @throws IOException
+     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
      */
     private void loadCompetenceInit(String idMission) throws IOException {
         CompetenceMgt competenceMgt = new CompetenceMgt();

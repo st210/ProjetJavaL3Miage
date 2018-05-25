@@ -10,11 +10,11 @@ import java.util.Objects;
 public class CompetenceMgt extends ModifierCSV {
 
     /**
-     * Retourne les compétence d'un employé dont l'ID est passé en paramètre
+     * Retourne les compétences d'un employé dont l'ID est passé en paramètre
      *
      * @param idEmp l'id de l'employé
      * @return ArrayList<Competence> Les compétences de l'employé
-     * @throws IOException
+     * @throws IOException Erreur de lecture/ecriture du fichier CSV
      */
     public ArrayList<Competence> getCompetencesForEmpFromCSV(String idEmp) throws IOException {
         ArrayList<Competence> competencesEmp = new ArrayList<>();
