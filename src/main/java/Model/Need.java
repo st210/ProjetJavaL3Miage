@@ -1,5 +1,7 @@
 package Model;
 
+import Main.Test;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -88,7 +90,6 @@ public class Need implements IModifierCSV {
                 listeEmp = new ArrayList<>();
                 listeEmp.add(employee);
                 competenceCurrent.put(competence, listeEmp);
-                employee.setTaken(true);
             } else {
                 if (!listeEmp.contains(employee)) {
                     listeEmp.add(employee);

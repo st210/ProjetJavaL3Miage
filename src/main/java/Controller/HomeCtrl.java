@@ -46,6 +46,18 @@ public class HomeCtrl extends Route implements Initializable {
     public Label toCompl2;
     @FXML
     public Label toCompl3;
+    @FXML
+    public Label dayLastLch;
+    @FXML
+    public Label monthLastLch;
+    @FXML
+    public Label yearLastLch;
+    @FXML
+    public Label nbMissEnded;
+    @FXML
+    public Label nbEmpFree;
+    @FXML
+    public Label nbEmpOcc;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,6 +65,9 @@ public class HomeCtrl extends Route implements Initializable {
         setNbMissCompl();
         setNbMissEnCours();
         setMissScheduled();
+        setDateLastLaunch();
+        setNbEmpFree();
+        setNbEmpOcc();
         setDateEndMiss();
     }
 
@@ -96,6 +111,14 @@ public class HomeCtrl extends Route implements Initializable {
         }
     }
 
+    private void setNbEmpFree() {
+        this.nbEmpFree.setText(String.valueOf(Test.company.freeEmployee().size()));
+    }
+
+    private void setNbEmpOcc() {
+        this.nbEmpOcc.setText(String.valueOf(Test.company.occupEmployee().size()));
+    }
+
     private void setDateEndMiss() {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM");
         Calendar c = Calendar.getInstance();
@@ -103,5 +126,14 @@ public class HomeCtrl extends Route implements Initializable {
         this.dayEndMiss.setText(String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
         this.monthEndMiss.setText(formatter.format(c.get(Calendar.MONTH)));
         this.yearEndMiss.setText(String.valueOf(c.get(Calendar.YEAR)));
+    }
+
+    private void setDateLastLaunch() {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM");
+        Calendar c = Calendar.getInstance();
+        c.setTime(Test.company.getDateLastLaunch());
+        this.dayLastLch.setText(String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+        this.monthEndMiss.setText(formatter.format(c.get(Calendar.MONTH)));
+        this.yearLastLch.setText(String.valueOf(c.get(Calendar.YEAR)));
     }
 }

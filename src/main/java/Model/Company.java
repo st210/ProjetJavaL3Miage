@@ -1,13 +1,16 @@
 package Model;
 
+import Main.Test;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Company implements IModifierCSV {
 
@@ -140,7 +143,28 @@ public class Company implements IModifierCSV {
         }
         return dateMin;
     }
-    
+
+    /**
+     * Retourne la date de la dernière mision lancée
+     *
+     * @return Date Dernère mission lancée
+     */
+    public Date getDateLastLaunch() {
+        AtomicReference<Date> lastDate = new AtomicReference<>(new Date());
+        AtomicInteger cpt = new AtomicInteger();
+        lastDate.set(missions.get(0).getDateDebut());
+        this.missions.forEach(mission -> {
+            if (cpt.get() <= 0) {
+                lastDate.set(mission.getDateDebut());
+                cpt.getAndIncrement();
+            }
+            if (mission.getStatus() == MissionStatus.PROGRESS && mission.getDateDebut().after(lastDate.get())) {
+                lastDate.set(mission.getDateDebut());
+            }
+        });
+        return lastDate.get();
+    }
+
     public Employee getEmployee(String id) {
         for (Employee e : this.employees) {
             if (e.getId().equals(id)) {
@@ -165,9 +189,8 @@ public class Company implements IModifierCSV {
      * Ajoute un nouvel employé à la liste d'employés de l'entreprise
      *
      * @param e L'employé à ajouter
-     * @throws IOException IOException
      */
-    public void addEmployee(Employee e) throws IOException {
+    public void addEmployee(Employee e) {
         if (!this.employees.contains(e)) {
             this.employees.add(e);
         }
@@ -175,7 +198,6 @@ public class Company implements IModifierCSV {
 
     /**
      * Supprime un employé de l'entreprise
-     *
      *
      * @param e l'employé à supprimer
      */
@@ -189,16 +211,15 @@ public class Company implements IModifierCSV {
      * Ajouter une mission à l'entreprise
      *
      * @param m La mission à ajouter
-     * @throws IOException
      */
-    public void addMission(Mission m) throws IOException {
+    public void addMission(Mission m) {
         this.missions.add(m);
     }
 
     /**
      * Supprimer une mission de l'entreprise
      *
-     * @param m
+     * @param m La mission a supprimer
      */
     public void removeMission(Mission m) {
         if (m != null && this.missions.contains(m)) {
@@ -213,12 +234,40 @@ public class Company implements IModifierCSV {
      */
     public ArrayList<Employee> freeEmployee() {
         ArrayList<Employee> list = new ArrayList<>();
-        this.employees.forEach(employee -> {
-            if (employee.isTaken()) {
-                list.add(employee);
+        for (Employee e : employees) {
+            if (!e.isTaken()) {
+                list.add(e);
             }
-        });
+        }
         return list;
+    }
+
+    public ArrayList<Employee> occupEmployee() {
+        ArrayList<Employee> list = new ArrayList<>();
+        for (Employee e : employees) {
+            if (e.isTaken()) {
+                list.add(e);
+            }
+        }
+        return list;
+    }
+
+    public void setAllOccupiedEmp() {
+        for (Mission m : missions) {
+            for (Employee e : m.getTeam()) {
+                modifyEmpTaken(e.getId());
+            }
+        }
+    }
+
+    private void modifyEmpTaken(String id) {
+        int cpt = 0;
+        for (Employee e : this.employees) {
+            if (e.getId().equals(id)) {
+                Test.company.employees.get(cpt).setTaken(true);
+            }
+            cpt++;
+        }
     }
 
     /**

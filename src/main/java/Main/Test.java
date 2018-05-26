@@ -22,6 +22,7 @@ public class Test extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        Test.company.setAllOccupiedEmp();
         showDashboardView();
     }
 
@@ -38,7 +39,7 @@ public class Test extends Application {
         missionMgt.saveMissionsEmp();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -82,7 +83,7 @@ public class Test extends Application {
      * Charger la scène Page Employé
      *
      * @param employee L'employé à charger dans la scène
-     * @throws IOException Erreur de lecture/ecriture dans le fichier CSV
+     * @throws IOException    Erreur de lecture/ecriture dans le fichier CSV
      * @throws ParseException
      */
     public static void showEmployeePage(Employee employee) throws IOException, ParseException {
