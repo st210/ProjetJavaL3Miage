@@ -18,8 +18,6 @@ public class Test extends Application {
     public static Company company = new Company();
     private static Stage stage = new Stage();
 
-    // TODO Dashboard fonctionnel
-
     @Override
     public void start(Stage primaryStage) throws IOException {
         Test.company.setAllOccupiedEmp();
