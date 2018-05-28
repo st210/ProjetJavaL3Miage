@@ -68,7 +68,21 @@ public class Company implements IModifierCSV {
                 missions.add(m);
             }
         }
+        return missions;
+    }
 
+    /**
+     * Retourne les missions terminées
+     *
+     * @return ArrayList<Mission> Liste des missions terminnées
+     */
+    public ArrayList<Mission> getMissionCompleted() {
+        ArrayList<Mission> missions = new ArrayList<>();
+        for (Mission m : this.missions) {
+            if (m.getStatus() == MissionStatus.COMPLETED) {
+                missions.add(m);
+            }
+        }
         return missions;
     }
 

@@ -43,10 +43,16 @@ public class MissionCtrl extends Route implements Initializable {
         fillMissTable();
     }
 
+    /**
+     * Initialisation du label "Nombre de mission"
+     */
     private void initNbMissLabel() {
         this.nbMissLabel.setText(String.valueOf(Test.company.getMissionNotCompleted().size()) + " missions");
     }
 
+    /**
+     * Initialisation de la combobox "Etat"
+     */
     private void initCombobox() {
         comBoxStatus.setPromptText("État");
 

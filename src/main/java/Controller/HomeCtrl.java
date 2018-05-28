@@ -61,20 +61,28 @@ public class HomeCtrl extends Route implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Test.company.setAllOccupiedEmp();
         setNbEmpLabel();
         setNbMissCompl();
         setNbMissEnCours();
         setMissScheduled();
         setDateLastLaunch();
         setNbEmpFree();
+        setNbMissEnded();
         setNbEmpOcc();
         setDateEndMiss();
     }
 
+    /**
+     * Initialisation du label "Nombre d'employés"
+     */
     private void setNbEmpLabel() {
         this.nbEmpLabel.setText(String.valueOf(Test.company.getEmployees().size()) + " employés");
     }
 
+    /**
+     * Initialisation du label "Nombre de missions complétés"
+     */
     private void setNbMissCompl() {
         ArrayList<Mission> missions = Test.company.getMissionPreparation();
         this.nbMissCompl.setText(String.valueOf(missions.size()));
@@ -91,10 +99,16 @@ public class HomeCtrl extends Route implements Initializable {
 
     }
 
+    /**
+     * Initialisation du label "Nombre de missions en cours"
+     */
     private void setNbMissEnCours() {
         this.nbMissEnCours.setText(String.valueOf(Test.company.getMissionInProgress().size()));
     }
 
+    /**
+     * Initialisation du label "Nombre de missions programmées"
+     */
     private void setMissScheduled() {
         ArrayList<Mission> missions = Test.company.getMissionScheduled();
 
@@ -111,14 +125,30 @@ public class HomeCtrl extends Route implements Initializable {
         }
     }
 
+    /**
+     * Initialisation du label "Nombre d'employés dispo"
+     */
     private void setNbEmpFree() {
         this.nbEmpFree.setText(String.valueOf(Test.company.freeEmployee().size()));
     }
 
+    /**
+     * Initialisation du label "Nombre d'employés occupés"
+     */
     private void setNbEmpOcc() {
         this.nbEmpOcc.setText(String.valueOf(Test.company.occupEmployee().size()));
     }
 
+    /**
+     * Initialisation du label "Nombre de missions terminées"
+     */
+    private void setNbMissEnded() {
+        this.nbMissEnded.setText(String.valueOf(Test.company.getMissionCompleted().size()));
+    }
+
+    /**
+     * Initialisation du label "Date prochaine mission à se terminer"
+     */
     private void setDateEndMiss() {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM");
         Calendar c = Calendar.getInstance();
@@ -128,6 +158,9 @@ public class HomeCtrl extends Route implements Initializable {
         this.yearEndMiss.setText(String.valueOf(c.get(Calendar.YEAR)));
     }
 
+    /**
+     * Initialisation du label "Date du dernier lancement"
+     */
     private void setDateLastLaunch() {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM");
         Calendar c = Calendar.getInstance();

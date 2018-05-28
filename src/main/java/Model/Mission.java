@@ -311,6 +311,13 @@ public class Mission extends ModifierCSV {
         }
     }
 
+    public Calendar getEndDate() {
+        Calendar endDate = Calendar.getInstance();
+        endDate.setTime(dateDebut);
+        endDate.add(Calendar.DATE, duration);
+        return endDate;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof Mission) && ((Mission) obj).id.equals(this.id);

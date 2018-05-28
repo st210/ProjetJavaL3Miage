@@ -68,6 +68,10 @@ public class MissPageCtrl extends Route implements Initializable {
         }
     }
 
+    /**
+     * Initialisation des différents labels
+     * @param mission La mission
+     */
     public void fillData(Mission mission) {
         this.mission = mission;
         this.nameTF.setText(mission.getName());
@@ -78,6 +82,10 @@ public class MissPageCtrl extends Route implements Initializable {
         this.nbEmpTF.setText(String.valueOf(mission.getNbEmployes()));
     }
 
+    /**
+     * Remplissage du tableau
+     * @throws IOException
+     */
     private void fillCompTable() throws IOException {
         ObservableList<CompTableData> compList = fillCompMissData();
         FilteredList<CompTableData> filteredList = new FilteredList<>(compList, competence -> true);
